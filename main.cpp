@@ -5,8 +5,9 @@ int main()
 {
     Stats stats;
     stats.ShowStats();
-    stats.TakeDamage(10);
-    std::cout << std::endl;
+    stats.SetExperience(100);
+    stats.ShowStats();
+    stats.SetExperience(100);
     stats.ShowStats();
     
     return 0;
