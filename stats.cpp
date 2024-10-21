@@ -22,7 +22,7 @@ Stats::Stats(bool _is_die, float _health, float _max_health, float _mana, float 
 
 void Stats::ShowStats()
 {
-    std::cout << "체력\t\t[" << health << "/" << max_health << "]\n";
+    std::cout << "\n\n체력\t\t[" << health << "/" << max_health << "]\n";
     std::cout << "마나\t\t[" << mana << "/" << max_mana << "]\n";
     std::cout << "물리 공격력\t[" << strength << "]\n";
     std::cout << "마법 공격력\t[" << intelligence << "]\n";
@@ -34,23 +34,50 @@ void Stats::ShowStats()
     std::cout << "경험치\t\t[" << experience << "/" << next_experience << "]\n";
 }
 
-void Stats::TakeDamage(float value)
+float Stats::SetHealth(float value)
 {
-    health -= value;
-
-    if (health <= 0)
-    {
-        health = 0;
-        Die();
-    }
-    else if (health >= max_health)
-    {
-        health = max_health;
-    }
+    return health = value > max_health ? max_health : value;
 }
 
-void Stats::Die()
+float Stats::SetMana(float value)
 {
-    is_die = true;
-    std::cout << "DIE" << std:: endl;
+    return mana = value > max_mana ? max_mana : value;
+}
+
+float Stats::SetDamage(AttackType attack_type, float suffered_damage)
+{
+    float defense_percentage;
+    switch (attack_type)
+    {
+    case AttackType::Strength:
+        defense_percentage = strength_defensive / (strength_defensive + 1);
+        break;
+    case AttackType::Intelligence:
+        defense_percentage = intelligence_defensive / (intelligence_defensive + 1);
+        break;
+    default:
+        return 0.0f;
+        break;
+    }
+
+    return suffered_damage * (defense_percentage - 1);
+}
+
+float Stats::SetExperience(float value)
+{
+    experience = value;
+    if (experience >= next_experience)
+    {
+        experience -= next_experience;
+        LevelUP();
+    }
+    return experience;
+}
+
+int Stats::LevelUP()
+{   
+    level++;
+    experience = 0;
+    next_experience = float(level * (level + 1)) * 25.0f - 50.0f;
+    return level;
 }

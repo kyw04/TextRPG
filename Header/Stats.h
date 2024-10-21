@@ -30,13 +30,13 @@ private:
     float experience;
     float next_experience;
 
+    int LevelUP();
+
 public: 
     Stats(bool = false, float = 100, float = 100, float = 100, float = 100, float = 1, float = 0, float = 1, short = 0, float = 0, float = 0, int = 1, float = 0, float = 100);
     void ShowStats();
-    void TakeDamage(float);
-    float Defensive();
-    void Die();
-    void RecoverMana(float);
-    float GetAttackDamage();
-    int LevelUP();
+    float SetHealth(float);
+    float SetMana(float);
+    float SetDamage(AttackType, float);
+    float SetExperience(float);
 };
