@@ -22,7 +22,7 @@ Stats::Stats(bool _is_die, float _health, float _max_health, float _mana, float 
 
 void Stats::ShowStats()
 {
-    std::cout << "\n\n체력\t\t[" << health << "/" << max_health << "]\n";
+    std::cout << "체력\t\t[" << health << "/" << max_health << "]\n";
     std::cout << "마나\t\t[" << mana << "/" << max_mana << "]\n";
     std::cout << "물리 공격력\t[" << strength << "]\n";
     std::cout << "마법 공격력\t[" << intelligence << "]\n";
