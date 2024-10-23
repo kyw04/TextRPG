@@ -16,3 +16,8 @@ void Entity::Die()
     is_die = true;
     std::cout << "Die\n";
 }
+
+bool Entity::IsDie()
+{
+    return is_die;
+}
