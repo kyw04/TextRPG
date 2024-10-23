@@ -1,15 +1,15 @@
 #include <iostream>
 #include "./Header/Stats.h"
-#include "./Header/Entity.h"
+#include "./Header/Entity/Entity.h"
+#include "./Header/Entity/Warrior.h"
 
 int main()
 {
-    Entity warrior(Entity::Type::Warrior);
-    warrior.ShowEntity();
-    warrior.SetExperience(100);
-    warrior.ShowEntity();
-    warrior.SetExperience(100);
-    warrior.ShowEntity();
-    
+    Warrior warrior;
+    warrior.ShowStats();
+    warrior.TakeDamage(10);
+    warrior.ShowStats();
+    warrior.TakeDamage(100);
+
     return 0;
 }
