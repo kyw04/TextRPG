@@ -5,11 +5,18 @@
 
 int main()
 {
+    int input;
     Warrior warrior;
-    warrior.ShowStats();
-    warrior.TakeDamage(10);
-    warrior.ShowStats();
-    warrior.TakeDamage(100);
+    while (!warrior.IsDie())
+    {
+        input = getchar();
+        if (input == 'e')
+            break;
 
+        warrior.TakeDamage(10);
+        warrior.ShowStats();
+        
+    }
+    
     return 0;
 }

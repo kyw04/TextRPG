@@ -13,4 +13,5 @@ protected:
 public:
     Entity();
     void TakeDamage(float);
+    bool IsDie();
 };
