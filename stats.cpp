@@ -3,8 +3,7 @@
 #include "./Header/Stats.h"
 
 
-Stats::Stats(bool _is_die, float _health, float _max_health, float _mana, float _max_mana, float _strength, float _intelligence, float _attack_speed, short _critical, float _strength_defensive, float _intelligence_defensive, int _level, float _experience, float _next_experience) :
-    is_die(_is_die),
+Stats::Stats(float _health, float _max_health, float _mana, float _max_mana, float _strength, float _intelligence, float _attack_speed, short _critical, float _strength_defensive, float _intelligence_defensive, int _level, float _experience, float _next_experience) :
     health(_health),
     max_health(_max_health),
     mana(_mana),

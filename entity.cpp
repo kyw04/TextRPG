@@ -1,13 +1,18 @@
 #include <iostream>
-#include "./Header/Entity.h"
+#include "./Header/Entity/Entity.h"
 
-Entity::Entity(Type _type): type(_type)
+Entity::Entity() : is_die(false) {}
+
+void Entity::TakeDamage(float value)
 {
-
+    if (this->SetHealth(health - value) <= 0)
+    {
+        Die();
+    }
 }
 
-void Entity::ShowEntity()
+void Entity::Die()
 {
-    std::cout << "타입\t\t[" << type << "]\n";
-    Stats::ShowStats();
+    is_die = true;
+    std::cout << "Die\n";
 }
