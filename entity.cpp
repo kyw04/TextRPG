@@ -5,7 +5,7 @@ Entity::Entity() : is_die(false) {}
 
 void Entity::TakeDamage(float value)
 {
-    if (this->SetHealth(health - value) <= 0)
+    if (stats->AddHealth(-value) <= 0)
     {
         Die();
     }

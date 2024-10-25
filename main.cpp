@@ -6,15 +6,15 @@
 int main()
 {
     int input;
-    Warrior warrior;
-    while (!warrior.IsDie())
+    Warrior *warrior = new Warrior();
+    while (!warrior->IsDie())
     {
         input = getchar();
         if (input == 'e')
             break;
 
-        warrior.TakeDamage(10);
-        warrior.ShowStats();
+        warrior->TakeDamage(10);
+        warrior->stats->ShowStats();
         
     }
     
