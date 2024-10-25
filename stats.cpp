@@ -1,5 +1,4 @@
 #include <iostream>
-#include <random>
 #include "./Header/Stats.h"
 
 
@@ -38,9 +37,19 @@ float Stats::SetHealth(float value)
     return health = value > max_health ? max_health : value;
 }
 
+float Stats::AddHealth(float value)
+{
+    return SetHealth(health + value);
+}
+
 float Stats::SetMana(float value)
 {
     return mana = value > max_mana ? max_mana : value;
+}
+
+float Stats::AddMana(float value)
+{
+    return SetMana(mana + value);
 }
 
 float Stats::SetDamage(AttackType attack_type, float suffered_damage)

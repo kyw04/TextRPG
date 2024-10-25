@@ -1,7 +1,5 @@
 #pragma once
 
-
-
 class Stats
 {
 public:
@@ -37,7 +35,9 @@ public:
     Stats(float = 100, float = 100, float = 100, float = 100, float = 1, float = 0, float = 1, short = 0, float = 0, float = 0, int = 1, float = 0, float = 100);
     void ShowStats();
     float SetHealth(float);
+    float AddHealth(float);
     float SetMana(float);
+    float AddMana(float);
     float SetDamage(AttackType, float);
     float SetExperience(float);
 };

@@ -2,7 +2,7 @@
 #include <vector>
 #include "../Stats.h"
 
-class Entity : public Stats
+class Entity
 {
 protected:
     // std::vector<Item> items; /* Item 클래스 만들어 */
@@ -11,6 +11,8 @@ protected:
     void virtual Die();
 
 public:
+    Stats *stats;
+
     Entity();
     void TakeDamage(float);
     bool IsDie();
