@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "../Stats.hpp"
+#include "../Entity/Entity.hpp"
 
 class Item
 {
@@ -29,15 +30,15 @@ public:
     };
 
 private:
+    State state;
 
 public:
     Category category;
     std::string name;
 
     int level_requirement;
-    
+    Entity::Job job_requirement;
 
-    State state;
     Rank rank;
     Stats* stats;
 };
