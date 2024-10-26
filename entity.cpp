@@ -1,5 +1,5 @@
 #include <iostream>
-#include "./Header/Entity/Entity.h"
+#include "./Header/Entity/Entity.hpp"
 
 Entity::Entity() : is_die(false) {}
 

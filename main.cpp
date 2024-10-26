@@ -1,7 +1,7 @@
 #include <iostream>
-#include "./Header/Stats.h"
-#include "./Header/Entity/Entity.h"
-#include "./Header/Entity/Warrior.h"
+#include "./Header/Stats.hpp"
+#include "./Header/Entity/Entity.hpp"
+#include "./Header/Entity/Warrior.hpp"
 
 int main()
 {

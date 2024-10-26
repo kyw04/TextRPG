@@ -1,6 +1,7 @@
 #pragma once
 #include <vector>
-#include "../Stats.h"
+#include "../Stats.hpp"
+#include "../Item/Item.hpp"
 
 class Entity
 {
@@ -11,7 +12,7 @@ public:
         Warrior,
         Archer,
         Wizard,
-    }
+    };
 
 protected:
     std::vector<std::pair<Item, short>> drop_item; // pair<item, percent>
