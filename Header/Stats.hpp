@@ -31,8 +31,7 @@ protected:
     int LevelUP();
 
 public:
-
-    Stats(float = 100, float = 100, float = 100, float = 100, float = 1, float = 0, float = 1, short = 0, float = 0, float = 0, int = 1, float = 0, float = 100);
+    Stats(float = 100, float = 100, float = 100, float = 100, float = 0, float = 0, float = 0, short = 0, float = 0, float = 0, int = 1, float = 0, float = 100);
     void ShowStats();
     float SetHealth(float);
     float AddHealth(float);
