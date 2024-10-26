@@ -1,5 +1,5 @@
 #include <iostream>
-#include "./Header/Entity/Warrior.h"
+#include "./Header/Entity/Warrior.hpp"
 
 Warrior::Warrior()
 {

@@ -1,6 +1,6 @@
 #pragma once
 #include <string>
-#include "Stats.h"
+#include "../Stats.hpp"
 
 class Item
 {
