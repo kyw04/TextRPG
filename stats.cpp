@@ -89,3 +89,13 @@ int Stats::LevelUP()
     next_experience = float(level * (level + 1)) * 25.0f - 50.0f;
     return level;
 }
+
+float Stats::GetDamage(AttackType type)
+{
+    return type == AttackType::Strength ? strength : intelligence;
+}
+
+float Stats::GetAttackSpeed()
+{
+    return attack_speed;
+}

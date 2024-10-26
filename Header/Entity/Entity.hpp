@@ -21,10 +21,13 @@ protected:
     void virtual Die();
 
 public:
+    std::string name;
     Job job;
     Stats *stats;
+    Stats::AttackType attack_type;
 
     Entity();
-    void TakeDamage(float);
+    void TakeDamage(Stats::AttackType, float);
+    void Fight(Entity*);
     bool IsDie();
 };

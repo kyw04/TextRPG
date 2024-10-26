@@ -5,7 +5,4 @@ class Warrior : public Entity
 {
 public:
     Warrior();
-
-    void Die();
-
 };

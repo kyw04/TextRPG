@@ -39,4 +39,6 @@ public:
     float AddMana(float);
     float SetDamage(AttackType, float);
     float SetExperience(float);
+    float GetDamage(AttackType);
+    float GetAttackSpeed();
 };
