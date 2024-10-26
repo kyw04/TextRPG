@@ -3,12 +3,8 @@
 
 Warrior::Warrior()
 {
+    this->name = "전사";
     this->job = Job::Warrior;
-    stats = new Stats(10);
-}
-
-void Warrior::Die()
-{
-    is_die = true;
-    std::cout << "Warrior DIE\n";
+    this->attack_type = Stats::AttackType::Strength;
+    stats = new Stats(100, 100, 50, 50, 3);
 }
