@@ -3,6 +3,7 @@
 
 Zombie::Zombie()
 {
+    this->job = Job::Warrior;
     stats = new Stats(10, 10, 0, 0, 15, 0, 0, 10);
 }
 

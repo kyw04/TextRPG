@@ -3,6 +3,7 @@
 
 Warrior::Warrior()
 {
+    this->job = Job::Warrior;
     stats = new Stats(10);
 }
 

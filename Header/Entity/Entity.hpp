@@ -4,13 +4,23 @@
 
 class Entity
 {
+public: 
+    enum Job
+    {
+        None,
+        Warrior,
+        Archer,
+        Wizard,
+    }
+
 protected:
-    // std::vector<Item> items; /* Item 클래스 만들어 */
+    std::vector<std::pair<Item, short>> drop_item; // pair<item, percent>
     bool is_die;
 
     void virtual Die();
 
 public:
+    Job job;
     Stats *stats;
 
     Entity();
