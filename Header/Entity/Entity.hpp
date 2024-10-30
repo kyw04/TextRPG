@@ -2,18 +2,10 @@
 #include <vector>
 #include "../Stats.hpp"
 #include "../Item/Item.hpp"
+#include "../EnumClass.hpp"
 
 class Entity
 {
-public: 
-    enum Job
-    {
-        None,
-        Warrior,
-        Archer,
-        Wizard,
-    };
-
 protected:
     std::vector<std::pair<Item, short>> drop_item; // pair<item, percent>
     bool is_die;
@@ -22,12 +14,12 @@ protected:
 
 public:
     std::string name;
-    Job job;
+    EntityJob job;
     Stats *stats;
-    Stats::AttackType attack_type;
+    AttackType attack_type;
 
     Entity();
-    void TakeDamage(Stats::AttackType, float);
+    void TakeDamage(AttackType, float);
     void Fight(Entity*);
     bool IsDie();
 };

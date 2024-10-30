@@ -3,7 +3,7 @@
 
 Entity::Entity() : is_die(false) {}
 
-void Entity::TakeDamage(Stats::AttackType _attack_type, float _value)
+void Entity::TakeDamage(AttackType _attack_type, float _value)
 {
     float damage = stats->SetDamage(_attack_type, _value);
     if (this->stats->AddHealth(damage) <= 0)

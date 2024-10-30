@@ -1,15 +1,8 @@
 #pragma once
+#include "EnumClass.hpp"
 
 class Stats
 {
-public:
-    enum AttackType
-    {
-        None,
-        Strength,
-        Intelligence
-    };
-
 protected:
     float health;
     float max_health;
