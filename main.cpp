@@ -5,6 +5,7 @@
 #include "./Header/Entity/Zombie.hpp"
 #include "./Header/Item/Item.hpp"
 #include "./Header/Item/WoodSword.hpp"
+#include "./Header/Inventory.hpp"
 
 int main()
 {
@@ -13,13 +14,16 @@ int main()
     while (!warrior->IsDie())
     {
         Zombie* zombie = new Zombie();
+        Inventory* inventory = new Inventory();
+        inventory->Push(new WoodSword());
+        
         while (!zombie->IsDie() && !warrior->IsDie())
         {
             input = getchar();
             if (input == 'e')
                 break;
             
-            warrior->Fight(zombie);
+            inventory->ShowInventory();
         }
     }
     
