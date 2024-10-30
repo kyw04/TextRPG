@@ -16,7 +16,6 @@ public:
         rank = ItemRank::Normal;
         stats = new Stats(0, 0, 0, 0, 10, 0, 3);
     }
-       
 };
 
 #endif
