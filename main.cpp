@@ -12,9 +12,6 @@ int main()
     Warrior *warrior = new Warrior();
     while (!warrior->IsDie())
     {
-        WoodSword *sowrd = new WoodSword();
-        sowrd->stats->ShowStats();
-
         Zombie* zombie = new Zombie();
         while (!zombie->IsDie() && !warrior->IsDie())
         {
@@ -23,7 +20,6 @@ int main()
                 break;
             
             warrior->Fight(zombie);
-            warrior->stats->ShowStats();
         }
     }
     
