@@ -7,7 +7,6 @@
 class Entity
 {
 protected:
-    std::vector<std::pair<Item, short>> drop_item; // pair<item, percent>
     bool is_die;
 
     void virtual Die();
@@ -15,8 +14,8 @@ protected:
 public:
     std::string name;
     EntityJob job;
-    Stats *stats;
     AttackType attack_type;
+    Stats *stats;
 
     Entity();
     void TakeDamage(AttackType, float);

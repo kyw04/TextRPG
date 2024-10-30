@@ -12,38 +12,40 @@ void Entity::TakeDamage(AttackType _attack_type, float _value)
     }
 }
 
+void Attack(Entity* first, Entity* second)
+{
+    float damage;
+    std::cout << first->name << "의 공격\n";
+    std::cout << second->name << "에게 ";
+    damage = first->stats->GetDamage(first->attack_type);
+    std::cout << damage << "의 데미지를 입힘\n";
+    second->TakeDamage(first->attack_type, damage);
+    if (!second->IsDie())
+        std::cout << second->name << " 체력: " << second->stats->GetHealth() << '\n';
+    std::cout << '\n';
+}
+
 void Entity::Fight(Entity* enemy)
 {
     float my_attack_speed = stats->GetAttackSpeed();
     float enemy_attack_speed = enemy->stats->GetAttackSpeed();
-    Entity* first_attack_entity;
-    Entity* second_attack_entity;
+    Entity* first;
+    Entity* second;
 
     if (my_attack_speed >= enemy_attack_speed)
     {
-        first_attack_entity = this;
-        second_attack_entity = enemy;
+        first = this;
+        second = enemy;
     }
     else
     {
-        first_attack_entity = enemy;
-        second_attack_entity = this;
+        first = enemy;
+        second = this;
     }
 
-    float damage;
-    std::cout << first_attack_entity->name << "의 공격\n";
-    std::cout << second_attack_entity->name << "에게 ";
-    damage = first_attack_entity->stats->GetDamage(first_attack_entity->attack_type);
-    std::cout << damage << "의 데미지를 입힘\n";
-    second_attack_entity->TakeDamage(first_attack_entity->attack_type, damage);
-    if (!second_attack_entity->IsDie())
-    {
-        std::cout << second_attack_entity->name << "의 공격\n";
-        std::cout << first_attack_entity->name << "에게 ";
-        damage = second_attack_entity->stats->GetDamage(second_attack_entity->attack_type); 
-        std::cout << damage << "의 데미지를 입힘\n";
-        first_attack_entity->TakeDamage(second_attack_entity->attack_type, damage);
-    }
+    Attack(first, second);
+    if (!second->IsDie()) Attack(second, first);
+    
 }
 
 void Entity::Die()

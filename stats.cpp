@@ -42,6 +42,11 @@ float Stats::AddHealth(float value)
     return SetHealth(health + value);
 }
 
+float Stats::GetHealth()
+{
+    return health;
+}
+
 float Stats::SetMana(float value)
 {
     return mana = value > max_mana ? max_mana : value;

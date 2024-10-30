@@ -3,7 +3,7 @@
 
 class Stats
 {
-protected:
+private:
     float health;
     float max_health;
     float mana;
@@ -28,6 +28,7 @@ public:
     void ShowStats();
     float SetHealth(float);
     float AddHealth(float);
+    float GetHealth();
     float SetMana(float);
     float AddMana(float);
     float SetDamage(AttackType, float);
