@@ -1,30 +1,54 @@
-#include <iostream>
 #include "./Header/Inventory.hpp"
 
-void Inventory::ShowInventory()
+std::map<std::string, Item*> Inventory::GetItems() const
 {
-    if (items.size() == 0)
+    return this->items;
+}
+
+std::ostream& operator<<(std::ostream& _out, const Inventory& _inven)
+{
+    if (_inven.GetItems().size() == 0)
     {
         std::cout << "비어있음.\n";
-        return;
     }
-
-    for (auto item : items)
+    else
     {
-        std::cout << item.first << '\n';
+        for (auto item : _inven.GetItems())
+        {
+            std::cout << *item.second << '\n';
+        }
+    }
+    return _out;
+}
+
+void Inventory::Push(Item* _item, const int _count)
+{
+    std::map<std::string, Item*>::iterator it = items.find(_item->name);
+    if (it == items.end())
+    {
+        _item->count = _count;
+        items.insert({_item->name, _item});
+    }
+    else
+    {
+        Item* itm = it->second;
+        if ((itm->category == ItemCategory::Accessory || itm->category == ItemCategory::Consumable)
+            && itm->max_count > itm->count)
+        {
+            itm->count += _count;
+        }
+        else
+        {
+            
+        }
     }
 }
 
-void Inventory::Push(Item* _item)
+Item* Inventory::Pop(const std::string _key)
 {
-    if (items.find(_item->name) == items.end())
-        items.insert({_item->name, _item});
-}
-
-Item* Inventory::Pop(std::string _key)
-{
-    if (items.find(_key) != items.end())
-        return items.find(_key)->second;
+    std::map<std::string, Item*>::iterator it = items.find(_key);
+    if (it != items.end())
+        return it->second;
     else 
         return nullptr;
 }
