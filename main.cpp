@@ -16,14 +16,14 @@ int main()
         Zombie* zombie = new Zombie();
         Inventory* inventory = new Inventory();
         inventory->Push(new WoodSword());
-        
+
         while (!zombie->IsDie() && !warrior->IsDie())
         {
             input = getchar();
             if (input == 'e')
                 break;
             
-            inventory->ShowInventory();
+            std::cout << *inventory;
         }
     }
     

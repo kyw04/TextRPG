@@ -5,9 +5,10 @@
 class WoodSword : public Item
 {
 public:
-    WoodSword() 
+    WoodSword() // : max_count(1)
     {
         state = ItemState::Unequipped;
+        count = 0;
         level_requirement = 1;
         job_requirement = EntityJob::Warrior;
 

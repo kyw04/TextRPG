@@ -1,16 +1,19 @@
 #pragma once
-#include <map>
-#include <string>
+#include <set>
 #include "EnumClass.hpp"
 #include "Item/Item.hpp"
 
 class Inventory
 {
 private:
-    std::map<std::string, Item*> items;
+    short size;
+    std::set<Item*> items;
 
 public:
-    void ShowInventory();
+    friend std::ostream& operator<<(std::ostream&, const Inventory&);
+    Inventory() : size(255) {}
+
+    std::set<Item*> GetItems() const;
     void Push(Item*);
-    Item* Pop(std::string);
+    Item* Pop(Item*);
 };
