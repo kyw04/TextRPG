@@ -16,9 +16,8 @@ public:
 
     ItemCategory category;
     std::string name;
-    const unsigned short max_count;
-    unsigned short count;
-    short slot;
+    const int max_count;
+    int count;
 
     int level_requirement;
     EntityJob job_requirement;

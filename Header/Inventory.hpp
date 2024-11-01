@@ -1,5 +1,5 @@
 #pragma once
-#include <set>
+#include <map>
 #include "EnumClass.hpp"
 #include "Item/Item.hpp"
 
@@ -7,13 +7,13 @@ class Inventory
 {
 private:
     short size;
-    std::set<Item*> items;
+    std::map<std::string, Item*> items;
 
 public:
     friend std::ostream& operator<<(std::ostream&, const Inventory&);
     Inventory() : size(255) {}
 
-    std::set<Item*> GetItems() const;
-    void Push(Item*);
-    Item* Pop(Item*);
+    std::map<std::string, Item*> GetItems() const;
+    void Push(Item*, const int = 1);
+    Item* Pop(const std::string);
 };
