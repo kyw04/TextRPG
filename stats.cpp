@@ -32,14 +32,14 @@ void Stats::ShowStats()
     std::cout << "경험치\t\t[" << experience << "/" << next_experience << "]\n";
 }
 
-float Stats::SetHealth(float value)
+float Stats::SetHealth(float _value)
 {
-    return health = value > max_health ? max_health : value;
+    return health = _value > max_health ? max_health : _value;
 }
 
-float Stats::AddHealth(float value)
+float Stats::AddHealth(float _value)
 {
-    return SetHealth(health + value);
+    return SetHealth(health + _value);
 }
 
 float Stats::GetHealth()
@@ -47,25 +47,25 @@ float Stats::GetHealth()
     return health;
 }
 
-float Stats::SetMana(float value)
+float Stats::SetMana(float _value)
 {
-    return mana = value > max_mana ? max_mana : value;
+    return mana = _value > max_mana ? max_mana : _value;
 }
 
-float Stats::AddMana(float value)
+float Stats::AddMana(float _value)
 {
-    return SetMana(mana + value);
+    return SetMana(mana + _value);
 }
 
-float Stats::SetDamage(AttackType attack_type, float suffered_damage)
+float Stats::SetDamage(Attack_type attack__type, float suffered_damage)
 {
     float defense_percentage;
-    switch (attack_type)
+    switch (attack__type)
     {
-    case AttackType::Strength:
+    case Attack_type::Strength:
         defense_percentage = strength_defensive / (strength_defensive + 1);
         break;
-    case AttackType::Intelligence:
+    case Attack_type::Intelligence:
         defense_percentage = intelligence_defensive / (intelligence_defensive + 1);
         break;
     default:
@@ -76,9 +76,9 @@ float Stats::SetDamage(AttackType attack_type, float suffered_damage)
     return suffered_damage * (defense_percentage - 1);
 }
 
-float Stats::SetExperience(float value)
+float Stats::SetExperience(float _value)
 {
-    experience = value;
+    experience = _value;
     if (experience >= next_experience)
     {
         experience -= next_experience;
@@ -95,9 +95,9 @@ int Stats::LevelUP()
     return level;
 }
 
-float Stats::GetDamage(AttackType type)
+float Stats::GetDamage(Attack_type _type)
 {
-    return type == AttackType::Strength ? strength : intelligence;
+    return _type == Attack_type::Strength ? strength : intelligence;
 }
 
 float Stats::GetAttackSpeed()

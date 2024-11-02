@@ -25,21 +25,21 @@ void Attack(Entity* first, Entity* second)
     std::cout << '\n';
 }
 
-void Entity::Fight(Entity* enemy)
+void Entity::Fight(Entity* _enemy)
 {
     float my_attack_speed = stats->GetAttackSpeed();
-    float enemy_attack_speed = enemy->stats->GetAttackSpeed();
+    float _enemy_attack_speed = _enemy->stats->GetAttackSpeed();
     Entity* first;
     Entity* second;
 
-    if (my_attack_speed >= enemy_attack_speed)
+    if (my_attack_speed >= _enemy_attack_speed)
     {
         first = this;
-        second = enemy;
+        second = _enemy;
     }
     else
     {
-        first = enemy;
+        first = _enemy;
         second = this;
     }
 
