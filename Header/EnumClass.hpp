@@ -18,6 +18,7 @@ enum class AttackType
 
 enum class ItemCategory
 {
+    None,
     Accessory, // 부속품
     Consumable, // 소모품
     Equipment, // 장비

@@ -22,7 +22,7 @@ int main()
             if (input == 'e')
                 break;
 
-            inventory->Push(new WoodSword());
+            inventory->Push(new WoodSword(), 5);
             std::cout << *inventory;
         }
     }

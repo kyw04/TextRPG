@@ -12,7 +12,7 @@ protected:
 public:
     bool operator==(const Item&) const;
     friend std::ostream& operator<<(std::ostream&, const Item&);
-    Item() : max_count(255) {}
+    Item(const int _max_count = 255) : max_count(_max_count), count(0) {}
 
     ItemCategory category;
     std::string name;

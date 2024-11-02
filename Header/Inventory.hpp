@@ -1,5 +1,6 @@
 #pragma once
 #include <map>
+#include <string>
 #include "EnumClass.hpp"
 #include "Item/Item.hpp"
 
@@ -14,6 +15,6 @@ public:
     Inventory() : size(255) {}
 
     std::map<std::string, Item*> GetItems() const;
-    void Push(Item*, const int = 1);
+    void Push(Item*, int = 1);
     Item* Pop(const std::string);
 };

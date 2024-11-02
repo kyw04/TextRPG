@@ -57,15 +57,15 @@ float Stats::AddMana(float _value)
     return SetMana(mana + _value);
 }
 
-float Stats::SetDamage(Attack_type attack__type, float suffered_damage)
+float Stats::SetDamage(AttackType _attack_type, float suffered_damage)
 {
     float defense_percentage;
-    switch (attack__type)
+    switch (_attack_type)
     {
-    case Attack_type::Strength:
+    case AttackType::Strength:
         defense_percentage = strength_defensive / (strength_defensive + 1);
         break;
-    case Attack_type::Intelligence:
+    case AttackType::Intelligence:
         defense_percentage = intelligence_defensive / (intelligence_defensive + 1);
         break;
     default:
@@ -95,9 +95,9 @@ int Stats::LevelUP()
     return level;
 }
 
-float Stats::GetDamage(Attack_type _type)
+float Stats::GetDamage(AttackType _type)
 {
-    return _type == Attack_type::Strength ? strength : intelligence;
+    return _type == AttackType::Strength ? strength : intelligence;
 }
 
 float Stats::GetAttackSpeed()

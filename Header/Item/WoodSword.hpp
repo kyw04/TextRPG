@@ -5,7 +5,7 @@
 class WoodSword : public Item
 {
 public:
-    WoodSword() // : max_count(1)
+    WoodSword() : Item(1)
     {
         state = ItemState::Unequipped;
         count = 0;

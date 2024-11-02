@@ -15,32 +15,41 @@ std::ostream& operator<<(std::ostream& _out, const Inventory& _inven)
     {
         for (auto item : _inven.GetItems())
         {
-            std::cout << *item.second << '\n';
+            if (item.second->category != ItemCategory::None) 
+            { 
+                std::cout << item.first << " " << *item.second << '\n';
+            }
         }
     }
     return _out;
 }
 
-void Inventory::Push(Item* _item, const int _count)
+void Inventory::Push(Item* _item, int _count)
 {
-    std::map<std::string, Item*>::iterator it = items.find(_item->name);
-    if (it == items.end())
+    if (_count <= 0)
+        return;
+    
+    std::map<std::string, Item*>::iterator tag_iter = items.find(_item->name);
+    if (tag_iter == items.end()) { tag_iter = items.insert({ _item->name, new Item() }).first; }
+
+    std::string item_name = _item->name + "(" + std::to_string(tag_iter->second->count) + ")"; 
+    std::map<std::string, Item*>::iterator item_iter = items.find(item_name);
+    _item->count = _count > _item->max_count ? _item->max_count : _count;
+    if (item_iter == items.end()) 
     {
-        _item->count = _count;
-        items.insert({_item->name, _item});
+        items.insert({ item_name, _item });
     }
-    else
+    else 
     {
-        Item* itm = it->second;
-        if ((itm->category == ItemCategory::Accessory || itm->category == ItemCategory::Consumable)
-            && itm->max_count > itm->count)
-        {
-            itm->count += _count;
-        }
-        else
-        {
-            
-        }
+        int add_count = _item->count + item_iter->second->count;
+        _count += (add_count - _item->max_count) <= 0 ? 0 : (add_count - _item->max_count);
+        item_iter->second->count = add_count > _item->max_count ? _item->max_count : add_count;
+    }
+
+    if (_count - _item->max_count >= 0)
+    {
+        tag_iter->second->count++;
+        Push(_item, _count - _item->max_count);
     }
 }
 
