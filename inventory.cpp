@@ -34,23 +34,40 @@ void Inventory::Push(Item* _item, int _count)
 
     std::string item_name = _item->name + "(" + std::to_string(tag_iter->second->count) + ")"; 
     std::map<std::string, Item*>::iterator item_iter = items.find(item_name);
-    _item->count = _count > _item->max_count ? _item->max_count : _count;
+
+    int add_count;
+    if (_count > _item->max_count)
+    {
+        add_count = _item->max_count;
+        _count -= _item->max_count;
+    }
+    else
+    {
+        add_count = _count;
+        _count = 0;
+    }
+
     if (item_iter == items.end()) 
     {
-        items.insert({ item_name, _item });
+        // 아이템으로 받아서 문제가 있어 보임
+        // 현제 아이템 종류를 클래스로 만들었는데 나중에 함수 사용을 못할 것 같음
+        Item* new_item = new Item(_item);
+        new_item->count = add_count;
+        items.insert({ item_name, new_item });
     }
     else 
     {
-        int add_count = _item->count + item_iter->second->count;
-        _count += (add_count - _item->max_count) <= 0 ? 0 : (add_count - _item->max_count);
-        item_iter->second->count = add_count > _item->max_count ? _item->max_count : add_count;
+        add_count += item_iter->second->count;
+        if (add_count > _item->max_count)
+        {
+            item_iter->second->count = _item->max_count;
+            _count += add_count - _item->max_count;
+            tag_iter->second->count++;
+        }
+        else { item_iter->second->count = add_count; }
     }
 
-    if (_count - _item->max_count >= 0)
-    {
-        tag_iter->second->count++;
-        Push(_item, _count - _item->max_count);
-    }
+    Push(_item, _count);
 }
 
 Item* Inventory::Pop(const std::string _key)
