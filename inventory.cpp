@@ -1,8 +1,33 @@
 #include "./Header/Inventory.hpp"
 
 
-void Inventory::Open() { is_open = true; }
-void Inventory::Close() { is_open = false; }
+void Inventory::Open() 
+{ 
+    std::cout << "인벤토리 열림\n";
+    is_open = true;
+    
+    char input;
+    while (is_open)
+    {
+        input = (char)getchar();
+        if (input == '\n')
+            continue;
+        
+        if (items.empty() || IF_CLOSE_KEY(input))
+        {
+            Close();
+            break;
+        }
+        
+        this->Select(input);
+        std::cout << *this;
+    }
+}
+void Inventory::Close() 
+{
+    std::cout << "인벤토리 닫힘\n";
+    is_open = false;
+}
 
 std::map<std::string, Item*> Inventory::GetItems() const
 {
@@ -11,8 +36,7 @@ std::map<std::string, Item*> Inventory::GetItems() const
 
 std::ostream& operator<<(std::ostream& _out, Inventory& _inven)
 {
-    _inven.Open();
-    if (_inven.GetItems().size() == 0)
+    if (_inven.GetItems().empty())
     {
         std::cout << "비어있음.\n";
         _inven.Close();
@@ -94,29 +118,34 @@ void Inventory::Select(const char _input)
 {
     if (!is_open || IF_CLOSE_KEY(_input)) { Close(); return; }
 
-    static int index = 0;
-    int address = 0;
-    if (IF_UP_KEY(_input)) { address = 1; }
-    else if (IF_DOWN_KEY(_input)) { address = -1; }
-    index += address;
+    static int index = -1;
+    if (IF_UP_KEY(_input)) { index += 1; }
+    else if (IF_DOWN_KEY(_input)) { index += -1; }
 
-    std::map<std::string, Item *>::iterator iter = items.begin();
-    for (int i = 0; i < index + 2; i++) 
+    int count = 0;
+    int max_index = 0;
+    std::map<std::string, Item *>::iterator selected_iter = items.end();
+    std::map<std::string, Item *>::iterator first_iter = items.end();    
+    std::map<std::string, Item *>::iterator last_iter = items.end();    
+    std::map<std::string, Item *>::iterator iter;
+    for (iter = items.begin(); iter != items.end(); iter++) 
     {
         while (iter == items.end() || iter->second->category == ItemCategory::None)
         {
-            if (iter == items.end()) iter = items.begin();
-            iter++;
+            if (iter == items.end()) { iter = items.begin(); }
+            else { iter++; max_index++; }
         }
-        
+
+        if (first_iter == items.end())
+            first_iter = iter;
+        last_iter = iter;
         iter->second->inventory_item_state = InventoryItemState::None;
-        iter++;
+        if (index == count)
+            selected_iter = iter;
+        count++;
     }
-    
-    while (iter == items.end() || iter->second->category == ItemCategory::None)
-    {
-        if (iter == items.end()) iter = items.begin();
-        iter++;
-    }
-    iter->second->inventory_item_state = InventoryItemState::Selected;
+    max_index = (int)items.size() - max_index - 1;
+    if (index <= 0) { selected_iter = first_iter; index = 0; }
+    if (max_index <= index) { selected_iter = last_iter; index = max_index; }
+    selected_iter->second->inventory_item_state = InventoryItemState::Selected;
 }

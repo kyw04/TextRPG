@@ -6,6 +6,7 @@
 #include "./Header/Item/Item.hpp"
 #include "./Header/Item/WoodSword.hpp"
 #include "./Header/Inventory.hpp"
+#include "./Header/Define.hpp"
 
 int main()
 {
@@ -14,16 +15,14 @@ int main()
     Inventory* inventory = new Inventory();
     while (!warrior->IsDie())
     {
-        // std::cin.ignore();
         input = (char)getchar();
-
         if (input == '\n')
             continue;
+        
         if (input == 'a')
             inventory->Push(new WoodSword(), 5);
-
-        inventory->Select(input);
-        std::cout << *inventory;
+        if (input == 'i')
+            inventory->Open();
     }
     
     return 0;

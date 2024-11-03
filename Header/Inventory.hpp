@@ -3,9 +3,7 @@
 #include <string>
 #include "EnumClass.hpp"
 #include "Item/Item.hpp"
-#define IF_UP_KEY(_input) (_input == 'w' || _input == 'W')
-#define IF_DOWN_KEY(_input) (_input == 's' || _input == 'S')
-#define IF_CLOSE_KEY(_input) (_input == 'q' || _input == 'Q')
+#include "Define.hpp"
 
 class Inventory
 {
