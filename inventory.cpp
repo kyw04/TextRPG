@@ -74,7 +74,9 @@ Item* Inventory::Pop(const std::string _key)
 {
     std::map<std::string, Item*>::iterator it = items.find(_key);
     if (it != items.end())
+    {
+        items.erase(it);
         return it->second;
-    else 
-        return nullptr;
+    }
+    else { return nullptr; }
 }
