@@ -12,16 +12,16 @@ void Entity::TakeDamage(AttackType _attack_type, float _value)
     }
 }
 
-void Attack(Entity* first, Entity* second)
+void Attack(Entity* _attacker, Entity* _defender)
 {
     float damage;
-    std::cout << first->name << "의 공격\n";
-    std::cout << second->name << "에게 ";
-    damage = first->stats->GetDamage(first->attack_type);
+    std::cout << _attacker->name << "의 공격\n";
+    std::cout << _defender->name << "에게 ";
+    damage = _attacker->stats->GetDamage(_attacker->attack_type);
     std::cout << damage << "의 데미지를 입힘\n";
-    second->TakeDamage(first->attack_type, damage);
-    if (!second->IsDie())
-        std::cout << second->name << " 체력: " << second->stats->GetHealth() << '\n';
+    _defender->TakeDamage(_attacker->attack_type, damage);
+    if (!_defender->IsDie())
+        std::cout << _defender->name << " 체력: " << _defender->stats->GetHealth() << '\n';
     std::cout << '\n';
 }
 
