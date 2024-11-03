@@ -15,6 +15,7 @@ public:
     Item(const int _max_count = 255) : max_count(_max_count), count(0) {}
     Item(Item*);
 
+    InventoryItemState inventory_item_state;
     ItemCategory category;
     std::string name;
     const int max_count;

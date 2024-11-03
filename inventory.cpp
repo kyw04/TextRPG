@@ -1,15 +1,21 @@
 #include "./Header/Inventory.hpp"
 
+
+void Inventory::Open() { is_open = true; }
+void Inventory::Close() { is_open = false; }
+
 std::map<std::string, Item*> Inventory::GetItems() const
 {
     return this->items;
 }
 
-std::ostream& operator<<(std::ostream& _out, const Inventory& _inven)
+std::ostream& operator<<(std::ostream& _out, Inventory& _inven)
 {
+    _inven.Open();
     if (_inven.GetItems().size() == 0)
     {
         std::cout << "비어있음.\n";
+        _inven.Close();
     }
     else
     {
@@ -17,7 +23,10 @@ std::ostream& operator<<(std::ostream& _out, const Inventory& _inven)
         {
             if (item.second->category != ItemCategory::None) 
             { 
-                std::cout << item.first << " " << *item.second << '\n';
+                if (item.second->inventory_item_state == InventoryItemState::Selected)
+                    std::cout << "<<" << item.first << " " << *item.second << ">>\n";
+                else
+                    std::cout << item.first << " " << *item.second << '\n';
             }
         }
     }
@@ -79,4 +88,35 @@ Item* Inventory::Pop(const std::string _key)
         return it->second;
     }
     else { return nullptr; }
+}
+
+void Inventory::Select(const char _input)
+{
+    if (!is_open || IF_CLOSE_KEY(_input)) { Close(); return; }
+
+    static int index = 0;
+    int address = 0;
+    if (IF_UP_KEY(_input)) { address = 1; }
+    else if (IF_DOWN_KEY(_input)) { address = -1; }
+    index += address;
+
+    std::map<std::string, Item *>::iterator iter = items.begin();
+    for (int i = 0; i < index + 2; i++) 
+    {
+        while (iter == items.end() || iter->second->category == ItemCategory::None)
+        {
+            if (iter == items.end()) iter = items.begin();
+            iter++;
+        }
+        
+        iter->second->inventory_item_state = InventoryItemState::None;
+        iter++;
+    }
+    
+    while (iter == items.end() || iter->second->category == ItemCategory::None)
+    {
+        if (iter == items.end()) iter = items.begin();
+        iter++;
+    }
+    iter->second->inventory_item_state = InventoryItemState::Selected;
 }

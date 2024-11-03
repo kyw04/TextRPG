@@ -29,6 +29,7 @@ enum class ItemState
 {
     Unequipped,
     Equipped,
+    CoolDown,
 };
 
 enum class ItemRank
@@ -38,6 +39,12 @@ enum class ItemRank
     Rare,
     Unique,
     Legendary
+};
+
+enum class InventoryItemState
+{
+    None,
+    Selected,
 };
 
 #endif

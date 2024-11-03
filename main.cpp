@@ -9,22 +9,21 @@
 
 int main()
 {
-    int input;
-    Warrior *warrior = new Warrior();
+    char input;
+    Warrior* warrior = new Warrior();
+    Inventory* inventory = new Inventory();
     while (!warrior->IsDie())
     {
-        Zombie* zombie = new Zombie();
-        Inventory* inventory = new Inventory();
+        // std::cin.ignore();
+        input = (char)getchar();
 
-        while (!zombie->IsDie() && !warrior->IsDie())
-        {
-            input = getchar();
-            if (input == 'e')
-                break;
-
+        if (input == '\n')
+            continue;
+        if (input == 'a')
             inventory->Push(new WoodSword(), 5);
-            std::cout << *inventory;
-        }
+
+        inventory->Select(input);
+        std::cout << *inventory;
     }
     
     return 0;
