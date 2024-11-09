@@ -1,5 +1,4 @@
 #include <iostream>
-#include <string>
 #include "./Header/Stats.hpp"
 #include "./Header/Entity/Entity.hpp"
 #include "./Header/Entity/Warrior.hpp"
