@@ -58,3 +58,57 @@ bool Entity::IsDie()
 {
     return is_die;
 }
+
+Skill& Entity::SelectSkill()
+{
+    char input;
+    std::size_t index = 0;
+    
+    for (std::size_t i = 0; i < MAX_SKILL_COUNT; i++)
+    {
+        if (i % 2 == 0)
+            std::cout << '\n';
+        
+        std::cout << skills[i] << " ";
+    }
+
+    while (true)
+    {
+        INPUT_KEY(input)
+        if (!input)
+            break;
+        
+        if (IF_UP_KEY(input)) { index += MAX_SKILL_COUNT / 2; }
+        if (IF_DOWN_KEY(input)) { index -= MAX_SKILL_COUNT / 2; }
+        if (IF_LEFT_KEY(input)) { index--; }
+        if (IF_RIGHT_KEY(input)) { index++; }
+        index %= MAX_SKILL_COUNT;
+        
+        std::cout << '\n'; std::cout << '\n';
+        for (std::size_t i = 0; i < MAX_SKILL_COUNT; i++)
+        {
+            if (i % (MAX_SKILL_COUNT / 2) == 0)
+                std::cout << '\n';
+            
+            if (index == i)
+                std::cout << "<<" << skills[i] << ">> ";
+            else
+                std::cout << skills[i] << " ";
+        }
+    }
+
+    return skills[index];
+}
+
+void Entity::AddSkill(Skill _skill)
+{
+    if (skill_count >= MAX_SKILL_COUNT) { ChangeSkill(_skill); }
+    else { skills[skill_count++] = _skill; }
+}
+
+void Entity::ChangeSkill(Skill _new_skill)
+{
+    std::cout << "새로운 스킬: " << _new_skill;
+    Skill& old_skill = SelectSkill();
+    old_skill = _new_skill;
+}
