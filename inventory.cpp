@@ -9,9 +9,7 @@ void Inventory::Open()
     char input;
     while (is_open)
     {
-        input = (char)getchar();
-        if (input == '\n')
-            continue;
+       INPUT_KEY(input);
         
         if (items.empty() || IF_CLOSE_KEY(input))
         {
@@ -57,50 +55,52 @@ std::ostream& operator<<(std::ostream& _out, Inventory& _inven)
     return _out;
 }
 
-void Inventory::Push(Item* _item, int _count)
+void Inventory::Push(Item* _item, const int _count)
 {
-    if (_count <= 0)
-        return;
-    
-    std::map<std::string, Item*>::iterator tag_iter = items.find(_item->name);
-    if (tag_iter == items.end()) { tag_iter = items.insert({ _item->name, new Item() }).first; }
+    int current_count = _count;
 
-    std::string item_name = _item->name + "(" + std::to_string(tag_iter->second->count) + ")"; 
-    std::map<std::string, Item*>::iterator item_iter = items.find(item_name);
+    while (current_count > 0)
+    {  
+        if (current_count == _count) { std::cout << "== " << _item->name << " " << _count << "개 획득 ==\n"; }
 
-    int add_count;
-    if (_count > _item->max_count)
-    {
-        add_count = _item->max_count;
-        _count -= _item->max_count;
-    }
-    else
-    {
-        add_count = _count;
-        _count = 0;
-    }
+        std::map<std::string, Item*>::iterator tag_iter = items.find(_item->name);
+        if (tag_iter == items.end()) { tag_iter = items.insert({ _item->name, new Item() }).first; }
 
-    if (item_iter == items.end()) 
-    {
-        // 아이템으로 받아서 문제가 있어 보임
-        // 현제 아이템 종류를 클래스로 만들었는데 나중에 함수 사용을 못할 것 같음
-        Item* new_item = new Item(_item);
-        new_item->count = add_count;
-        items.insert({ item_name, new_item });
-    }
-    else 
-    {
-        add_count += item_iter->second->count;
-        if (add_count > _item->max_count)
+        std::string item_name = _item->name + "(" + std::to_string(tag_iter->second->count) + ")"; 
+        std::map<std::string, Item*>::iterator item_iter = items.find(item_name);
+
+        int add_count;
+        if (current_count > _item->max_count)
         {
-            item_iter->second->count = _item->max_count;
-            _count += add_count - _item->max_count;
-            tag_iter->second->count++;
+            add_count = _item->max_count;
+            current_count -= _item->max_count;
         }
-        else { item_iter->second->count = add_count; }
-    }
+        else
+        {
+            add_count = current_count;
+            current_count = 0;
+        }
 
-    Push(_item, _count);
+        if (item_iter == items.end()) 
+        {
+            // 아이템으로 받아서 문제가 있어 보임
+            // 현제 아이템 종류를 클래스로 만들었는데 나중에 함수 사용을 못할 것 같음
+            Item* new_item = new Item(_item);
+            new_item->count = add_count;
+            items.insert({ item_name, new_item });
+        }
+        else 
+        {
+            add_count += item_iter->second->count;
+            if (add_count > _item->max_count)
+            {
+                item_iter->second->count = _item->max_count;
+                current_count += add_count - _item->max_count;
+                tag_iter->second->count++;
+            }
+            else { item_iter->second->count = add_count; }
+        }
+    }
 }
 
 Item* Inventory::Pop(const std::string _key)

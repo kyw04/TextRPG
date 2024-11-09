@@ -19,7 +19,7 @@ public:
     void Open();
     void Close();
     std::map<std::string, Item*> GetItems() const;
-    void Push(Item*, int = 1);
+    void Push(Item*, const int = 1);
     Item* Pop(const std::string);
     void Select(const char);
 };
