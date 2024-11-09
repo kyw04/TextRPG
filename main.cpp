@@ -16,13 +16,6 @@ int main()
     while (!warrior->IsDie())
     {
         INPUT_KEY(input);
-
-        if (input == 'a')
-            inventory->Push(new WoodSword(), 5);
-        if (input == 'i')
-            inventory->Open();
-        if (!input)
-            std::cout << (int)input;
     }
     
     return 0;
