@@ -6,10 +6,7 @@ Entity::Entity() : is_die(false) {}
 void Entity::TakeDamage(AttackType _attack_type, float _value)
 {
     float damage = stats->SetDamage(_attack_type, _value);
-    if (this->stats->AddHealth(damage) <= 0)
-    {
-        Die();
-    }
+    if (stats->AddHealth(damage) <= 0) { Die(); }
 }
 
 void Attack(Entity* _attacker, Entity* _defender)
@@ -28,24 +25,12 @@ void Attack(Entity* _attacker, Entity* _defender)
 void Entity::Fight(Entity* _enemy)
 {
     float my_attack_speed = stats->GetAttackSpeed();
-    float _enemy_attack_speed = _enemy->stats->GetAttackSpeed();
-    Entity* first;
-    Entity* second;
-
-    if (my_attack_speed >= _enemy_attack_speed)
-    {
-        first = this;
-        second = _enemy;
-    }
-    else
-    {
-        first = _enemy;
-        second = this;
-    }
-
+    float enemy_attack_speed = _enemy->stats->GetAttackSpeed();
+    Entity* first = my_attack_speed >= enemy_attack_speed ? this : _enemy;
+    Entity* second = my_attack_speed >= enemy_attack_speed ? _enemy : this;
+    
     Attack(first, second);
     if (!second->IsDie()) Attack(second, first);
-    
 }
 
 void Entity::Die()
