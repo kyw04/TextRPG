@@ -18,13 +18,13 @@ int main()
     while (!warrior->IsDie())
     {
         INPUT_KEY(input);
-
+        count++;
         if (IF_CLOSE_KEY(input))
         {
             std::string str = "";
             for (int i = 0; i < count; i++)
                 str += "I";
-            Skill skill = {str, []()->float{ return 0.0f; }};
+            Skill skill = {str};
 
             warrior->AddSkill(skill);
         }
