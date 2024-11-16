@@ -19,6 +19,10 @@ Map::Map(int _heigth, int _width) :
     height(_heigth > MAX_MAP_SIZE ? MAX_MAP_SIZE : _heigth),
     width(_width > MAX_MAP_SIZE ? MAX_MAP_SIZE : _width)
 {
+    total_tile_probability = 0;
+    for (auto& probability : tile_probability)
+        total_tile_probability += probability.second;
+     
     TileSetting();
 }
 
@@ -40,8 +44,7 @@ void Map::TileSetting()
 {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_int_distribution<unsigned int> dis(0, 1);
-    // std::uniform_int_distribution<unsigned int> dis(0, (int)TileState::None);
+    std::uniform_real_distribution<> dis(0.0, total_tile_probability);
 
     int move_x[4] = { 1, -1, 0, 0 };
     int move_y[4] = { 0, 0, 1, -1 };
@@ -56,7 +59,7 @@ void Map::TileSetting()
     map[current_y][current_x - 1] = TileState::Wall;
     map[current_y][current_x + 1] = TileState::Wall;
     map[current_y--][current_x] = TileState::Empty;
-    map[current_y][current_x] = TileState::Empty;
+    map[current_y][current_x] = TileState::Entity;
     q.push({ current_x, current_y });
     while (!q.empty())
     {
@@ -69,11 +72,21 @@ void Map::TileSetting()
             int new_y = current_y + move_y[i];
             if (new_x < width && new_x >= 0 && new_y < height && new_y >= 0 && map[new_y][new_x] == TileState::None)
             {
-                map[new_y][new_x] = (TileState)dis(gen);
+                double random_value = dis(gen);
+                double cumulative = 0.0;
+                for (auto& tile : tile_probability)
+                {
+                    cumulative += tile.second;
+                    if (random_value <= cumulative)
+                    {
+                        map[new_y][new_x] = tile.first;
+                        break;
+                    }
+                }
+
                 if (map[new_y][new_x] != TileState::Wall)
                     q.push({ new_x, new_y });
             }
         }
     }
-    
 }

@@ -55,7 +55,7 @@ enum class TileState
     Boss,
     Treasure,
     Trap,
-    None // 개수 카운트용(사용 X)
+    None // 개수 카운트용으로 마지막에 배치
 };
 
 #endif
