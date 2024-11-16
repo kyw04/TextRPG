@@ -27,7 +27,8 @@ public:
     void TakeDamage(AttackType, float);
     void Fight(Entity*);
     bool IsDie();
-    Skill& SelectSkill();
+    void ShowSkills(const std::string, const std::size_t = 0);
+    Skill* SelectSkill(const std::string = "");
     void AddSkill(Skill);
     void ChangeSkill(Skill);
 };

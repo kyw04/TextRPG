@@ -44,45 +44,44 @@ bool Entity::IsDie()
     return is_die;
 }
 
-Skill& Entity::SelectSkill()
+void Entity::ShowSkills(const std::string _title, const std::size_t _index)
+{
+    std::cout << '\n' << _title;
+    for (std::size_t i = 0; i < MAX_SKILL_COUNT; i++)
+    {
+        if (i % (MAX_SKILL_COUNT / 2) == 0)
+            std::cout << '\n';
+        
+        if (_index == i)
+            std::cout << "<<" << skills[i] << ">> ";
+        else
+            std::cout << skills[i] << " ";
+    }
+}
+
+Skill* Entity::SelectSkill(const std::string _title)
 {
     char input;
     std::size_t index = 0;
-    
-    for (std::size_t i = 0; i < MAX_SKILL_COUNT; i++)
-    {
-        if (i % 2 == 0)
-            std::cout << '\n';
-        
-        std::cout << skills[i] << " ";
-    }
 
+    ShowSkills(_title);
     while (true)
     {
         INPUT_KEY(input)
         if (!input)
             break;
         
+        if (IF_CLOSE_KEY(input)) { return nullptr; }
         if (IF_UP_KEY(input)) { index += MAX_SKILL_COUNT / 2; }
         if (IF_DOWN_KEY(input)) { index -= MAX_SKILL_COUNT / 2; }
         if (IF_LEFT_KEY(input)) { index--; }
         if (IF_RIGHT_KEY(input)) { index++; }
         index %= MAX_SKILL_COUNT;
         
-        std::cout << '\n'; std::cout << '\n';
-        for (std::size_t i = 0; i < MAX_SKILL_COUNT; i++)
-        {
-            if (i % (MAX_SKILL_COUNT / 2) == 0)
-                std::cout << '\n';
-            
-            if (index == i)
-                std::cout << "<<" << skills[i] << ">> ";
-            else
-                std::cout << skills[i] << " ";
-        }
+        ShowSkills(_title, index);
     }
 
-    return skills[index];
+    return &skills[index];
 }
 
 void Entity::AddSkill(Skill _skill)
@@ -93,7 +92,16 @@ void Entity::AddSkill(Skill _skill)
 
 void Entity::ChangeSkill(Skill _new_skill)
 {
-    std::cout << "새로운 스킬: " << _new_skill;
-    Skill& old_skill = SelectSkill();
-    old_skill = _new_skill;
+    std::string title = "새로운 스킬: " + _new_skill.GetName();
+    Skill* old_skill = SelectSkill(title);
+
+    if (old_skill != nullptr)
+    {
+        std::cout << *old_skill << "이 " << _new_skill << "로 변경 되었습니다.\n";
+        *old_skill = _new_skill;
+    }
+    else
+    {
+        std::cout << "스킬 변경이 취소 되었습니다.\n";
+    }
 }
