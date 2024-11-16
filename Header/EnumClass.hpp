@@ -47,4 +47,15 @@ enum class InventoryItemState
     Selected,
 };
 
+enum class TileState
+{
+    Wall,
+    Empty,
+    Entity,
+    Boss,
+    Treasure,
+    Trap,
+    None // 개수 카운트용(사용 X)
+};
+
 #endif

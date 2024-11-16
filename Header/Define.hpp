@@ -3,6 +3,8 @@
 #include <string>
 #include <istream>
 
+#define MAX_MAP_SIZE 11
+
 #define MAX_SKILL_COUNT 4
 
 #define INPUT_KEY(_input) { std::string str; getline(std::cin, str); _input = str[0]; }

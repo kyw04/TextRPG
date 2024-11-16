@@ -7,28 +7,13 @@
 #include "./Header/Item/WoodSword.hpp"
 #include "./Header/Inventory.hpp"
 #include "./Header/Define.hpp"
+#include "./Header/Map.hpp"
 #include "./Header/Skill/Skill.hpp"
 
 int main()
 {
-    char input;
-    Warrior* warrior = new Warrior();
-
-    int count = 0;
-    while (!warrior->IsDie())
-    {
-        INPUT_KEY(input);
-        count++;
-        if (IF_CLOSE_KEY(input))
-        {
-            std::string str = "";
-            for (int i = 0; i < count; i++)
-                str += "I";
-            Skill skill = {str};
-
-            warrior->AddSkill(skill);
-        }
-    }
+    Map* map = new Map();
+    std::cout << *map;
     
     return 0;
 }
