@@ -6,7 +6,10 @@ std::ostream& operator<<(std::ostream& _out, Map& _map)
     {
         for (int j = 0; j < _map.width; j++)
         {
-            std::cout << ' ' << _map.GetTileSymbol(_map.map[i][j]) << ' '; 
+            if (i == _map.current_position.first && j == _map.current_position.second)
+                std::cout << "<p>"; 
+            else
+                std::cout << ' ' << _map.GetTileSymbol(_map.map[i][j]) << ' '; 
         }
         std::cout << '\n';
     }
@@ -17,7 +20,8 @@ std::ostream& operator<<(std::ostream& _out, Map& _map)
 
 Map::Map(int _heigth, int _width) : 
     height(_heigth > MAX_MAP_SIZE ? MAX_MAP_SIZE : _heigth),
-    width(_width > MAX_MAP_SIZE ? MAX_MAP_SIZE : _width)
+    width(_width > MAX_MAP_SIZE ? MAX_MAP_SIZE : _width),
+    current_position({ height - 1, width / 2 })
 {
     total_tile_probability = 0;
     for (auto& probability : tile_probability)
@@ -89,4 +93,54 @@ void Map::TileSetting()
             }
         }
     }
+}
+
+void Map::Open()
+{
+    is_open = true;
+    std::cout << "맵 열림\n";
+    std::cout << *this;
+
+    char input;
+    while (is_open)
+    {
+       INPUT_KEY(input);
+        
+        if (IF_CLOSE_KEY(input))
+        {
+            Close();
+            break;
+        }
+        
+        this->Move(input);
+        std::cout << *this;
+    }
+}
+
+void Map::Close()
+{
+    is_open = false;
+    std::cout << "맵 닫힘\n";
+}
+
+void Map::Move(const char _input)
+{
+    if (!is_open) { Close(); return; }
+
+    int x = 0;
+    int y = 0;
+    if (IF_UP_KEY(_input)) { y = -1; }
+    if (IF_DOWN_KEY(_input)) { y = 1; }
+    if (IF_LEFT_KEY(_input)) { x = -1; }
+    if (IF_RIGHT_KEY(_input)) { x = 1; }
+
+    int new_y = current_position.first + y;
+    int new_x = current_position.second + x;
+    if (new_y >= MAX_MAP_SIZE) { new_y = MAX_MAP_SIZE - 1; }
+    if (new_y < 0) { new_y = 0; }
+    if (new_x >= MAX_MAP_SIZE) { new_x = MAX_MAP_SIZE - 1; }
+    if (new_x < 0) { new_x = 0; }
+
+    if (map[new_y][new_x] != TileState::Wall)
+        current_position = { new_y, new_x };
 }

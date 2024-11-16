@@ -18,9 +18,11 @@ private:
     };
     double total_tile_probability;
 
+    bool is_open;
     TileState map[MAX_MAP_SIZE][MAX_MAP_SIZE];
     int height;
     int width;
+    std::pair<int, int> current_position;
 
 public:
     friend  std::ostream& operator<<(std::ostream&, Map&);
@@ -28,4 +30,7 @@ public:
     Map(int = MAX_MAP_SIZE, int = MAX_MAP_SIZE);
     char GetTileSymbol(const TileState&);
     void TileSetting();
+    void Open();
+    void Close();
+    void Move(const char _input);
 };

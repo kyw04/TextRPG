@@ -13,7 +13,7 @@
 int main()
 {
     Map* map = new Map();
-    std::cout << *map;
+    map->Open();
     
     return 0;
 }
