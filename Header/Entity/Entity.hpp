@@ -28,7 +28,7 @@ public:
     void Fight(Entity*);
     bool IsDie();
     void ShowSkills(const std::string, const std::size_t = 0);
-    Skill* SelectSkill(const std::string = "");
-    void AddSkill(Skill);
+    Skill* SelectSkill(const std::string = ""); // 인풋아웃풋 관련 클래스 만들어서 관리
+    void AddSkill(Skill); // 인풋아웃풋 관련 클래스 만들어서 관리
     void ChangeSkill(Skill);
 };
