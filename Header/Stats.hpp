@@ -24,7 +24,7 @@ private:
     int LevelUP();
 
 public:
-    Stats(float = 100, float = 100, float = 100, float = 100, float = 0, float = 0, float = 0, short = 0, float = 0, float = 0, int = 1, float = 0, float = 100); // helath, max_health, mana, max_mana, strength, intglligence, attack_speed, critical, strength_defensive, intelligence_defensive, level, experience, next_experience
+    Stats(float = 100, float = 100, float = 100, float = 100, float = 0, float = 0, float = 0, double = 0, float = 0, float = 0, int = 1, float = 0, float = 100); // helath, max_health, mana, max_mana, strength, intglligence, attack_speed, critical, strength_defensive, intelligence_defensive, level, experience, next_experience
     void ShowStats();
     float SetHealth(float);
     float AddHealth(float);

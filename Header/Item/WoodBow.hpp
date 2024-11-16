@@ -2,10 +2,10 @@
 #define _WOOD_BOW_
 #include "Item.hpp"
 
-class WoodSword : public Item
+class WoodBow : public Item
 {
 public:
-    WoodSword() : Item(3)
+    WoodBow() : Item(3)
     {
         state = ItemState::Unequipped;
         count = 0;

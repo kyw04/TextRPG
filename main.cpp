@@ -8,12 +8,12 @@
 #include "./Header/Inventory.hpp"
 #include "./Header/Define.hpp"
 #include "./Header/Map.hpp"
+#include "./Header/GameManager.hpp"
 #include "./Header/Skill/Skill.hpp"
 
 int main()
 {
-    Map* map = new Map();
-    map->Open();
+    GameManager* game_manager = new GameManager();
     
     return 0;
 }
