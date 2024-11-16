@@ -15,7 +15,6 @@ std::ostream& operator<<(std::ostream& _out, Map& _map)
     return _out;
 }
 
-
 Map::Map(int _heigth, int _width) : 
     height(_heigth > MAX_MAP_SIZE ? MAX_MAP_SIZE : _heigth),
     width(_width > MAX_MAP_SIZE ? MAX_MAP_SIZE : _width)
@@ -44,8 +43,8 @@ void Map::TileSetting()
     std::uniform_int_distribution<unsigned int> dis(0, 1);
     // std::uniform_int_distribution<unsigned int> dis(0, (int)TileState::None);
 
-    int move_x[3] = { 1, 0, -1 };
-    int move_y[3] = { -1, 0, 1 };
+    int move_x[4] = { 1, -1, 0, 0 };
+    int move_y[4] = { 0, 0, 1, -1 };
     int current_x = width / 2;
     int current_y = height - 1;
 
@@ -64,21 +63,15 @@ void Map::TileSetting()
         current_x = q.front().first;
         current_y = q.front().second;
         q.pop();
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < 4; i++)
         {
-            for (int j = 0; j < 3; j++)
+            int new_x = current_x + move_x[i];
+            int new_y = current_y + move_y[i];
+            if (new_x < width && new_x >= 0 && new_y < height && new_y >= 0 && map[new_y][new_x] == TileState::None)
             {
-                if (move_x[i] * move_x[i] == move_y[j] * move_y[j])
-                    continue;
-                
-                int new_x = current_x + move_x[i];
-                int new_y = current_y + move_y[j];
-                if (new_x < width && new_x >= 0 && new_y < height && new_y >= 0 && map[new_y][new_x] == TileState::None)
-                {
-                    map[new_y][new_x] = (TileState)dis(gen);
-                    if (map[new_y][new_x] != TileState::Wall)
-                        q.push({ new_x, new_y });
-                }
+                map[new_y][new_x] = (TileState)dis(gen);
+                if (map[new_y][new_x] != TileState::Wall)
+                    q.push({ new_x, new_y });
             }
         }
     }
