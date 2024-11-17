@@ -5,6 +5,8 @@ GameManager::GameManager()
     std::cout << "<<입력으로 게임 시작>>";
     char input;
     INPUT_KEY(input);
+    if (IF_DOWN_KEY(input))
+        return;
 
     player = SelectPlayer();
     map = new Map();
@@ -83,8 +85,14 @@ TileState GameManager::Move()
 
 Entity GameManager::GetRandomMonster(const int _min_level, const int _max_level)
 {
-    
-    return monster_data[0][0];
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<std::size_t> random_level_dis((std::size_t)(_min_level - 1), (std::size_t)(_max_level - 1));
+    std::size_t random_level = random_level_dis(gen);
+    std::uniform_int_distribution<std::size_t> random_index_dis(0, monster_data[random_level].size() - 1);
+    std::size_t random_index = random_index_dis(gen);
+
+    return monster_data[random_level][random_index];
 }
 
 void GameManager::PlayEvent(const TileState _tile)
@@ -92,16 +100,27 @@ void GameManager::PlayEvent(const TileState _tile)
     switch (_tile)
     {
     case TileState::Entity: case TileState::Boss:
-        std::cout << map->GetTileSymbol(_tile);
-        Entity monster = GetRandomMonster(0, 1);
-        monster_data;
+    {
+        Entity monster = GetRandomMonster(1, 1);
         while (!player->IsDie() && !monster.IsDie()) { player->Fight(monster); }
         break;
-    // case TileState::Trap:
-    //     break;
-    // case TileState::Treasure:
-    //     break;
-    // default:
-    //     break;
     }
+    case TileState::Trap:
+    {
+        player->TakeDamage(AttackType::Intelligence, 5.0f);
+        player->TakeDamage(AttackType::Strength, 5.0f);
+        break;
+    }
+    case TileState::Treasure:
+    {
+        break;
+    }
+    default:
+        break;
+
+    }
+
+    int x = map->current_position.first;
+    int y = map->current_position.second;
+    map->tiles[x][y] = TileState::Empty;
 }

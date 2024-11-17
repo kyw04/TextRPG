@@ -19,7 +19,6 @@ void Attack(Entity* _attacker, Entity* _defender)
     _defender->TakeDamage(_attacker->attack_type, damage);
     if (!_defender->IsDie())
         std::cout << _defender->name << " 체력: " << _defender->stats.GetHealth() << '\n';
-    std::cout << '\n';
 }
 
 void Entity::Fight(Entity& _enemy)
@@ -30,9 +29,10 @@ void Entity::Fight(Entity& _enemy)
     Entity* second = my_attack_speed >= enemy_attack_speed ? &_enemy : this;
 
     char input;
-    INPUT_KEY(input);
+    INPUT_KEY(input);        
     Attack(first, second);
-    INPUT_KEY(input);
+
+    if (!IF_DOWN_KEY(input)) INPUT_KEY(input);
     if (!second->IsDie()) Attack(second, first);
 }
 

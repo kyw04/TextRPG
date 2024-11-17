@@ -20,7 +20,7 @@
 class GameManager
 {
 private:
-    Entity monster_data[MAX_LEVEL][4] = // enemty[level][enemy] 
+    std::vector<Entity> monster_data[MAX_LEVEL] = // enemty[level][enemy] 
     { 
         { Zombie(), Zombie() }, // level == 1
         { Zombie() } // level == 2
