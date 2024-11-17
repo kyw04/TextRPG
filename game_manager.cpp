@@ -46,7 +46,7 @@ Entity* GameManager::SelectPlayer()
 
 TileState GameManager::Move()
 {
-    TileState result = TileState::None;
+    TileState result = TileState::Empty;
     char input;
     while (map->is_open)
     {
@@ -73,7 +73,35 @@ TileState GameManager::Move()
             result = map->tiles[new_y][new_x];
         }
         std::cout << *map;
+
+        if (result != TileState::Empty)
+            map->Close();
     }
     
     return result;
+}
+
+Entity GameManager::GetRandomMonster(const int _min_level, const int _max_level)
+{
+    
+    return monster_data[0][0];
+}
+
+void GameManager::PlayEvent(const TileState _tile)
+{
+    switch (_tile)
+    {
+    case TileState::Entity: case TileState::Boss:
+        std::cout << map->GetTileSymbol(_tile);
+        Entity monster = GetRandomMonster(0, 1);
+        monster_data;
+        while (!player->IsDie() && !monster.IsDie()) { player->Fight(monster); }
+        break;
+    // case TileState::Trap:
+    //     break;
+    // case TileState::Treasure:
+    //     break;
+    // default:
+    //     break;
+    }
 }

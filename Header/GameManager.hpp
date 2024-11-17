@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <random>
 #include "Entity/Entity.hpp"
 #include "Entity/Archer.hpp"
 #include "Entity/Warrior.hpp"
@@ -19,10 +20,10 @@
 class GameManager
 {
 private:
-    std::vector<std::vector<Entity*>> monster = // enemty[level][enemy] 
+    Entity monster_data[MAX_LEVEL][4] = // enemty[level][enemy] 
     { 
-        { new Zombie() }, // level == 1
-        { new Zombie() } // level == 2
+        { Zombie(), Zombie() }, // level == 1
+        { Zombie() } // level == 2
     };
 
 public:
@@ -33,4 +34,6 @@ public:
     GameManager();
     Entity* SelectPlayer();
     TileState Move();
+    Entity GetRandomMonster(const int, const int);
+    void PlayEvent(const TileState);
 };

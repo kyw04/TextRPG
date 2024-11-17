@@ -3,6 +3,7 @@
 #include <string>
 #include <istream>
 
+#define MAX_LEVEL 100
 #define MAX_MAP_SIZE 11
 
 #define MAX_SKILL_COUNT 4

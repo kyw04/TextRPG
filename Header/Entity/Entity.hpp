@@ -21,11 +21,11 @@ public:
     std::string name;
     EntityJob job;
     AttackType attack_type;
-    Stats *stats;
+    Stats stats;
 
     Entity();
     void TakeDamage(AttackType, float);
-    void Fight(Entity*);
+    void Fight(Entity&);
     bool IsDie();
     void ShowSkills(const std::string, const std::size_t = 0);
     Skill* SelectSkill(const std::string = ""); // 인풋아웃풋 관련 클래스 만들어서 관리
