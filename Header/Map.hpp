@@ -17,14 +17,15 @@ private:
         { TileState::Trap, 0.05 }
     };
     double total_tile_probability;
-
-    bool is_open;
-    TileState map[MAX_MAP_SIZE][MAX_MAP_SIZE];
-    int height;
-    int width;
-    std::pair<int, int> current_position;
+    
 
 public:
+    bool is_open;
+    int height;
+    int width;
+    TileState tiles[MAX_MAP_SIZE][MAX_MAP_SIZE];
+    std::pair<int, int> current_position;
+
     friend  std::ostream& operator<<(std::ostream&, Map&);
 
     Map(int = MAX_MAP_SIZE, int = MAX_MAP_SIZE);
@@ -32,5 +33,4 @@ public:
     void TileSetting();
     void Open();
     void Close();
-    void Move(const char _input);
 };

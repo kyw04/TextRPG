@@ -19,17 +19,18 @@
 class GameManager
 {
 private:
-    Entity* player;
-    Inventory* inventory;
-    Map* map;
-
     std::vector<std::vector<Entity*>> monster = // enemty[level][enemy] 
     { 
         { new Zombie() }, // level == 1
         { new Zombie() } // level == 2
     };
 
-public: 
+public:
+    Entity* player;
+    Inventory* inventory;
+    Map* map;
+
     GameManager();
     Entity* SelectPlayer();
+    TileState Move();
 };

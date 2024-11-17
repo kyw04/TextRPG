@@ -7,6 +7,7 @@ GameManager::GameManager()
     INPUT_KEY(input);
 
     player = SelectPlayer();
+    map = new Map();
 }
 
 Entity* GameManager::SelectPlayer()
@@ -41,4 +42,38 @@ Entity* GameManager::SelectPlayer()
 
     std::cout << players[(std::size_t)index]->name << "가 선택 되었습니다.\n";
     return players[(std::size_t)index];
+}
+
+TileState GameManager::Move()
+{
+    TileState result = TileState::None;
+    char input;
+    while (map->is_open)
+    {
+        INPUT_KEY(input);
+        if (IF_CLOSE_KEY(input)) { map->Close(); return result; }
+
+        int x = 0;
+        int y = 0;
+        if (IF_UP_KEY(input)) { y = -1; }
+        if (IF_DOWN_KEY(input)) { y = 1; }
+        if (IF_LEFT_KEY(input)) { x = -1; }
+        if (IF_RIGHT_KEY(input)) { x = 1; }
+
+        int new_y = map->current_position.first + y;
+        int new_x = map->current_position.second + x;
+        if (new_y >= MAX_MAP_SIZE) { new_y = MAX_MAP_SIZE - 1; }
+        if (new_y < 0) { new_y = 0; }
+        if (new_x >= MAX_MAP_SIZE) { new_x = MAX_MAP_SIZE - 1; }
+        if (new_x < 0) { new_x = 0; }
+
+        if (map->tiles[new_y][new_x] != TileState::Wall)
+        {
+            map->current_position = { new_y, new_x };
+            result = map->tiles[new_y][new_x];
+        }
+        std::cout << *map;
+    }
+    
+    return result;
 }

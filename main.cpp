@@ -14,6 +14,11 @@
 int main()
 {
     GameManager* game_manager = new GameManager();
-    
+    game_manager->map->Open();
+    while (true)
+    {
+        game_manager->Move();
+    }
+
     return 0;
 }
