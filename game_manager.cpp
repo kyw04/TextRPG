@@ -83,28 +83,29 @@ TileState GameManager::Move()
     return result;
 }
 
-Entity GameManager::GetRandomMonster(const int _min_level, const int _max_level)
+Entity GameManager::GetRandomEntity(const int _min_level, const int _max_level, std::vector<Entity> _datas[])
 {
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<std::size_t> random_level_dis((std::size_t)(_min_level - 1), (std::size_t)(_max_level - 1));
     std::size_t random_level = random_level_dis(gen);
-    std::uniform_int_distribution<std::size_t> random_index_dis(0, monster_data[random_level].size() - 1);
+    std::uniform_int_distribution<std::size_t> random_index_dis(0, _datas[random_level].size() - 1);
     std::size_t random_index = random_index_dis(gen);
 
-    return monster_data[random_level][random_index];
+    return _datas[random_level][random_index];
 }
 
 void GameManager::PlayEvent(const TileState _tile)
 {
     switch (_tile)
     {
-    case TileState::Entity: case TileState::Boss:
+    case TileState::Monster: case TileState::Boss:
     {
-        Entity monster = GetRandomMonster(1, 1);
+        Entity monster = GetRandomEntity(1, 1, _tile == TileState::Monster ? monster_data : boss_data);
         while (!player->IsDie() && !monster.IsDie()) { player->Fight(monster); }
         break;
     }
+    
     case TileState::Trap:
     {
         player->TakeDamage(AttackType::Intelligence, 5.0f);

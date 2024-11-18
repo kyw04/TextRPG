@@ -12,7 +12,7 @@ private:
     const std::vector<std::pair<TileState, double>> tile_probability =
     {
         { TileState::Wall, 0.3 },
-        { TileState::Entity, 0.4 },
+        { TileState::Monster, 0.4 },
         { TileState::Treasure, 0.05 },
         { TileState::Trap, 0.05 }
     };

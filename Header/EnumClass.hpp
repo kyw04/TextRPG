@@ -51,7 +51,7 @@ enum class TileState
 {
     Wall,
     Empty,
-    Entity,
+    Monster,
     Boss,
     Treasure,
     Trap,

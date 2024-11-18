@@ -25,6 +25,11 @@ private:
         { Zombie(), Zombie() }, // level == 1
         { Zombie() } // level == 2
     };
+    std::vector<Entity> boss_data[MAX_LEVEL] = // enemty[level][enemy] 
+    { 
+        { Zombie(), Zombie() }, // level == 1
+        { Zombie() } // level == 2
+    };
 
 public:
     Entity* player;
@@ -34,6 +39,6 @@ public:
     GameManager();
     Entity* SelectPlayer();
     TileState Move();
-    Entity GetRandomMonster(const int, const int);
+    Entity GetRandomEntity(const int, const int, std::vector<Entity>[]);
     void PlayEvent(const TileState);
 };

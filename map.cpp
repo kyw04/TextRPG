@@ -36,7 +36,7 @@ char Map::GetTileSymbol(const TileState& _tile)
     {
         case TileState::Wall: return '#';
         case TileState::Empty: return '.';
-        case TileState::Entity: return 'E';
+        case TileState::Monster: return 'E';
         case TileState::Boss: return 'B';
         case TileState::Treasure: return '?';
         case TileState::Trap: return '?';
@@ -63,7 +63,7 @@ void Map::TileSetting()
     tiles[current_y][current_x - 1] = TileState::Wall;
     tiles[current_y][current_x + 1] = TileState::Wall;
     tiles[current_y--][current_x] = TileState::Empty;
-    tiles[current_y][current_x] = TileState::Entity;
+    tiles[current_y][current_x] = TileState::Monster;
     q.push({ current_x, current_y });
     while (!q.empty())
     {
