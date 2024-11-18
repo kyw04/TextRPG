@@ -69,7 +69,7 @@ float Stats::SetDamage(AttackType _attack_type, float _damage)
         defense_percentage = intelligence_defensive / (intelligence_defensive + 1);
         break;
     default:
-        return 0.0f;
+        defense_percentage = 0.0f;
         break;
     }
 

@@ -116,6 +116,9 @@ void GameManager::PlayEvent(const TileState _tile)
         std::cout << random_damage << "를 입음\n";
         if (!player->IsDie())
             std::cout << "남은 체력: " << player->stats.GetHealth() << '\n';
+        char input;
+        INPUT_KEY(input);
+        if (IF_DOWN_KEY(input)) break;
         break;
     }
     case TileState::Treasure:
