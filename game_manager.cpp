@@ -118,7 +118,6 @@ void GameManager::PlayEvent(const TileState _tile)
     }
     default:
         break;
-
     }
 
     int x = map->current_position.first;

@@ -52,8 +52,14 @@ void Map::TileSetting()
 
     int move_x[4] = { 1, -1, 0, 0 };
     int move_y[4] = { 0, 0, 1, -1 };
-    int current_x = width / 2;
-    int current_y = height - 1;
+    int start_x = width / 2;
+    int start_y = height - 1;
+    std::pair<int, int> furthest = { start_x, start_y };
+    double furthest_distance = 0;
+
+    int current_x = start_x;
+    int current_y = start_y;
+
 
     for (auto& i : tiles)
         for (auto& j : i)
@@ -89,10 +95,20 @@ void Map::TileSetting()
                 }
 
                 if (tiles[new_y][new_x] != TileState::Wall)
+                {
                     q.push({ new_x, new_y });
+                    double new_distance = (start_x - new_x) * (start_x - new_x) + (start_y - new_y) * (start_y - new_y);
+                    if (new_distance > furthest_distance || (new_distance == furthest_distance && (int)(dis(gen) * 10) % 2 == 0))
+                    {
+                        furthest = { new_y, new_x };
+                        furthest_distance = new_distance;
+                    }
+                }
             }
         }
     }
+
+    tiles[furthest.first][furthest.second] = TileState::Boss;
 }
 
 void Map::Open()
