@@ -97,7 +97,7 @@ void Map::TileSetting()
                 if (tiles[new_y][new_x] != TileState::Wall)
                 {
                     q.push({ new_x, new_y });
-                    double new_distance = (start_x - new_x) * (start_x - new_x) + (start_y - new_y) * (start_y - new_y);
+                    double new_distance = (start_x - new_x) * (start_x - new_x) + (start_y - new_y) * (start_y - new_y); // 갈 수 있는 거리 중에 가장 먼 거리를 구하는 방법을 사용해야 할 듯
                     if (new_distance > furthest_distance || (new_distance == furthest_distance && (int)(dis(gen) * 10) % 2 == 0))
                     {
                         furthest = { new_y, new_x };
