@@ -9,7 +9,7 @@
 class Map
 {
 private:
-    const std::vector<std::pair<TileState, double>> tile_probability =
+    const std::vector<std::pair<TileState, double>> tile_probability = // 타일 클래스나 구조체 만들어서 이벤트도 가지고 있게 하면 좋을 듯
     {
         { TileState::Wall, 0.3 },
         { TileState::Monster, 0.4 },

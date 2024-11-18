@@ -108,8 +108,14 @@ void GameManager::PlayEvent(const TileState _tile)
     
     case TileState::Trap:
     {
-        player->TakeDamage(AttackType::Intelligence, 5.0f);
-        player->TakeDamage(AttackType::Strength, 5.0f);
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_int_distribution<> random_damage_dis(10, 30);
+        int random_damage = random_damage_dis(gen);
+        player->TakeDamage(AttackType::None, (float)random_damage);
+        std::cout << random_damage << "를 입음\n";
+        if (!player->IsDie())
+            std::cout << "남은 체력: " << player->stats.GetHealth() << '\n';
         break;
     }
     case TileState::Treasure:

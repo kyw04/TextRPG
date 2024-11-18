@@ -57,7 +57,7 @@ float Stats::AddMana(float _value)
     return SetMana(mana + _value);
 }
 
-float Stats::SetDamage(AttackType _attack_type, float suffered_damage)
+float Stats::SetDamage(AttackType _attack_type, float _damage)
 {
     float defense_percentage;
     switch (_attack_type)
@@ -73,7 +73,7 @@ float Stats::SetDamage(AttackType _attack_type, float suffered_damage)
         break;
     }
 
-    return suffered_damage * (defense_percentage - 1);
+    return _damage * (defense_percentage - 1);
 }
 
 float Stats::SetExperience(float _value)
