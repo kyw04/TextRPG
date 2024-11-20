@@ -5,7 +5,7 @@
 class WoodBow : public Item
 {
 public:
-    WoodBow() : Item(3)
+    WoodBow() : Item(1)
     {
         state = ItemState::Unequipped;
         count = 0;

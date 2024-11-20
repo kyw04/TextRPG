@@ -5,7 +5,7 @@
 class WoodSword : public Item
 {
 public:
-    WoodSword() : Item(3)
+    WoodSword() : Item(1)
     {
         state = ItemState::Unequipped;
         count = 0;
@@ -15,7 +15,7 @@ public:
         category = ItemCategory::Weapon;
         name = "나무 검";
         rank = ItemRank::Normal;
-        stats = new Stats(0, 0, 0, 0, 10, 0, 3);
+        stats = new Stats(0, 0, 0, 0, 10, 0, 2);
     }
 };
 

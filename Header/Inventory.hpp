@@ -21,5 +21,5 @@ public:
     std::map<std::string, Item*> GetItems() const;
     void Push(Item*, const int = 1); // 인풋아웃풋 관련 클래스 만들어서 관리
     Item* Pop(const std::string); // 인풋아웃풋 관련 클래스 만들어서 관리
-    void Select(const char); // 인풋아웃풋 관련 클래스 만들어서 관리
+    Item* Select(const char); // 인풋아웃풋 관련 클래스 만들어서 관리
 };

@@ -1,12 +1,12 @@
 #include "./Header/Inventory.hpp"
 
-
 void Inventory::Open() 
 { 
     std::cout << "인벤토리 열림\n";
     is_open = true;
     
     char input;
+    Item* selected_item = nullptr;
     while (is_open)
     {
        INPUT_KEY(input);
@@ -16,9 +16,15 @@ void Inventory::Open()
             Close();
             break;
         }
-        
-        this->Select(input);
-        std::cout << *this;
+        if (!input && selected_item != nullptr)
+        {
+            std::cout << *selected_item;
+        }
+        else
+        {
+            selected_item = this->Select(input);
+            std::cout << *this;
+        }
     }
 }
 void Inventory::Close() 
@@ -46,9 +52,9 @@ std::ostream& operator<<(std::ostream& _out, Inventory& _inven)
             if (item.second->category != ItemCategory::None) 
             { 
                 if (item.second->inventory_item_state == InventoryItemState::Selected)
-                    std::cout << "<<" << item.first << " " << *item.second << ">>\n";
+                    std::cout << "<<" << *item.second << ">>\n";
                 else
-                    std::cout << item.first << " " << *item.second << '\n';
+                    std::cout<< *item.second << '\n';
             }
         }
     }
@@ -57,6 +63,9 @@ std::ostream& operator<<(std::ostream& _out, Inventory& _inven)
 
 void Inventory::Push(Item* _item, const int _count)
 {
+    if (_item == nullptr)
+        return;
+    
     int current_count = _count;
 
     while (current_count > 0)
@@ -114,10 +123,10 @@ Item* Inventory::Pop(const std::string _key)
     else { return nullptr; }
 }
 
-void Inventory::Select(const char _input)
+Item* Inventory::Select(const char _input)
 {
-    if (!is_open || IF_CLOSE_KEY(_input)) { Close(); return; }
-
+    if (!is_open || IF_CLOSE_KEY(_input)) { Close(); return nullptr; }
+    
     static int index = -1;
     if (IF_UP_KEY(_input)) { index += 1; }
     else if (IF_DOWN_KEY(_input)) { index += -1; }
@@ -148,4 +157,6 @@ void Inventory::Select(const char _input)
     if (index <= 0) { selected_iter = first_iter; index = 0; }
     if (max_index <= index) { selected_iter = last_iter; index = max_index; }
     selected_iter->second->inventory_item_state = InventoryItemState::Selected;
+
+    return selected_iter->second;
 }

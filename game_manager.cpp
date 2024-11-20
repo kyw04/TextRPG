@@ -10,6 +10,23 @@ GameManager::GameManager()
 
     player = SelectPlayer();
     map = new Map();
+    inventory = new Inventory();
+    Item* start_item;
+    switch (player->job)
+    {
+        case EntityJob::Warrior:
+            start_item = new WoodSword();
+            break;
+        case EntityJob::Archer:
+            start_item = new WoodBow();
+            break;
+        case EntityJob::Wizard:
+            start_item = new WoodStaff();
+            break;
+        default:
+            start_item = nullptr;
+    }
+    inventory->Push(start_item);
 }
 
 Entity* GameManager::SelectPlayer()
@@ -46,39 +63,38 @@ Entity* GameManager::SelectPlayer()
     return players[(std::size_t)index];
 }
 
-TileState GameManager::Move()
+TileState GameManager::Move(const char _input)
 {
+    if (!map->is_open)
+        return TileState::Empty;
+    
     TileState result = TileState::Empty;
-    char input;
-    while (map->is_open)
+    
+    if (IF_CLOSE_KEY(_input)) { map->Close(); return result; }
+
+    int x = 0;
+    int y = 0;
+    if (IF_UP_KEY(_input)) { y = -1; }
+    if (IF_DOWN_KEY(_input)) { y = 1; }
+    if (IF_LEFT_KEY(_input)) { x = -1; }
+    if (IF_RIGHT_KEY(_input)) { x = 1; }
+
+    int new_y = map->current_position.first + y;
+    int new_x = map->current_position.second + x;
+    if (new_y >= MAX_MAP_SIZE) { new_y = MAX_MAP_SIZE - 1; }
+    if (new_y < 0) { new_y = 0; }
+    if (new_x >= MAX_MAP_SIZE) { new_x = MAX_MAP_SIZE - 1; }
+    if (new_x < 0) { new_x = 0; }
+
+    if (map->tiles[new_y][new_x] != TileState::Wall)
     {
-        INPUT_KEY(input);
-        if (IF_CLOSE_KEY(input)) { map->Close(); return result; }
-
-        int x = 0;
-        int y = 0;
-        if (IF_UP_KEY(input)) { y = -1; }
-        if (IF_DOWN_KEY(input)) { y = 1; }
-        if (IF_LEFT_KEY(input)) { x = -1; }
-        if (IF_RIGHT_KEY(input)) { x = 1; }
-
-        int new_y = map->current_position.first + y;
-        int new_x = map->current_position.second + x;
-        if (new_y >= MAX_MAP_SIZE) { new_y = MAX_MAP_SIZE - 1; }
-        if (new_y < 0) { new_y = 0; }
-        if (new_x >= MAX_MAP_SIZE) { new_x = MAX_MAP_SIZE - 1; }
-        if (new_x < 0) { new_x = 0; }
-
-        if (map->tiles[new_y][new_x] != TileState::Wall)
-        {
-            map->current_position = { new_y, new_x };
-            result = map->tiles[new_y][new_x];
-        }
-        std::cout << *map;
-
-        if (result != TileState::Empty)
-            map->Close();
+        map->current_position = { new_y, new_x };
+        result = map->tiles[new_y][new_x];
     }
+    std::cout << *map;
+
+    if (result != TileState::Empty)
+        map->Close();
     
     return result;
 }

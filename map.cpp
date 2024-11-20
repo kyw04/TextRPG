@@ -115,9 +115,7 @@ void Map::Open()
 {
     is_open = true;
     std::cout << "맵 열림\n";
-    std::cout << *this;
-
-    
+    std::cout << *this;  
 }
 
 void Map::Close()

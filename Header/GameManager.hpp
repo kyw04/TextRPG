@@ -10,6 +10,7 @@
 #include "Item/Item.hpp"
 #include "Item/WoodBow.hpp"
 #include "Item/WoodSword.hpp"
+#include "Item/WoodStaff.hpp"
 #include "Skill/Skill.hpp"
 #include "Define.hpp"
 #include "EnumClass.hpp"
@@ -30,6 +31,11 @@ private:
         { Zombie(), Zombie() }, // level == 1
         { Zombie() } // level == 2
     };
+    std::vector<Item> item_data = 
+    {
+        WoodBow(),
+        WoodSword()
+    };
 
 public:
     Entity* player;
@@ -38,7 +44,7 @@ public:
 
     GameManager();
     Entity* SelectPlayer();
-    TileState Move();
+    TileState Move(const char);
     Entity GetRandomEntity(const int, const int, std::vector<Entity>[]);
     void PlayEvent(const TileState);
 };
