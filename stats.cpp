@@ -42,11 +42,6 @@ float Stats::AddHealth(float _value)
     return SetHealth(health + _value);
 }
 
-float Stats::GetHealth()
-{
-    return health;
-}
-
 float Stats::SetMana(float _value)
 {
     return mana = _value > max_mana ? max_mana : _value;
@@ -100,7 +95,18 @@ float Stats::GetDamage(AttackType _type)
     return _type == AttackType::Strength ? strength : intelligence;
 }
 
-float Stats::GetAttackSpeed()
+template<typename T>
+T Stats::GetStats(const StatsName _name)
 {
-    return attack_speed;
+    switch (_name)
+    {
+    case StatsName::Health:
+        return health;
+    case StatsName::AttackSpeed:
+        return attack_speed;
+    default:
+        break;
+    }
+
+    return 0.0f;
 }

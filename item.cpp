@@ -4,7 +4,7 @@ bool Item::operator==(const Item& _itm) const { return this->name == _itm.name; 
 
 std::ostream& operator<<(std::ostream& _out, const Item& _itm)
 {
-    std::cout << _itm.name << " : " << _itm.count;
+    std::cout << _itm.name << " : " << _itm.count << "개";
     return _out;
 }
 
@@ -19,4 +19,9 @@ Item::Item(Item* _item) : max_count(_item->max_count)
     job_requirement = _item->job_requirement;
     rank = _item->rank;
     stats = _item->stats;
+}
+
+void Item::ShowInformation()
+{
+    stats->ShowStats();
 }

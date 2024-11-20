@@ -28,11 +28,12 @@ public:
     void ShowStats();
     float SetHealth(float);
     float AddHealth(float);
-    float GetHealth();
     float SetMana(float);
     float AddMana(float);
     float SetDamage(AttackType, float);
     float SetExperience(float);
     float GetDamage(AttackType);
-    float GetAttackSpeed();
+
+    template<typename T>
+    T GetStats(const StatsName);
 };

@@ -14,6 +14,7 @@ public:
     friend std::ostream& operator<<(std::ostream&, const Item&);
     Item(const int _max_count = 255) : max_count(_max_count), count(0) {}
     Item(Item*);
+    void virtual ShowInformation();
 
     InventoryItemState inventory_item_state;
     ItemCategory category;

@@ -1,6 +1,26 @@
 #ifndef _ENUM_CLASS_
 #define _ENUM_CLASS_
 
+enum class StatsName
+{
+    Health,
+    MaxHealth,
+    Mana,
+    MaxMana,
+
+    Strength,
+    Intelligence,
+    AttackSpeed,
+    Critical,
+
+    StrengthDefensive,
+    IntelligenceDefensive,
+
+    Level,
+    Experience,
+    NextExperience,
+};
+
 enum class EntityJob
 {
     None,

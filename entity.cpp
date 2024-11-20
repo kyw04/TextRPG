@@ -18,13 +18,13 @@ void Attack(Entity* _attacker, Entity* _defender)
     std::cout << damage << "의 데미지를 입힘\n";
     _defender->TakeDamage(_attacker->attack_type, damage);
     if (!_defender->IsDie())
-        std::cout << _defender->name << " 체력: " << _defender->stats.GetHealth() << '\n';
+        std::cout << _defender->name << " 체력: " << _defender->stats.GetStats(StatsName::Health) << "\n";
 }
 
 void Entity::Fight(Entity& _enemy)
 {
-    float my_attack_speed = stats.GetAttackSpeed();
-    float enemy_attack_speed = _enemy.stats.GetAttackSpeed();
+    float my_attack_speed = stats.GetStats(StatsName::AttackSpeed);
+    float enemy_attack_speed = _enemy.stats.GetStats(StatsName::AttackSpeed);
     Entity* first = my_attack_speed >= enemy_attack_speed ? this : &_enemy;
     Entity* second = my_attack_speed >= enemy_attack_speed ? &_enemy : this;
 

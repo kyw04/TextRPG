@@ -17,6 +17,11 @@ public:
         rank = ItemRank::Normal;
         stats = new Stats(0, 0, 0, 0, 7, 0, 3, 3);
     }
+
+    void ShowInformation()
+    {
+        std::cout << name << '\n';
+    }
 };
 
 #endif
