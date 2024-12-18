@@ -5,26 +5,40 @@ Entity::Entity() : is_die(false) {}
 
 void Entity::TakeDamage(AttackType _attack_type, float _value)
 {
-    float damage = stats.SetDamage(_attack_type, _value);
-    if (stats.AddHealth(damage) <= 0) { Die(); }
+    float health = stats.GetStats<float>(StatsName::Health);
+    float damage = stats.GetDamage(_attack_type, _value);
+    
+    stats.AddHealth(damage);
+    if (health <= 0) { Die(); }
 }
 
 void Attack(Entity* _attacker, Entity* _defender)
 {
     float damage;
+    switch (_attacker->attack_type)
+    {
+    case AttackType::None:
+        break;
+    case AttackType::Strength:
+        damage = _attacker->stats.GetStats<float>(StatsName::Strength);
+        break; 
+    case AttackType::Intelligence:
+        damage = _attacker->stats.GetStats<float>(StatsName::Intelligence); 
+        break;
+    }
+
     std::cout << _attacker->name << "의 공격\n";
     std::cout << _defender->name << "에게 ";
-    damage = _attacker->stats.GetDamage(_attacker->attack_type);
     std::cout << damage << "의 데미지를 입힘\n";
     _defender->TakeDamage(_attacker->attack_type, damage);
     if (!_defender->IsDie())
-        std::cout << _defender->name << " 체력: " << _defender->stats.GetHealth() << '\n';
+        std::cout << _defender->name << " 체력: " << _defender->stats.GetStats<float>(StatsName::Health) << '\n';
 }
 
 void Entity::Fight(Entity& _enemy)
 {
-    float my_attack_speed = stats.GetAttackSpeed();
-    float enemy_attack_speed = _enemy.stats.GetAttackSpeed();
+    float my_attack_speed = stats.GetStats<float>(StatsName::AttackSpeed);
+    float enemy_attack_speed = _enemy.stats.GetStats<float>(StatsName::AttackSpeed);
     Entity* first = my_attack_speed >= enemy_attack_speed ? this : &_enemy;
     Entity* second = my_attack_speed >= enemy_attack_speed ? &_enemy : this;
 

@@ -15,7 +15,7 @@ public:
         category = ItemCategory::Weapon;
         name = "나무 지팡이";
         rank = ItemRank::Normal;
-        stats = new Stats(0, 0, 0, 0, 0, 12, 1);
+        // stats = new Stats(0, 0, 0, 0, 0, 12, 1);
     }
 };
 

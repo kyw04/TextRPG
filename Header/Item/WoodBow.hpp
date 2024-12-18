@@ -15,7 +15,7 @@ public:
         category = ItemCategory::Weapon;
         name = "나무 활";
         rank = ItemRank::Normal;
-        stats = new Stats(0, 0, 0, 0, 7, 0, 3, 3);
+        // stats = new Stats(0, 0, 0, 0, 7, 0, 3, 3);
     }
 };
 

@@ -1,106 +1,102 @@
 #include <iostream>
+#include <map>
 #include "./Header/Stats.hpp"
 
-
-Stats::Stats(float _health, float _max_health, float _mana, float _max_mana, float _strength, float _intelligence, float _attack_speed, double _critical, float _strength_defensive, float _intelligence_defensive, int _level, float _experience, float _next_experience) :
-    health(_health),
-    max_health(_max_health),
-    mana(_mana),
-    max_mana(_max_mana),
-    strength(_strength),
-    intelligence(_intelligence),
-    attack_speed(_attack_speed),
-    critical(_critical),
-    strength_defensive(_strength_defensive),
-    intelligence_defensive(_intelligence_defensive),
-    level(_level),
-    experience(_experience),
-    next_experience(_next_experience) {}
-
-
-void Stats::ShowStats()
+Stats::Stats()
 {
-    std::cout << "체력\t\t[" << health << "/" << max_health << "]\n";
-    std::cout << "마나\t\t[" << mana << "/" << max_mana << "]\n";
-    std::cout << "물리 공격력\t[" << strength << "]\n";
-    std::cout << "마법 공격력\t[" << intelligence << "]\n";
-    std::cout << "공격 속도\t[" << attack_speed << "]\n";
-    std::cout << "크리티컬 확률\t[" << critical << "]\n";
-    std::cout << "물리 방어력\t[" << strength_defensive << "]\n";
-    std::cout << "마법 방어력\t[" << intelligence_defensive << "]\n";
-    std::cout << "레벨\t\t[" << level << "]\n";
-    std::cout << "경험치\t\t[" << experience << "/" << next_experience << "]\n";
+
 }
 
-float Stats::SetHealth(float _value)
+Stats::Stats(std::vector<std::pair<StatsName, std::variant<float, int, double>>> _array)
 {
-    return health = _value > max_health ? max_health : _value;
-}
-
-float Stats::AddHealth(float _value)
-{
-    return SetHealth(health + _value);
-}
-
-float Stats::GetHealth()
-{
-    return health;
-}
-
-float Stats::SetMana(float _value)
-{
-    return mana = _value > max_mana ? max_mana : _value;
-}
-
-float Stats::AddMana(float _value)
-{
-    return SetMana(mana + _value);
-}
-
-float Stats::SetDamage(AttackType _attack_type, float _damage)
-{
-    float defense_percentage;
-    switch (_attack_type)
+    for (auto& a : _array)
     {
-    case AttackType::Strength:
-        defense_percentage = strength_defensive / (strength_defensive + 1);
-        break;
-    case AttackType::Intelligence:
-        defense_percentage = intelligence_defensive / (intelligence_defensive + 1);
-        break;
-    default:
-        defense_percentage = 0.0f;
-        break;
+        values.insert(a);
     }
-
-    return _damage * (defense_percentage - 1);
 }
 
-float Stats::SetExperience(float _value)
+template<typename T>
+T& Stats::GetStats(StatsName _name)
 {
+    if (values.find(_name) == values.end())
+    {
+        throw values;
+    }
+    return std::get<T>(values.find(_name)->second);
+}
+
+void Stats::SetHealth(float _value)
+{
+    float health = GetStats<float>(StatsName::Health);
+    float max_health = GetStats<float>(StatsName::MaxHealth);
+
+    health = _value > max_health ? max_health : _value;
+}
+
+void Stats::AddHealth(float _value)
+{
+    SetHealth(GetStats<float>(StatsName::Health) + _value);
+}
+
+void Stats::SetMana(float _value)
+{
+    float& mana = GetStats<float>(StatsName::Mana);
+    float& max_mana = GetStats<float>(StatsName::MaxMana);
+    mana = _value > max_mana ? max_mana : _value;
+}
+
+void Stats::AddMana(float _value)
+{
+    SetMana(GetStats<float>(StatsName::Mana) + _value);
+}
+
+void Stats::SetExperience(float _value)
+{
+    float& experience = GetStats<float>(StatsName::Experience);
+    float& next_experience = GetStats<float>(StatsName::NextExperience);
+
     experience = _value;
     if (experience >= next_experience)
     {
         experience -= next_experience;
         LevelUP();
     }
-    return experience;
 }
 
-int Stats::LevelUP()
-{   
+void Stats::LevelUP()
+{
+    int& level = GetStats<int>(StatsName::Level);
+    float& experience = GetStats<float>(StatsName::Experience);
+    float& next_experience = GetStats<float>(StatsName::NextExperience);
+
     level++;
     experience = 0;
     next_experience = float(level * (level + 1)) * 25.0f - 50.0f;
-    return level;
 }
 
-float Stats::GetDamage(AttackType _type)
+float Stats::GetDamage(AttackType _attack_type, float _damage)
 {
-    return _type == AttackType::Strength ? strength : intelligence;
-}
+    float defense_percentage;
+    switch (_attack_type)
+    {
+    case AttackType::Strength:
+    {
+        float strength_defensive = GetStats<float>(StatsName::StrengthDefensive);
 
-float Stats::GetAttackSpeed()
-{
-    return attack_speed;
+        defense_percentage = strength_defensive / (strength_defensive + 1);
+        break;
+    }
+    case AttackType::Intelligence:
+    {
+        float intelligence_defensive = GetStats<float>(StatsName::IntelligenceDefensive);
+        
+        defense_percentage = intelligence_defensive / (intelligence_defensive + 1);
+        break;
+    }
+    default:
+        defense_percentage = 0.0f;
+        break;
+    }
+
+    return _damage * (defense_percentage - 1);
 }

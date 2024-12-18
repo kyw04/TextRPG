@@ -131,7 +131,7 @@ void GameManager::PlayEvent(const TileState _tile)
         player->TakeDamage(AttackType::None, (float)random_damage);
         std::cout << random_damage << "를 입음\n";
         if (!player->IsDie())
-            std::cout << "남은 체력: " << player->stats.GetHealth() << '\n';
+            std::cout << "남은 체력: " << player->stats.GetStats<float>(StatsName::Health) << '\n';
         char input;
         INPUT_KEY(input);
         if (IF_DOWN_KEY(input)) break;

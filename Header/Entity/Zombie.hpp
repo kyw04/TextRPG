@@ -9,6 +9,6 @@ public:
         this->name = "좀비";
         this->job = EntityJob::Warrior;
         this->attack_type = AttackType::Strength;
-        stats = Stats(10, 10, 0, 0, 15, 0, 3, 0.1);
+        // stats = Stats(10, 10, 0, 0, 15, 0, 3, 0.1);
     }
 };
