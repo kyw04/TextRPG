@@ -10,13 +10,15 @@ private:
     std::map<StatsName, std::variant<float, int, double>> values;
 
     void LevelUP();
+    template<typename T>
+    void SetStats(StatsName, T);
 
 public:
     Stats();
     Stats(std::vector<std::pair<StatsName, std::variant<float, int, double>>>);
     
     template<typename T>
-    T& GetStats(StatsName);
+    T GetStats(StatsName);
     void ShowStats();
     void SetHealth(float);
     void AddHealth(float);

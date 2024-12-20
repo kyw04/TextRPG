@@ -9,6 +9,17 @@ public:
         this->name = "전사";
         this->job = EntityJob::Warrior;
         this->attack_type = AttackType::Strength;
-        // stats = Stats(100, 100, 50, 50, 5, 0, 3, 0);
+        stats = Stats
+        (
+            {
+                {StatsName::Health, 100.0f},
+                {StatsName::MaxHealth, 100.0f},
+                {StatsName::Mana, 50.0f},
+                {StatsName::MaxMana, 50.0f},
+                
+                {StatsName::Strength, 5.0f},
+                {StatsName::AttackSpeed, 3.0f}
+            }
+        );
     }
 };

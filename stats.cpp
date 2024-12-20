@@ -16,21 +16,28 @@ Stats::Stats(std::vector<std::pair<StatsName, std::variant<float, int, double>>>
 }
 
 template<typename T>
-T& Stats::GetStats(StatsName _name)
+T Stats::GetStats(StatsName _name)
 {
     if (values.find(_name) == values.end())
     {
-        throw values;
+        return 0;
     }
     return std::get<T>(values.find(_name)->second);
 }
 
+template<typename T>
+void Stats::SetStats(StatsName _name, T _value)
+{
+    if (values.find(_name) != values.end())
+    {
+        values.find(_name)->second = _value;
+    }
+}
+
 void Stats::SetHealth(float _value)
 {
-    float health = GetStats<float>(StatsName::Health);
     float max_health = GetStats<float>(StatsName::MaxHealth);
-
-    health = _value > max_health ? max_health : _value;
+    SetStats<float>(StatsName::Health, _value > max_health ? max_health : _value);
 }
 
 void Stats::AddHealth(float _value)
@@ -40,9 +47,8 @@ void Stats::AddHealth(float _value)
 
 void Stats::SetMana(float _value)
 {
-    float& mana = GetStats<float>(StatsName::Mana);
-    float& max_mana = GetStats<float>(StatsName::MaxMana);
-    mana = _value > max_mana ? max_mana : _value;
+    float max_mana = GetStats<float>(StatsName::MaxMana);
+    SetStats<float>(StatsName::Mana, _value > max_mana ? max_mana : _value);
 }
 
 void Stats::AddMana(float _value)
@@ -52,26 +58,25 @@ void Stats::AddMana(float _value)
 
 void Stats::SetExperience(float _value)
 {
-    float& experience = GetStats<float>(StatsName::Experience);
-    float& next_experience = GetStats<float>(StatsName::NextExperience);
+    float experience = GetStats<float>(StatsName::Experience);
+    float next_experience = GetStats<float>(StatsName::NextExperience);
 
-    experience = _value;
+    SetStats<float>(StatsName::Experience, _value);
     if (experience >= next_experience)
     {
-        experience -= next_experience;
         LevelUP();
     }
 }
 
 void Stats::LevelUP()
 {
-    int& level = GetStats<int>(StatsName::Level);
-    float& experience = GetStats<float>(StatsName::Experience);
-    float& next_experience = GetStats<float>(StatsName::NextExperience);
+    int level = GetStats<int>(StatsName::Level);
+    float experience = GetStats<float>(StatsName::Experience);
+    float next_experience = GetStats<float>(StatsName::NextExperience);
 
-    level++;
-    experience = 0;
-    next_experience = float(level * (level + 1)) * 25.0f - 50.0f;
+    SetStats<int>(StatsName::Level, ++level);
+    SetStats<float>(StatsName::Experience, experience - next_experience);
+    SetStats<float>(StatsName::NextExperience, float(level * (level + 1)) * 25.0f - 50.0f);
 }
 
 float Stats::GetDamage(AttackType _attack_type, float _damage)

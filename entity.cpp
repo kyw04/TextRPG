@@ -5,11 +5,9 @@ Entity::Entity() : is_die(false) {}
 
 void Entity::TakeDamage(AttackType _attack_type, float _value)
 {
-    float health = stats.GetStats<float>(StatsName::Health);
-    float damage = stats.GetDamage(_attack_type, _value);
-    
-    stats.AddHealth(damage);
-    if (health <= 0) { Die(); }
+    stats.AddHealth(stats.GetDamage(_attack_type, _value));
+
+    if (stats.GetStats<float>(StatsName::Health) <= 0) { Die(); }
 }
 
 void Attack(Entity* _attacker, Entity* _defender)
