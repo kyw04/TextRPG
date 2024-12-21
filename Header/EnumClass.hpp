@@ -29,8 +29,8 @@ inline const std::map<StatsName, const char*> stats_name_string
     { StatsName:: Mana, "마나" },
     { StatsName:: MaxMana, "최대 마나" },
 
-    { StatsName:: Strength, "물리" },
-    { StatsName:: Intelligence, "마법" },
+    { StatsName:: Strength, "물리 공격력" },
+    { StatsName:: Intelligence, "마법 공격력" },
     { StatsName:: AttackSpeed, "공격 속도" },
     { StatsName:: Critical, "크리티컬" },
 
@@ -62,14 +62,26 @@ enum class AttackType
     Strength,
     Intelligence
 };
+inline const std::map<AttackType, const char*> attack_type_string
+{
+    { AttackType::Strength, "물리" },
+    { AttackType::Intelligence, "마법" }
+};
 
 enum class ItemCategory
 {
     None,
-    Accessory, // 부속품
-    Consumable, // 소모품
-    Equipment, // 장비
-    Weapon, // 무기
+    Accessory,
+    Consumable,
+    Equipment,
+    Weapon,
+};
+inline const std::map<ItemCategory, const char*> item_category_string
+{
+    { ItemCategory::Accessory, "부속품" },
+    { ItemCategory::Consumable, "소모품" },
+    { ItemCategory::Equipment, "장비" },
+    { ItemCategory::Weapon, "무기" }
 };
 
 enum class ItemState
@@ -77,6 +89,12 @@ enum class ItemState
     Unequipped,
     Equipped,
     CoolDown,
+};
+inline const std::map<ItemState, const char*> item_state_string
+{
+    { ItemState::Unequipped, "장착 안됨" },
+    { ItemState::Equipped, "장착 됨" },
+    { ItemState::CoolDown, "쿨타임" }
 };
 
 enum class ItemRank
@@ -86,6 +104,13 @@ enum class ItemRank
     Rare,
     Unique,
     Legendary
+};
+inline const std::map<ItemRank, const char*> item_rank_string
+{
+    { ItemRank::Normal, "일반" },
+    { ItemRank::Rare, "고급" },
+    { ItemRank::Unique, "희귀" }
+    { ItemRank::Legendary, "전설" }
 };
 
 enum class InventoryItemState
@@ -112,6 +137,10 @@ inline const std::map<T, const char*> GetSearchMap()
 }
 template<> inline const std::map<StatsName, const char*> GetSearchMap<StatsName>() { return stats_name_string; }
 template<> inline const std::map<EntityJob, const char*> GetSearchMap<EntityJob>() { return entity_job_string; }
+template<> inline const std::map<AttackType, const char*> GetSearchMap<AttackType>() { return attack_type_string; }
+template<> inline const std::map<ItemCategory, const char*> GetSearchMap<ItemCategory>() { return item_category_string; }
+template<> inline const std::map<ItemState, const char*> GetSearchMap<ItemState>() { return item_state_string; }
+template<> inline const std::map<ItemRank, const char*> GetSearchMap<ItemRank>() { return item_rank_string; }
 
 template<typename T>
 inline const char* GetEnumToString(T _enum)
