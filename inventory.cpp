@@ -18,7 +18,7 @@ void Inventory::Open()
         }
         if (!input && selected_item != nullptr)
         {
-            std::cout << *selected_item;
+            std::cout << selected_item->GetInformation();
         }
         else
         {

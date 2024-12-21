@@ -4,11 +4,7 @@ bool Item::operator==(const Item& _itm) const { return this->name == _itm.name; 
 
 std::ostream& operator<<(std::ostream& _out, const Item& _itm)
 {
-    std::cout << _itm.name << "\n";
-    if (_itm.max_count < 1)
-    {
-        std::cout << _itm.count << "개\n";
-    }
+    std::cout << _itm.name;
     
     return _out;
 }
@@ -24,4 +20,17 @@ Item::Item(Item* _item) : max_count(_item->max_count)
     job_requirement = _item->job_requirement;
     rank = _item->rank;
     stats = _item->stats;
+}
+
+std::string Item::GetInformation()
+{
+    std::string result = name;
+    
+    result += GetEnumToString<EntityJob>(job_requirement);
+
+    if (max_count < 1)
+        result += std::to_string(count);
+    
+
+    return result;
 }

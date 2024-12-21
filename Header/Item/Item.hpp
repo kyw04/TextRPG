@@ -27,4 +27,6 @@ public:
     
     bool operator==(const Item&) const;
     friend std::ostream& operator<<(std::ostream&, const Item&);
+
+    std::string GetInformation();
 };
