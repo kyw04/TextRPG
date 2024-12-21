@@ -109,7 +109,7 @@ inline const std::map<ItemRank, const char*> item_rank_string
 {
     { ItemRank::Normal, "일반" },
     { ItemRank::Rare, "고급" },
-    { ItemRank::Unique, "희귀" }
+    { ItemRank::Unique, "희귀" },
     { ItemRank::Legendary, "전설" }
 };
 

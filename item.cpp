@@ -24,12 +24,12 @@ Item::Item(Item* _item) : max_count(_item->max_count)
 
 std::string Item::GetInformation()
 {
-    std::string result = name;
+    std::string result = name + "\n";
     
-    result += GetEnumToString<EntityJob>(job_requirement);
+    result.append("").append(GetEnumToString<EntityJob>(job_requirement)).append("\n");
 
     if (max_count < 1)
-        result += std::to_string(count);
+        result += std::to_string(count) + "\n";
     
 
     return result;
