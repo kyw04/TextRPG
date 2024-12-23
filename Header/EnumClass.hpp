@@ -143,7 +143,7 @@ template<> inline const std::map<ItemState, const char*> GetSearchMap<ItemState>
 template<> inline const std::map<ItemRank, const char*> GetSearchMap<ItemRank>() { return item_rank_string; }
 
 template<typename T>
-inline const char* GetEnumToString(T _enum)
+inline const char* EnumToString(T _enum)
 {
     const std::map<T, const char*>& search_map = GetSearchMap<T>();
     

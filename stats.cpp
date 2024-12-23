@@ -11,26 +11,51 @@ Stats::Stats(std::vector<std::pair<StatsName, std::variant<float, int, double>>>
 {
     for (auto& a : _array)
     {
-        values.insert(a);
+        stats.insert(a);
     }
+}
+
+std::string Stats::GetAllStatsToString()
+{
+    std::string result;
+    result.clear();
+
+    for (auto& s : stats)
+    {
+        result.append(EnumToString<StatsName>(s.first)).append(": ");
+
+        if (std::get_if<int>(&s.second) != nullptr)
+        {
+            result.append(std::to_string(std::get<int>(s.second))).append("\n");
+            continue;
+        }        
+        if (std::get_if<float>(&s.second) != nullptr)
+            result.append(std::to_string(std::get<float>(s.second)));
+        if (std::get_if<double>(&s.second) != nullptr)
+            result.append(std::to_string(std::get<double>(s.second)));
+        result.erase(result.end() - 4, result.end());
+        result.append("\n");
+    }
+
+    return result;
 }
 
 template<typename T>
 T Stats::GetStats(StatsName _name)
 {
-    if (values.find(_name) == values.end())
+    if (stats.find(_name) == stats.end())
     {
         return 0;
     }
-    return std::get<T>(values.find(_name)->second);
+    return std::get<T>(stats.find(_name)->second);
 }
 
 template<typename T>
 void Stats::SetStats(StatsName _name, T _value)
 {
-    if (values.find(_name) != values.end())
+    if (stats.find(_name) != stats.end())
     {
-        values.find(_name)->second = _value;
+        stats.find(_name)->second = _value;
     }
 }
 

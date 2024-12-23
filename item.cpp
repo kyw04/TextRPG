@@ -24,13 +24,25 @@ Item::Item(Item* _item) : max_count(_item->max_count)
 
 std::string Item::GetInformation()
 {
-    std::string result = name + "\n";
+    std::string result;
+    result.clear();
+    result.append("분류: ").append(EnumToString(category)).append("\n");
+    result.append("등급: ").append(EnumToString(rank)).append("\n");
+    result.append("이름: ").append(name).append("\n");
+    result.append("------------------\n");
     
-    result.append("").append(GetEnumToString<EntityJob>(job_requirement)).append("\n");
-
-    if (max_count < 1)
+    if (category == ItemCategory::Weapon || category == ItemCategory::Equipment)
+    {
+        result.append("직업: ").append(EnumToString(job_requirement)).append("\n");
+        result.append("레벨: ").append(std::to_string(level_requirement)).append("Lv\n");
+        result.append("------------------\n");
+        result.append(stats->GetAllStatsToString());
+    }
+    else
+    {
         result += std::to_string(count) + "\n";
-    
+    }
+    result.append("\n");
 
     return result;
 }

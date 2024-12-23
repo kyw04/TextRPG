@@ -1,5 +1,6 @@
 #pragma once
 #include "EnumClass.hpp"
+#include <string>
 #include <vector>
 #include <map>
 #include <variant>
@@ -7,7 +8,7 @@
 class Stats
 {
 private:
-    std::map<StatsName, std::variant<float, int, double>> values;
+    std::map<StatsName, std::variant<float, int, double>> stats;
 
     void LevelUP();
     template<typename T>
@@ -19,7 +20,7 @@ public:
     
     template<typename T>
     T GetStats(StatsName);
-    void ShowStats();
+    std::string GetAllStatsToString();
     void SetHealth(float);
     void AddHealth(float);
     void SetMana(float);
