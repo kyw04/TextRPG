@@ -22,7 +22,7 @@ void Inventory::Open()
         }
         else
         {
-            selected_item = this->Select(input);
+            selected_item = Select(input);
             std::cout << *this;
         }
     }
@@ -128,8 +128,8 @@ Item* Inventory::Select(const char _input)
     if (!is_open || IF_CLOSE_KEY(_input)) { Close(); return nullptr; }
     
     static int index = -1;
-    if (IF_UP_KEY(_input)) { index += 1; }
-    else if (IF_DOWN_KEY(_input)) { index += -1; }
+    if (IF_UP_KEY(_input)) { index += -1; }
+    else if (IF_DOWN_KEY(_input)) { index += 1; }
 
     int count = 0;
     int max_index = 0;

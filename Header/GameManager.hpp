@@ -31,10 +31,11 @@ private:
         { Zombie(), Zombie() }, // level == 1
         { Zombie() } // level == 2
     };
-    std::vector<Item> item_data = 
+    std::vector<Item> random_item_data = 
     {
         WoodBow(),
-        WoodSword()
+        WoodSword(),
+        WoodStaff()
     };
 
 public:
