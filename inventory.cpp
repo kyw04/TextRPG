@@ -160,3 +160,14 @@ Item* Inventory::Select(const char _input)
 
     return selected_iter->second;
 }
+
+void Inventory::Equip(Item* _item)
+{
+    equipped_items.insert({ _item->name, _item });
+    // equipped_item_total_stats += _item.stats;
+}
+void Inventory::Unequip(Item* _item)
+{
+    equipped_items.erase(_item->name);
+    // equipped_item_total_stats -= _item.stats;
+}

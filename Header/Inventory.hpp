@@ -11,6 +11,8 @@ private:
     bool is_open;
     short size;
     std::map<std::string, Item*> items;
+    std::map<std::string, Item*> equipped_items;
+    Stats equipped_item_total_stats;
 
 public:
     friend std::ostream& operator<<(std::ostream&, Inventory&);
@@ -22,4 +24,7 @@ public:
     void Push(Item*, const int = 1); // 인풋아웃풋 관련 클래스 만들어서 관리
     Item* Pop(const std::string); // 인풋아웃풋 관련 클래스 만들어서 관리
     Item* Select(const char); // 인풋아웃풋 관련 클래스 만들어서 관리
+
+    void Equip(Item*);
+    void Unequip(Item*);
 };
