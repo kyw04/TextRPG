@@ -1,7 +1,7 @@
 #include <iostream>
 #include "./Header/Entity/Entity.hpp"
 
-Entity::Entity() : is_die(false) {}
+Entity::Entity() : is_die(false) { inventory = new Inventory(); }
 
 void Entity::TakeDamage(AttackType _attack_type, float _value)
 {

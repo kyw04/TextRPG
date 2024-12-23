@@ -40,7 +40,6 @@ private:
 
 public:
     Entity* player;
-    Inventory* inventory;
     Map* map;
 
     GameManager();

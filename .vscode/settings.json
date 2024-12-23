@@ -104,6 +104,7 @@
     "typeinfo": "cpp",
     "map": "cpp",
     "set": "cpp",
-    "variant": "cpp"
+    "variant": "cpp",
+    "players": "cpp"
   }
 }

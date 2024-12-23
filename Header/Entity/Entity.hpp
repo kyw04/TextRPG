@@ -7,6 +7,7 @@
 #include "../EnumClass.hpp"
 #include "../Define.hpp"
 #include "../Skill/Skill.hpp"
+#include "../Inventory.hpp"
 
 class Entity
 {
@@ -18,6 +19,7 @@ protected:
     void virtual Die();
 
 public:
+    Inventory* inventory;
     std::string name;
     EntityJob job;
     AttackType attack_type;
