@@ -93,7 +93,7 @@ void Inventory::Push(Item* _item, const int _count)
         if (item_iter == items.end()) 
         {
             // 아이템으로 받아서 문제가 있어 보임
-            // 현제 아이템 종류를 클래스로 만들었는데 나중에 함수 사용을 못할 것 같음
+            // 현재 아이템 종류를 클래스로 만들었는데 나중에 함수 사용을 못할 것 같음
             Item* new_item = new Item(_item);
             new_item->count = add_count;
             items.insert({ item_name, new_item });
