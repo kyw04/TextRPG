@@ -15,6 +15,28 @@ Stats::Stats(std::vector<std::pair<StatsName, std::variant<float, int, double>>>
     }
 }
 
+Stats& Stats::operator+=(const Stats& _stats)
+{
+    for (auto& s : _stats.stats)
+    {
+        if (stats.find(s.first) != stats.end())
+        {
+            if (std::get_if<int>(&s.second) != nullptr)
+                std::get<int>(stats.find(s.first)->second) += std::get<int>(s.second);
+            if (std::get_if<float>(&s.second) != nullptr)
+                std::get<float>(stats.find(s.first)->second) += std::get<float>(s.second);
+            if (std::get_if<double>(&s.second) != nullptr)
+                std::get<double>(stats.find(s.first)->second) += std::get<double>(s.second);
+        }
+        else
+        {
+            stats.insert(s);
+        }
+    }
+
+    return *this;
+}
+
 std::string Stats::GetAllStatsToString()
 {
     std::string result;
@@ -28,7 +50,7 @@ std::string Stats::GetAllStatsToString()
         {
             result.append(std::to_string(std::get<int>(s.second))).append("\n");
             continue;
-        }        
+        }
         if (std::get_if<float>(&s.second) != nullptr)
             result.append(std::to_string(std::get<float>(s.second)));
         if (std::get_if<double>(&s.second) != nullptr)

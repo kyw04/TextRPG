@@ -18,6 +18,8 @@ public:
     Stats();
     Stats(std::vector<std::pair<StatsName, std::variant<float, int, double>>>);
     
+    Stats& operator+=(const Stats& _stats);
+
     template<typename T>
     T GetStats(StatsName);
     std::string GetAllStatsToString();
