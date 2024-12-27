@@ -33,6 +33,7 @@ std::string Item::GetInformation()
     
     if (category == ItemCategory::Weapon || category == ItemCategory::Equipment)
     {
+        result.append(EnumToString(state)).append("\n");
         result.append("직업: ").append(EnumToString(job_requirement)).append("\n");
         result.append("레벨: ").append(std::to_string(level_requirement)).append("Lv\n");
         result.append("------------------\n");

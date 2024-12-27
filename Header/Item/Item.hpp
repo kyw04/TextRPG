@@ -6,12 +6,10 @@
 
 class Item
 {
-protected:
-    ItemState state;
-
 public:
     const int max_count;
     int count;
+    ItemState state;
     InventoryItemState inventory_item_state;
     ItemCategory category;
     std::string name;

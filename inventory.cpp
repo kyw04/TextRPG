@@ -19,6 +19,16 @@ void Inventory::Open()
         if (!input && selected_item != nullptr)
         {
             std::cout << selected_item->GetInformation();
+            INPUT_KEY(input);
+            if (!input)
+            {
+                if (selected_item->state == ItemState::Unequipped)
+                    Equip(selected_item);
+                else
+                    Unequip(selected_item);
+                
+                std::cout << selected_item->GetInformation();
+            }
         }
         else
         {
@@ -163,11 +173,13 @@ Item* Inventory::Select(const char _input)
 
 void Inventory::Equip(Item* _item)
 {
+    _item->state = ItemState::Equipped;
     equipped_items.insert({ _item->name, _item });
-    // equipped_item_total_stats += _item.stats;
+    equipped_item_total_stats += _item->stats;
 }
 void Inventory::Unequip(Item* _item)
 {
+    _item->state = ItemState::Unequipped;
     equipped_items.erase(_item->name);
-    // equipped_item_total_stats -= _item.stats;
+    equipped_item_total_stats -= _item->stats;
 }
