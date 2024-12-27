@@ -15,6 +15,18 @@ Stats::Stats(std::vector<std::pair<StatsName, std::variant<float, int, double>>>
     }
 }
 
+Stats* Stats::operator=(const Stats* _stats)
+{
+    this->stats = _stats->stats;
+    return this;
+}
+Stats Stats::operator+(const Stats _stats)
+{
+    Stats result = *this;
+    result += &_stats;
+
+    return result;
+}
 Stats* Stats::operator+=(const Stats* _stats)
 {
     for (auto& s : _stats->stats)
@@ -36,7 +48,6 @@ Stats* Stats::operator+=(const Stats* _stats)
 
     return this;
 }
-
 Stats* Stats::operator-=(const Stats* _stats)
 {
     for (auto& s : _stats->stats)

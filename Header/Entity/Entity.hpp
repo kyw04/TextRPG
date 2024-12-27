@@ -16,6 +16,7 @@ protected:
     Skill skills[MAX_SKILL_COUNT];
     std::size_t skill_count;
 
+    Stats start_stats;
     void virtual Die();
 
 public:
@@ -26,6 +27,7 @@ public:
     Stats stats;
 
     Entity();
+    void StatsUpdate();
     void TakeDamage(AttackType, float);
     void Fight(Entity&);
     bool IsDie();

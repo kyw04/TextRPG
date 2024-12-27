@@ -22,6 +22,7 @@ int main()
         if (IF_INVENTORY_KEY(input))
         {
             game_manager->player->inventory->Open();
+            game_manager->player->StatsUpdate();
         }    
         else
         {

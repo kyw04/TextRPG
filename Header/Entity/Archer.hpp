@@ -6,10 +6,10 @@ class Archer : public Entity
 public:
     Archer()
     {
-        this->name = "궁수";
-        this->job = EntityJob::Archer;
-        this->attack_type = AttackType::Strength;
-        this->stats = Stats
+        name = "궁수";
+        job = EntityJob::Archer;
+        attack_type = AttackType::Strength;
+        start_stats = Stats
         (
             {
                 {StatsName::Health, 75.0f},
@@ -22,5 +22,6 @@ public:
                 {StatsName::Critical, 0.1f}
             }
         );
+        StatsUpdate();
     }
 };

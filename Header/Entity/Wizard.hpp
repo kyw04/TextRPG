@@ -6,10 +6,10 @@ class Wizard : public Entity
 public:
     Wizard()
     {
-        this->name = "마법사";
-        this->job = EntityJob::Wizard;
-        this->attack_type = AttackType::Intelligence;
-        stats = Stats
+        name = "마법사";
+        job = EntityJob::Wizard;
+        attack_type = AttackType::Intelligence;
+        start_stats = Stats
         (
             {
                 {StatsName::Health, 50.0f},
@@ -21,5 +21,6 @@ public:
                 {StatsName::AttackSpeed, 1.0f}
             }
         );
+        StatsUpdate();
     }
 };

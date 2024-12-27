@@ -6,10 +6,10 @@ class Warrior : public Entity
 public:
     Warrior()
     {
-        this->name = "전사";
-        this->job = EntityJob::Warrior;
-        this->attack_type = AttackType::Strength;
-        stats = Stats
+        name = "전사";
+        job = EntityJob::Warrior;
+        attack_type = AttackType::Strength;
+        start_stats = Stats
         (
             {
                 {StatsName::Health, 100.0f},
@@ -21,5 +21,6 @@ public:
                 {StatsName::AttackSpeed, 3.0f}
             }
         );
+        StatsUpdate();
     }
 };

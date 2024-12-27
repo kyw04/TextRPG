@@ -12,9 +12,10 @@ private:
     short size;
     std::map<std::string, Item*> items;
     std::map<std::string, Item*> equipped_items;
-    Stats equipped_item_total_stats;
 
 public:
+    Stats equipped_item_total_stats;
+
     friend std::ostream& operator<<(std::ostream&, Inventory&);
     Inventory() : is_open(false), size(255) {}
 
