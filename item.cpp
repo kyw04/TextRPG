@@ -31,7 +31,7 @@ std::string Item::GetInformation()
     result.append("이름: ").append(name).append("\n");
     result.append("------------------\n");
     
-    if (category == ItemCategory::Weapon || category == ItemCategory::Equipment)
+    if (category == ItemCategoryEnum::Equipment)
     {
         result.append(EnumToString(state)).append("\n");
         result.append("직업: ").append(EnumToString(job_requirement)).append("\n");

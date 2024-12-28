@@ -59,7 +59,7 @@ std::ostream& operator<<(std::ostream& _out, Inventory& _inven)
     {
         for (auto item : _inven.GetItems())
         {
-            if (item.second->category != ItemCategory::None) 
+            if (item.second->category != ItemCategoryEnum::None) 
             { 
                 if (item.second->inventory_item_state == InventoryItemState::Selected)
                     std::cout << "<<" << *item.second << ">>\n";
@@ -149,7 +149,7 @@ Item* Inventory::Select(const char _input)
     std::map<std::string, Item *>::iterator iter;
     for (iter = items.begin(); iter != items.end(); iter++) 
     {
-        while (iter == items.end() || iter->second->category == ItemCategory::None)
+        while (iter == items.end() || iter->second->category == ItemCategoryEnum::None)
         {
             if (iter == items.end()) { iter = items.begin(); }
             else { iter++; max_index++; }

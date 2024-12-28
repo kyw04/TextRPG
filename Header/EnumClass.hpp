@@ -2,6 +2,7 @@
 #define _ENUM_CLASS_
 #include <string>
 #include <map>
+#include <type_traits>
 
 enum class StatsName
 {
@@ -68,21 +69,77 @@ inline const std::map<AttackType, const char*> attack_type_string
     { AttackType::Intelligence, "마법" }
 };
 
-enum class ItemCategory
+template<typename T>
+struct EnumFlag
 {
-    None,
-    Accessory,
-    Consumable,
-    Equipment,
-    Weapon,
+    T enum_value;
+    
+    EnumFlag() : enum_value(static_cast<T>(0)) { }
+    EnumFlag(T _ref) : enum_value(_ref) { }
+    
+    EnumFlag& operator=(const T& _ref)
+    {
+        this->enum_value = _ref;
+        return *this;
+    }
+    EnumFlag& operator|=(const T& _ref)
+    {
+        this->enum_value = (int)this->enum_value | (int)_ref;
+    }
+
+    bool operator==(const T& _ref) { return (int)this->enum_value & (int)_ref; }
+    bool operator!=(const T& _ref) { return !((int)this->enum_value & (int)_ref); }
+    
+    bool operator<(const T& _ref) const { return (int)this->enum_value < (int)_ref; }
+    bool operator<(const EnumFlag& _ref) const { return (int)this->enum_value < (int)_ref.enum_value; }
+    bool operator<=(const T& _ref) const { return (int)this->enum_value <= (int)_ref; }
+    bool operator<=(const EnumFlag& _ref) const { return (int)this->enum_value <= (int)_ref.enum_value; }
+    bool operator>(const T& _ref) const { return (int)this->enum_value > (int)_ref; }
+    bool operator>(const EnumFlag& _ref) const { return (int)this->enum_value > (int)_ref.enum_value; }
+    bool operator>=(const T& _ref) const { return (int)this->enum_value >= (int)_ref; }
+    bool operator>=(const EnumFlag& _ref) const { return (int)this->enum_value >= (int)_ref.enum_value; }
 };
-inline const std::map<ItemCategory, const char*> item_category_string
+
+enum class ItemCategoryEnum
 {
-    { ItemCategory::Accessory, "부속품" },
-    { ItemCategory::Consumable, "소모품" },
-    { ItemCategory::Equipment, "장비" },
-    { ItemCategory::Weapon, "무기" }
+    None = 0,
+    Accessory = 1 << 0,
+    Consumable = 1 << 1,
+    Equipment = 1 << 2,
+
+    Helmet = 1 << 3,
+    Armor = 1 << 4,
+    Leggings = 1 << 5,
+    Shoes = 1 << 6,
+    Weapon = 1 << 7,
 };
+inline const std::map<ItemCategoryEnum, const char*> item_category_enum_string
+{
+    { ItemCategoryEnum::Accessory, "부속품" },
+    { ItemCategoryEnum::Consumable, "소모품" },
+    { ItemCategoryEnum::Equipment, "장비" },
+
+    { ItemCategoryEnum::Helmet, "투구" },
+    { ItemCategoryEnum::Armor, "갑옷" },
+    { ItemCategoryEnum::Leggings, "레깅스" },
+    { ItemCategoryEnum::Shoes, "신발" },
+    { ItemCategoryEnum::Weapon, "무기" }
+};
+
+struct ItemCategory : EnumFlag<ItemCategoryEnum>
+{
+    using EnumFlag<ItemCategoryEnum>::operator=;
+    using EnumFlag<ItemCategoryEnum>::operator|=;
+
+    using EnumFlag<ItemCategoryEnum>::operator==;
+    using EnumFlag<ItemCategoryEnum>::operator!=;
+
+    using EnumFlag<ItemCategoryEnum>::operator<;
+    using EnumFlag<ItemCategoryEnum>::operator<=;
+    using EnumFlag<ItemCategoryEnum>::operator>;
+    using EnumFlag<ItemCategoryEnum>::operator>=;
+};
+
 
 enum class ItemState
 {
@@ -138,13 +195,27 @@ inline const std::map<T, const char*> GetSearchMap()
 template<> inline const std::map<StatsName, const char*> GetSearchMap<StatsName>() { return stats_name_string; }
 template<> inline const std::map<EntityJob, const char*> GetSearchMap<EntityJob>() { return entity_job_string; }
 template<> inline const std::map<AttackType, const char*> GetSearchMap<AttackType>() { return attack_type_string; }
-template<> inline const std::map<ItemCategory, const char*> GetSearchMap<ItemCategory>() { return item_category_string; }
 template<> inline const std::map<ItemState, const char*> GetSearchMap<ItemState>() { return item_state_string; }
 template<> inline const std::map<ItemRank, const char*> GetSearchMap<ItemRank>() { return item_rank_string; }
+template<> inline const std::map<ItemCategoryEnum, const char*> GetSearchMap<ItemCategoryEnum>() { return item_category_enum_string; }
+// template<> inline const std::map<ItemCategory, const char*> GetSearchMap<ItemCategory>() { return item_category_enum_string; }
+
+template<typename T>
+struct IsParentEnumFlag
+{
+    static constexpr bool value = 
+        std::is_base_of_v<EnumFlag<ItemCategoryEnum>, T>;
+        // || std::is_base_of_v<EnumFlag< >, T>;
+};
 
 template<typename T>
 inline const char* EnumToString(T _enum)
 {
+    if (IsParentEnumFlag<T>::value)
+    {
+        const std::map<decltype(_enum.enum_value), const char*>& search_map = GetSearchMap<decltype(_enum.enum_value)>();
+    }
+
     const std::map<T, const char*>& search_map = GetSearchMap<T>();
     
     return search_map.find(_enum) == search_map.end() ? "" : search_map.find(_enum)->second;
