@@ -12,7 +12,7 @@ public:
         level_requirement = 1;
         job_requirement = EntityJob::Warrior;
 
-        category = ItemCategoryEnum::Weapon;
+        category = (int)ItemCategoryEnum::Equipment | (int)ItemCategoryEnum::Weapon;
         name = "나무 검";
         rank = ItemRank::Normal;
         stats = new Stats

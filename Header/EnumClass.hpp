@@ -72,32 +72,39 @@ inline const std::map<AttackType, const char*> attack_type_string
 template<typename T>
 struct EnumFlag
 {
-    T enum_value;
+    T value;
     
-    EnumFlag() : enum_value(static_cast<T>(0)) { }
-    EnumFlag(T _ref) : enum_value(_ref) { }
+    EnumFlag() : value(static_cast<T>(0)) { }
+    EnumFlag(T _ref) : value(_ref) { }
     
     EnumFlag& operator=(const T& _ref)
     {
-        this->enum_value = _ref;
+        this->value = _ref;
+        return *this;
+    }
+    EnumFlag& operator=(const int& _ref)
+    {
+        this->value = static_cast<T>(_ref);
         return *this;
     }
     EnumFlag& operator|=(const T& _ref)
     {
-        this->enum_value = (int)this->enum_value | (int)_ref;
+        this->value = (int)this->value | (int)_ref;
     }
 
-    bool operator==(const T& _ref) { return (int)this->enum_value & (int)_ref; }
-    bool operator!=(const T& _ref) { return !((int)this->enum_value & (int)_ref); }
+    bool operator==(const T& _ref) { return (int)this->value & (int)_ref; }
+    bool operator==(const EnumFlag& _ref) { return (int)this->value & (int)_ref->value; }
+    bool operator!=(const T& _ref) { return !((int)this->value & (int)_ref); }
+    bool operator!=(const EnumFlag& _ref) { return !((int)this->value & (int)_ref->value); }
     
-    bool operator<(const T& _ref) const { return (int)this->enum_value < (int)_ref; }
-    bool operator<(const EnumFlag& _ref) const { return (int)this->enum_value < (int)_ref.enum_value; }
-    bool operator<=(const T& _ref) const { return (int)this->enum_value <= (int)_ref; }
-    bool operator<=(const EnumFlag& _ref) const { return (int)this->enum_value <= (int)_ref.enum_value; }
-    bool operator>(const T& _ref) const { return (int)this->enum_value > (int)_ref; }
-    bool operator>(const EnumFlag& _ref) const { return (int)this->enum_value > (int)_ref.enum_value; }
-    bool operator>=(const T& _ref) const { return (int)this->enum_value >= (int)_ref; }
-    bool operator>=(const EnumFlag& _ref) const { return (int)this->enum_value >= (int)_ref.enum_value; }
+    bool operator<(const T& _ref) const { return (int)this->value < (int)_ref; }
+    bool operator<(const EnumFlag& _ref) const { return (int)this->value < (int)_ref.value; }
+    bool operator<=(const T& _ref) const { return (int)this->value <= (int)_ref; }
+    bool operator<=(const EnumFlag& _ref) const { return (int)this->value <= (int)_ref.value; }
+    bool operator>(const T& _ref) const { return (int)this->value > (int)_ref; }
+    bool operator>(const EnumFlag& _ref) const { return (int)this->value > (int)_ref.value; }
+    bool operator>=(const T& _ref) const { return (int)this->value >= (int)_ref; }
+    bool operator>=(const EnumFlag& _ref) const { return (int)this->value >= (int)_ref.value; }
 };
 
 enum class ItemCategoryEnum
@@ -135,9 +142,6 @@ struct ItemCategory : EnumFlag<ItemCategoryEnum>
     using EnumFlag<ItemCategoryEnum>::operator!=;
 
     using EnumFlag<ItemCategoryEnum>::operator<;
-    using EnumFlag<ItemCategoryEnum>::operator<=;
-    using EnumFlag<ItemCategoryEnum>::operator>;
-    using EnumFlag<ItemCategoryEnum>::operator>=;
 };
 
 
@@ -190,7 +194,7 @@ enum class TileState
 template<typename T>
 inline const std::map<T, const char*> GetSearchMap()
 {
-    throw "do not found enum to string map";
+    throw std::out_of_range("do not found enum to string map");
 }
 template<> inline const std::map<StatsName, const char*> GetSearchMap<StatsName>() { return stats_name_string; }
 template<> inline const std::map<EntityJob, const char*> GetSearchMap<EntityJob>() { return entity_job_string; }
@@ -198,27 +202,44 @@ template<> inline const std::map<AttackType, const char*> GetSearchMap<AttackTyp
 template<> inline const std::map<ItemState, const char*> GetSearchMap<ItemState>() { return item_state_string; }
 template<> inline const std::map<ItemRank, const char*> GetSearchMap<ItemRank>() { return item_rank_string; }
 template<> inline const std::map<ItemCategoryEnum, const char*> GetSearchMap<ItemCategoryEnum>() { return item_category_enum_string; }
-// template<> inline const std::map<ItemCategory, const char*> GetSearchMap<ItemCategory>() { return item_category_enum_string; }
+
+// template<typename T>
+// struct IsParentEnumFlag
+// {
+//     static constexpr bool value = 
+//         std::is_base_of_v<EnumFlag<ItemCategoryEnum>, T>;
+//         // || std::is_base_of_v<EnumFlag< >, T>;
+// };
 
 template<typename T>
-struct IsParentEnumFlag
+inline const char* EnumFlagToString(EnumFlag<T> _enum)
 {
-    static constexpr bool value = 
-        std::is_base_of_v<EnumFlag<ItemCategoryEnum>, T>;
-        // || std::is_base_of_v<EnumFlag< >, T>;
-};
+    std::string result;
+    int value = (int)_enum.value;
+    int index = 0;
+    int bit = 1 << index;
+    while (value >= bit)
+    {
+        if (value & bit)
+        {
+            result.append(EnumToString(static_cast<T>(bit))).append(" ");
+        }
+        bit = (1 << ++index);
+    }
+
+    return result.c_str(); // 뒤에 이상한 값 붙음
+}
 
 template<typename T>
 inline const char* EnumToString(T _enum)
 {
-    if (IsParentEnumFlag<T>::value)
-    {
-        const std::map<decltype(_enum.enum_value), const char*>& search_map = GetSearchMap<decltype(_enum.enum_value)>();
-    }
-
     const std::map<T, const char*>& search_map = GetSearchMap<T>();
-    
-    return search_map.find(_enum) == search_map.end() ? "" : search_map.find(_enum)->second;
+    return search_map.find(_enum) == search_map.end() 
+            ? throw std::overflow_error("do not found enum string") 
+            : search_map.find(_enum)->second;
 }
+
+// add EnumFlag class
+template<> inline const char* EnumToString(ItemCategory _enum) { return EnumFlagToString(_enum); }
 
 #endif // _ENUM_CLASS_
