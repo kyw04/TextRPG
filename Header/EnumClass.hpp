@@ -23,7 +23,7 @@ enum class StatsName
     Experience,
     NextExperience,
 };
-inline const std::map<StatsName, const char*> stats_name_string 
+inline const std::map<StatsName, std::string> stats_name_string 
 {
     { StatsName::Health, "체력" },
     { StatsName::MaxHealth, "최대 체력" },
@@ -50,7 +50,7 @@ enum class EntityJob
     Archer,
     Wizard,
 };
-inline const std::map<EntityJob, const char*> entity_job_string
+inline const std::map<EntityJob, std::string> entity_job_string
 {
     { EntityJob::Warrior, "전사" },
     { EntityJob::Archer, "궁수" },
@@ -63,7 +63,7 @@ enum class AttackType
     Strength,
     Intelligence
 };
-inline const std::map<AttackType, const char*> attack_type_string
+inline const std::map<AttackType, std::string> attack_type_string
 {
     { AttackType::Strength, "물리" },
     { AttackType::Intelligence, "마법" }
@@ -120,7 +120,7 @@ enum class ItemCategoryEnum
     Shoes = 1 << 6,
     Weapon = 1 << 7,
 };
-inline const std::map<ItemCategoryEnum, const char*> item_category_enum_string
+inline const std::map<ItemCategoryEnum, std::string> item_category_enum_string
 {
     { ItemCategoryEnum::Accessory, "부속품" },
     { ItemCategoryEnum::Consumable, "소모품" },
@@ -151,7 +151,7 @@ enum class ItemState
     Equipped,
     CoolDown,
 };
-inline const std::map<ItemState, const char*> item_state_string
+inline const std::map<ItemState, std::string> item_state_string
 {
     { ItemState::Unequipped, "장착 안됨" },
     { ItemState::Equipped, "장착 됨" },
@@ -166,7 +166,7 @@ enum class ItemRank
     Unique,
     Legendary
 };
-inline const std::map<ItemRank, const char*> item_rank_string
+inline const std::map<ItemRank, std::string> item_rank_string
 {
     { ItemRank::Normal, "일반" },
     { ItemRank::Rare, "고급" },
@@ -192,16 +192,16 @@ enum class TileState
 };
 
 template<typename T>
-inline const std::map<T, const char*> GetSearchMap()
+inline const std::map<T, std::string> GetSearchMap()
 {
     throw std::out_of_range("do not found enum to string map");
 }
-template<> inline const std::map<StatsName, const char*> GetSearchMap<StatsName>() { return stats_name_string; }
-template<> inline const std::map<EntityJob, const char*> GetSearchMap<EntityJob>() { return entity_job_string; }
-template<> inline const std::map<AttackType, const char*> GetSearchMap<AttackType>() { return attack_type_string; }
-template<> inline const std::map<ItemState, const char*> GetSearchMap<ItemState>() { return item_state_string; }
-template<> inline const std::map<ItemRank, const char*> GetSearchMap<ItemRank>() { return item_rank_string; }
-template<> inline const std::map<ItemCategoryEnum, const char*> GetSearchMap<ItemCategoryEnum>() { return item_category_enum_string; }
+template<> inline const std::map<StatsName, std::string> GetSearchMap<StatsName>() { return stats_name_string; }
+template<> inline const std::map<EntityJob, std::string> GetSearchMap<EntityJob>() { return entity_job_string; }
+template<> inline const std::map<AttackType, std::string> GetSearchMap<AttackType>() { return attack_type_string; }
+template<> inline const std::map<ItemState, std::string> GetSearchMap<ItemState>() { return item_state_string; }
+template<> inline const std::map<ItemRank, std::string> GetSearchMap<ItemRank>() { return item_rank_string; }
+template<> inline const std::map<ItemCategoryEnum, std::string> GetSearchMap<ItemCategoryEnum>() { return item_category_enum_string; }
 
 // template<typename T>
 // struct IsParentEnumFlag
@@ -210,11 +210,10 @@ template<> inline const std::map<ItemCategoryEnum, const char*> GetSearchMap<Ite
 //         std::is_base_of_v<EnumFlag<ItemCategoryEnum>, T>;
 //         // || std::is_base_of_v<EnumFlag< >, T>;
 // };
-
 template<typename T>
-inline const char* EnumFlagToString(EnumFlag<T> _enum)
+inline std::string EnumFlagToString(EnumFlag<T> _enum)
 {
-    std::string result;
+    std::string str;
     int value = (int)_enum.value;
     int index = 0;
     int bit = 1 << index;
@@ -222,24 +221,24 @@ inline const char* EnumFlagToString(EnumFlag<T> _enum)
     {
         if (value & bit)
         {
-            result.append(EnumToString(static_cast<T>(bit))).append(" ");
+            str.append(EnumToString(static_cast<T>(bit))).append(" ");
         }
         bit = (1 << ++index);
     }
-
-    return result.c_str(); // 뒤에 이상한 값 붙음
+    
+    return str;
 }
 
 template<typename T>
-inline const char* EnumToString(T _enum)
+inline std::string EnumToString(T _enum)
 {
-    const std::map<T, const char*>& search_map = GetSearchMap<T>();
+    const std::map<T, std::string>& search_map = GetSearchMap<T>();
     return search_map.find(_enum) == search_map.end() 
             ? throw std::overflow_error("do not found enum string") 
             : search_map.find(_enum)->second;
 }
 
 // add EnumFlag class
-template<> inline const char* EnumToString(ItemCategory _enum) { return EnumFlagToString(_enum); }
+template<> inline std::string EnumToString(ItemCategory _enum) { return EnumFlagToString(_enum); }
 
 #endif // _ENUM_CLASS_

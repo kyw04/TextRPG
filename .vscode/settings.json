@@ -105,6 +105,7 @@
     "map": "cpp",
     "set": "cpp",
     "variant": "cpp",
-    "players": "cpp"
+    "players": "cpp",
+    "cinttypes": "cpp"
   }
 }
