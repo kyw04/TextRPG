@@ -3,12 +3,11 @@
 
 Entity::Entity() : is_die(false)
 {
-    inventory = new Inventory();
 }
 
 void Entity::StatsUpdate()
 {
-    stats = start_stats + inventory->equipped_item_total_stats;
+    stats = start_stats + equipped_item_total_stats;
 }
 
 void Entity::TakeDamage(AttackType _attack_type, float _value)

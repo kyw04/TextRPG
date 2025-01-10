@@ -7,7 +7,6 @@
 #include "../EnumClass.hpp"
 #include "../Define.hpp"
 #include "../Skill/Skill.hpp"
-#include "../Inventory.hpp"
 
 class Entity
 {
@@ -17,13 +16,15 @@ protected:
     std::size_t skill_count;
 
     Stats start_stats;
+
     void virtual Die();
 
 public:
-    Inventory* inventory;
     std::string name;
     EntityJob job;
     AttackType attack_type;
+   
+    Stats equipped_item_total_stats;
     Stats stats;
 
     Entity();

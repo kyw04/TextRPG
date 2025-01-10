@@ -1,6 +1,7 @@
 #pragma once
 #include <map>
 #include <string>
+#include "Entity/Entity.hpp"
 #include "EnumClass.hpp"
 #include "Item/Item.hpp"
 #include "Define.hpp"
@@ -8,16 +9,16 @@
 class Inventory
 {
 private:
+    Entity* player;
     bool is_open;
     short size;
     std::map<std::string, Item*> items;
-    std::map<std::string, Item*> equipped_items;
+    std::map<ItemCategory, Item*> equipped_items;
 
 public:
-    Stats equipped_item_total_stats;
 
     friend std::ostream& operator<<(std::ostream&, Inventory&);
-    Inventory() : is_open(false), size(255) {}
+    Inventory(Entity* _player) : player(_player), is_open(false), size(255) {}
 
     void Open();
     void Close();

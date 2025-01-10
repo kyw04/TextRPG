@@ -9,9 +9,14 @@ void Inventory::Open()
     Item* selected_item = nullptr;
     while (is_open)
     {
+        if (items.empty())
+        {
+            std::cout << "인벤토리가 비어있음.\n";
+            break;
+        }
+
        INPUT_KEY(input);
-        
-        if (items.empty() || IF_CLOSE_KEY(input))
+        if (IF_CLOSE_KEY(input))
         {
             Close();
             break;
@@ -22,12 +27,10 @@ void Inventory::Open()
             INPUT_KEY(input);
             if (!input)
             {
-                if (selected_item->state == ItemState::Unequipped)
-                    Equip(selected_item);
-                else
-                    Unequip(selected_item);
+                selected_item->state == ItemState::Unequipped ? Equip(selected_item) : Unequip(selected_item);
                 
                 std::cout << selected_item->GetInformation();
+                selected_item = nullptr;
             }
         }
         else
@@ -173,13 +176,29 @@ Item* Inventory::Select(const char _input)
 
 void Inventory::Equip(Item* _item)
 {
+    /* error */
+    if (_item->job_requirement != player->job ||
+        _item->level_requirement > player->stats.GetStats<int>(StatsName::Level))
+    {
+        std::cout << "조건을 충족하지 않아 착용할 수 없습니다.\n";
+        return;
+    }
+
+    std::map<ItemCategory, Item*>::iterator found_iter = equipped_items.find(_item->category);
+    if (found_iter != equipped_items.end())
+    {
+        Unequip(found_iter->second);
+    }
+
     _item->state = ItemState::Equipped;
-    equipped_items.insert({ _item->name, _item });
-    equipped_item_total_stats += _item->stats;
+    equipped_items.insert({ _item->category, _item });
+    player->equipped_item_total_stats += _item->stats;
+    std::cout << _item->name << "이 장착 되었습니다.\n";
 }
 void Inventory::Unequip(Item* _item)
 {
     _item->state = ItemState::Unequipped;
-    equipped_items.erase(_item->name);
-    equipped_item_total_stats -= _item->stats;
+    equipped_items.erase(_item->category);
+    player->equipped_item_total_stats -= _item->stats;
+    std::cout << _item->name << "이 해제 되었습니다.\n";
 }

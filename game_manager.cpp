@@ -9,6 +9,7 @@ GameManager::GameManager()
         return;
 
     player = SelectPlayer();
+    inventory = new Inventory(player);
     map = new Map();
     Item* start_item;
     switch (player->job)
@@ -25,7 +26,11 @@ GameManager::GameManager()
         default:
             start_item = nullptr;
     }
-    player->inventory->Push(start_item);
+    inventory->Push(start_item);
+
+    inventory->Push(new WoodSword());
+    inventory->Push(new WoodBow());
+    inventory->Push(new WoodStaff());
 }
 
 Entity* GameManager::SelectPlayer()
