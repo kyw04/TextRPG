@@ -3,9 +3,9 @@
 #include <vector>
 #include <random>
 #include "Entity/Entity.hpp"
-#include "Entity/Archer.hpp"
-#include "Entity/Warrior.hpp"
-#include "Entity/Wizard.hpp"
+#include "Entity/Player/Archer.hpp"
+#include "Entity/Player/Warrior.hpp"
+#include "Entity/Player/Wizard.hpp"
 #include "Entity/Zombie.hpp"
 #include "Item/Item.hpp"
 #include "Item/WoodBow.hpp"
@@ -39,12 +39,11 @@ private:
     };
 
 public:
-    Entity* player;
-    Inventory* inventory;
+    Player* player;
     Map* map;
 
     GameManager();
-    Entity* SelectPlayer();
+    Player* SelectPlayer();
     TileState Move(const char);
     Entity GetRandomEntity(const int, const int, std::vector<Entity>[]);
     void PlayEvent(const TileState);

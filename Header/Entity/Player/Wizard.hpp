@@ -1,7 +1,7 @@
 #pragma once
-#include "Entity.hpp"
+#include "Player.hpp"
 
-class Wizard : public Entity
+class Wizard : public Player
 {
 public:
     Wizard()
@@ -13,8 +13,8 @@ public:
         (
             {
                 {StatsName::Level, 1},
-                {StatsName::Experience, 0},
-                {StatsName::NextExperience, 100},
+                {StatsName::Experience, 0.0f},
+                {StatsName::NextExperience, 100.0f},
 
                 {StatsName::Health, 50.0f},
                 {StatsName::MaxHealth, 50.0f},

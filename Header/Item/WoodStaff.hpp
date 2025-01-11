@@ -8,7 +8,7 @@ public:
     WoodStaff() : Item(1)
     {
         state = ItemState::Unequipped;
-        count = 0;
+        count = 1;
         level_requirement = 1;
         job_requirement = EntityJob::Wizard;
 

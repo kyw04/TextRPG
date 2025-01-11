@@ -1,5 +1,8 @@
 #pragma once
 #include "Entity.hpp"
+#include "../Item/WoodBow.hpp"
+#include "../Item/WoodStaff.hpp"
+#include "../Item/WoodSword.hpp"
 
 class Zombie : public Entity
 {
@@ -13,8 +16,8 @@ public:
         (
             {
                 {StatsName::Level, 1},
-                {StatsName::Experience, 0},
-                {StatsName::NextExperience, 100},
+                {StatsName::Experience, 0.0f},
+                {StatsName::NextExperience, 100.0f},
 
                 {StatsName::Health, 30.0f},
                 {StatsName::MaxHealth, 10.0f},
@@ -25,5 +28,8 @@ public:
             }
         );
         StatsUpdate();
+
+        drop_experience = 10.0f;
+        drop_items = { new WoodSword(), new WoodStaff(), new WoodBow() };
     }
 };

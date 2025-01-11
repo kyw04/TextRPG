@@ -1,7 +1,7 @@
 #pragma once
-#include "Entity.hpp"
+#include "Player.hpp"
 
-class Warrior : public Entity
+class Warrior : public Player
 {
 public:
     Warrior()
@@ -13,8 +13,8 @@ public:
         (
             {
                 {StatsName::Level, 1},
-                {StatsName::Experience, 0},
-                {StatsName::NextExperience, 100},
+                {StatsName::Experience, 0.0f},
+                {StatsName::NextExperience, 100.0f},
 
                 {StatsName::Health, 100.0f},
                 {StatsName::MaxHealth, 100.0f},

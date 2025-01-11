@@ -10,11 +10,11 @@ void Entity::StatsUpdate()
     stats = start_stats + equipped_item_total_stats;
 }
 
-void Entity::TakeDamage(AttackType _attack_type, float _value)
+void Entity::TakeDamage(Entity* _attacker, AttackType _attack_type, float _value)
 {
     stats.AddHealth(stats.GetDamage(_attack_type, _value));
 
-    if (stats.GetStats<float>(StatsName::Health) <= 0) { Die(); }
+    if (stats.GetStats<float>(StatsName::Health) <= 0) { Die(_attacker); }
 }
 
 void Attack(Entity* _attacker, Entity* _defender)
@@ -35,7 +35,7 @@ void Attack(Entity* _attacker, Entity* _defender)
     std::cout << _attacker->name << "의 공격\n";
     std::cout << _defender->name << "에게 ";
     std::cout << damage << "의 데미지를 입힘\n";
-    _defender->TakeDamage(_attacker->attack_type, damage);
+    _defender->TakeDamage(_attacker, _attacker->attack_type, damage);
     if (!_defender->IsDie())
         std::cout << _defender->name << " 체력: " << _defender->stats.GetStats<float>(StatsName::Health) << '\n';
 }
@@ -55,9 +55,14 @@ void Entity::Fight(Entity& _enemy)
     if (!second->IsDie()) Attack(second, first);
 }
 
-void Entity::Die()
+void Entity::Die(Entity* _slayer)
 {
     is_die = true;
+
+    for (auto& drop_item : drop_items)
+        _slayer->Push(drop_item, drop_item->count);
+    _slayer->stats.AddExperience(drop_experience);
+
     std::cout << name << " 죽음\n";
 }
 
@@ -126,4 +131,32 @@ void Entity::ChangeSkill(Skill _new_skill)
     {
         std::cout << "스킬 변경이 취소 되었습니다.\n";
     }
+}
+
+void Entity::Equip(Item* _item)
+{
+    if (_item->job_requirement != job ||
+        _item->level_requirement > stats.GetStats<int>(StatsName::Level))
+    {
+        std::cout << "조건을 충족하지 않아 착용할 수 없습니다.\n";
+        return;
+    }
+
+    std::map<ItemCategory, Item*>::iterator found_iter = equipped_items.find(_item->category);
+    if (found_iter != equipped_items.end())
+    {
+        Unequip(found_iter->second);
+    }
+
+    _item->state = ItemState::Equipped;
+    equipped_items.insert({ _item->category, _item });
+    equipped_item_total_stats += _item->stats;
+    std::cout << _item->name << "이 장착 되었습니다.\n";
+}
+void Entity::Unequip(Item* _item)
+{
+    _item->state = ItemState::Unequipped;
+    equipped_items.erase(_item->category);
+    equipped_item_total_stats -= _item->stats;
+    std::cout << _item->name << "이 해제 되었습니다.\n";
 }

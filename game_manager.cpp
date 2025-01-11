@@ -9,7 +9,6 @@ GameManager::GameManager()
         return;
 
     player = SelectPlayer();
-    inventory = new Inventory(player);
     map = new Map();
     Item* start_item;
     switch (player->job)
@@ -26,16 +25,12 @@ GameManager::GameManager()
         default:
             start_item = nullptr;
     }
-    inventory->Push(start_item);
-
-    inventory->Push(new WoodSword());
-    inventory->Push(new WoodBow());
-    inventory->Push(new WoodStaff());
+    player->Push(start_item);
 }
 
-Entity* GameManager::SelectPlayer()
+Player* GameManager::SelectPlayer()
 {
-    std::vector<Entity*> players = { new Warrior(), new Archer(), new Wizard() };
+    std::vector<Player*> players = { new Warrior(), new Archer(), new Wizard() };
     char input = '\a';
     int index = 0;
     for (auto iter = players.begin(); iter != players.end(); iter++)
@@ -54,7 +49,7 @@ Entity* GameManager::SelectPlayer()
         if (IF_DOWN_KEY(input)) { index++; }
         if (index < 0) { index = (int)players.size() - 1; }
         index %= (int)players.size();
-        for (std::vector<Entity*>::iterator iter = players.begin(); iter != players.end(); iter++)
+        for (std::vector<Player*>::iterator iter = players.begin(); iter != players.end(); iter++)
         {
             if (iter - players.begin() == index)
                 std::cout << "<<" << (*iter)->name << ">>\n";
@@ -132,7 +127,7 @@ void GameManager::PlayEvent(const TileState _tile)
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> random_damage_dis(10, 30);
         int random_damage = random_damage_dis(gen);
-        player->TakeDamage(AttackType::None, (float)random_damage);
+        player->TakeDamage(new Entity(), AttackType::None, (float)random_damage);
         std::cout << random_damage << "를 입음\n";
         if (!player->IsDie())
             std::cout << "남은 체력: " << player->stats.GetStats<float>(StatsName::Health) << '\n';

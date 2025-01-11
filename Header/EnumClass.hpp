@@ -76,7 +76,7 @@ struct EnumFlag
     
     EnumFlag() : value(static_cast<T>(0)) { }
     EnumFlag(T _ref) : value(_ref) { }
-    
+
     EnumFlag& operator=(const T& _ref)
     {
         this->value = _ref;

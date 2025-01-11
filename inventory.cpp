@@ -15,12 +15,13 @@ void Inventory::Open()
             break;
         }
 
-       INPUT_KEY(input);
+        INPUT_KEY(input);
         if (IF_CLOSE_KEY(input))
         {
             Close();
             break;
         }
+
         if (!input && selected_item != nullptr)
         {
             std::cout << selected_item->GetInformation();
@@ -79,15 +80,14 @@ std::ostream& operator<<(std::ostream& _out, Inventory& _inven)
 
 void Inventory::Push(Item* _item, const int _count)
 {
-    if (_item == nullptr)
+    if (_item == nullptr || !_count)
         return;
     
     int current_count = _count;
+    std::cout << "== " << _item->name << " " << _count << "개 획득 ==\n";
 
     while (current_count > 0)
     {  
-        if (current_count == _count) { std::cout << "== " << _item->name << " " << _count << "개 획득 ==\n"; }
-
         std::map<std::string, Item*>::iterator tag_iter = items.find(_item->name);
         if (tag_iter == items.end()) { tag_iter = items.insert({ _item->name, new Item() }).first; }
 
@@ -179,28 +179,15 @@ Item* Inventory::Select(const char _input)
 
 void Inventory::Equip(Item* _item)
 {
-    if (_item->job_requirement != player->job ||
-        _item->level_requirement > player->stats.GetStats<int>(StatsName::Level))
-    {
-        std::cout << "조건을 충족하지 않아 착용할 수 없습니다.\n";
+    if (_item == nullptr)
         return;
-    }
-
-    std::map<ItemCategory, Item*>::iterator found_iter = equipped_items.find(_item->category);
-    if (found_iter != equipped_items.end())
-    {
-        Unequip(found_iter->second);
-    }
-
-    _item->state = ItemState::Equipped;
-    equipped_items.insert({ _item->category, _item });
-    player->equipped_item_total_stats += _item->stats;
-    std::cout << _item->name << "이 장착 되었습니다.\n";
+    
+    throw std::logic_error("do not using parent class");
 }
 void Inventory::Unequip(Item* _item)
 {
-    _item->state = ItemState::Unequipped;
-    equipped_items.erase(_item->category);
-    player->equipped_item_total_stats -= _item->stats;
-    std::cout << _item->name << "이 해제 되었습니다.\n";
+    if (_item == nullptr)
+        return;
+    
+    throw std::logic_error("do not using parent class");
 }

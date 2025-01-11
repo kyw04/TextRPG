@@ -34,4 +34,5 @@ public:
     void AddMana(float);
     float GetDamage(AttackType, float);
     void SetExperience(float);
+    void AddExperience(float);
 };
