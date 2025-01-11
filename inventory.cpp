@@ -176,7 +176,6 @@ Item* Inventory::Select(const char _input)
 
 void Inventory::Equip(Item* _item)
 {
-    /* error */
     if (_item->job_requirement != player->job ||
         _item->level_requirement > player->stats.GetStats<int>(StatsName::Level))
     {
