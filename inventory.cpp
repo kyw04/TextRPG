@@ -29,9 +29,12 @@ void Inventory::Open()
             {
                 selected_item->state == ItemState::Unequipped ? Equip(selected_item) : Unequip(selected_item);
                 
-                std::cout << selected_item->GetInformation();
-                selected_item = nullptr;
+                // std::cout << selected_item->GetInformation();
             }
+            else
+                std::cout << *this;
+            
+            selected_item = nullptr;
         }
         else
         {
