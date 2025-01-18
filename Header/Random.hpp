@@ -56,8 +56,9 @@ public:
 
     std::vector<T> GetRandomItems()
     {
+
         if (one_items.empty() && duplicate_items.empty())
-            throw std::logic_error("one_items is empty");
+            throw std::logic_error("item is empty");
         
         std::vector<T> result;
 

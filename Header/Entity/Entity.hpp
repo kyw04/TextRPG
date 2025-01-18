@@ -19,7 +19,7 @@ protected:
 
     Stats start_stats;
 
-    void Die(Entity* _slayer);
+    void virtual Die(Entity* _slayer);
 
 public:
     std::string name;
