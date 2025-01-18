@@ -64,7 +64,17 @@ std::ostream& operator<<(std::ostream& _out, Inventory& _inven)
     }
     else
     {
-        for (auto item : _inven.GetItems())
+        std::cout << "== 장착된 아이템 ==\n";
+        if (!_inven.equipped_items.empty())
+        {
+            for (auto& item : _inven.equipped_items)
+                std::cout << item.second->name << "\n";
+        }
+        else
+            std::cout << "없음.\n";
+
+        std::cout << "\n== 가방 ==\n";
+        for (auto& item : _inven.GetItems())
         {
             if (item.second->category != ItemCategoryEnum::None) 
             { 
