@@ -8,6 +8,7 @@
 #include "../EnumClass.hpp"
 #include "../Define.hpp"
 #include "../Skill/Skill.hpp"
+#include "../Random.hpp"
 
 class Entity : public Inventory
 {
@@ -29,10 +30,10 @@ public:
     Stats stats;
 
     float drop_experience;
-    std::vector<Item*> drop_items;
+    Random<Item*> drop_items;
 
     Entity();
-    virtual ~Entity() { };
+    virtual ~Entity() { }
 
     void StatsUpdate();
     void TakeDamage(Entity*, AttackType, float);

@@ -29,7 +29,14 @@ public:
         );
         StatsUpdate();
 
-        drop_experience = 10.0f;
-        drop_items = { new WoodSword(), new WoodStaff(), new WoodBow() };
+        drop_experience = 100.0f;
+        drop_items = std::vector<RandomItem<Item*>>
+        (
+            {
+                RandomItem<Item*>(new WoodSword(), 0.5, false),
+                RandomItem<Item*>(new WoodStaff(), 0.5, false),
+                RandomItem<Item*>(new WoodBow(), 0.5, false)
+            }
+        );
     }
 };

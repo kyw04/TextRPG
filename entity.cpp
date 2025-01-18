@@ -58,12 +58,15 @@ void Entity::Fight(Entity& _enemy)
 void Entity::Die(Entity* _slayer)
 {
     is_die = true;
-
-    for (auto& drop_item : drop_items)
-        _slayer->Push(drop_item, drop_item->count);
-    _slayer->stats.AddExperience(drop_experience);
-
     std::cout << name << " 죽음\n";
+
+    for (auto& drop_item : drop_items.GetRandomItems())
+    {
+        _slayer->Push(drop_item);
+    }
+    
+    std::cout << "경험치 " << drop_experience << "획득\n";
+    _slayer->stats.AddExperience(drop_experience);
 }
 
 bool Entity::IsDie()

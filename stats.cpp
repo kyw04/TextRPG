@@ -147,10 +147,9 @@ void Stats::AddMana(float _value)
 void Stats::SetExperience(float _value)
 {
     SetStats<float>(StatsName::Experience, _value);
-    float experience = GetStats<float>(StatsName::Experience);
     float next_experience = GetStats<float>(StatsName::NextExperience);
 
-    if (experience >= next_experience)
+    if (_value >= next_experience)
     {
         LevelUP();
     }
@@ -166,6 +165,7 @@ void Stats::LevelUP()
     int level = GetStats<int>(StatsName::Level);
     float experience = GetStats<float>(StatsName::Experience);
     float next_experience = GetStats<float>(StatsName::NextExperience);
+    std::cout << "== 레벨 업 " << level << " >> " << level + 1 << " ==\n";
 
     SetStats<int>(StatsName::Level, ++level);
     SetStats<float>(StatsName::Experience, experience - next_experience);
