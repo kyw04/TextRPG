@@ -7,7 +7,7 @@ public:
     Archer()
     {
         name = "궁수";
-        job = EntityJob::Archer;
+        job = EntityJobEnum::Archer;
         attack_type = AttackType::Strength;
         start_stats = Stats
         (

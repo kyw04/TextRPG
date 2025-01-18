@@ -4,6 +4,56 @@
 #include <map>
 #include <type_traits>
 
+template<typename T>
+struct EnumFlag
+{
+    T value;
+    
+    EnumFlag() : value(static_cast<T>(0)) { }
+    EnumFlag(T _ref) : value(_ref) { }
+
+    EnumFlag& operator=(const T& _ref)
+    {
+        this->value = _ref;
+        return *this;
+    }
+    EnumFlag& operator=(const int& _ref)
+    {
+        this->value = static_cast<T>(_ref);
+        return *this;
+    }
+    EnumFlag& operator|=(const T& _ref)
+    {
+        this->value = (int)this->value | (int)_ref;
+    }
+
+    bool operator==(const T& _ref) 
+    {
+        if ((int)this->value == (int)_ref)
+            return true;
+        
+        return (int)this->value & (int)_ref;
+    }
+    bool operator==(const EnumFlag& _ref)
+    {
+        if ((int)this->value == (int)_ref->value)
+            return true;
+        
+        return (int)this->value & (int)_ref->value;
+    }
+    bool operator!=(const T& _ref) { return !((int)this->value == (int)_ref); }
+    bool operator!=(const EnumFlag& _ref) { return !((int)this->value == (int)_ref.value); }
+    
+    bool operator<(const T& _ref) const { return (int)this->value < (int)_ref; }
+    bool operator<(const EnumFlag& _ref) const { return (int)this->value < (int)_ref.value; }
+    bool operator<=(const T& _ref) const { return (int)this->value <= (int)_ref; }
+    bool operator<=(const EnumFlag& _ref) const { return (int)this->value <= (int)_ref.value; }
+    bool operator>(const T& _ref) const { return (int)this->value > (int)_ref; }
+    bool operator>(const EnumFlag& _ref) const { return (int)this->value > (int)_ref.value; }
+    bool operator>=(const T& _ref) const { return (int)this->value >= (int)_ref; }
+    bool operator>=(const EnumFlag& _ref) const { return (int)this->value >= (int)_ref.value; }
+};
+
 enum class StatsName
 {
     Health,
@@ -43,18 +93,32 @@ inline const std::map<StatsName, std::string> stats_name_string
     { StatsName:: NextExperience, "필요 경험치" },
 };
 
-enum class EntityJob
+enum class EntityJobEnum
 {
-    None,
-    Warrior,
-    Archer,
-    Wizard,
+    None = 0,
+    Warrior = 1,
+    Archer = 1 << 2,
+    Wizard = 1 << 3,
+
+    All = -1
 };
-inline const std::map<EntityJob, std::string> entity_job_string
+inline const std::map<EntityJobEnum, std::string> entity_job_string
 {
-    { EntityJob::Warrior, "전사" },
-    { EntityJob::Archer, "궁수" },
-    { EntityJob::Wizard, "마법사" }
+    { EntityJobEnum::Warrior, "전사" },
+    { EntityJobEnum::Archer, "궁수" },
+    { EntityJobEnum::Wizard, "마법사" },
+    { EntityJobEnum::All, "모든" }
+};
+
+struct EntityJob : EnumFlag<EntityJobEnum>
+{
+    using EnumFlag<EntityJobEnum>::operator=;
+    using EnumFlag<EntityJobEnum>::operator|=;
+
+    using EnumFlag<EntityJobEnum>::operator==;
+    using EnumFlag<EntityJobEnum>::operator!=;
+
+    using EnumFlag<EntityJobEnum>::operator<;
 };
 
 enum class AttackType
@@ -67,56 +131,6 @@ inline const std::map<AttackType, std::string> attack_type_string
 {
     { AttackType::Strength, "물리" },
     { AttackType::Intelligence, "마법" }
-};
-
-template<typename T>
-struct EnumFlag
-{
-    T value;
-    
-    EnumFlag() : value(static_cast<T>(0)) { }
-    EnumFlag(T _ref) : value(_ref) { }
-
-    EnumFlag& operator=(const T& _ref)
-    {
-        this->value = _ref;
-        return *this;
-    }
-    EnumFlag& operator=(const int& _ref)
-    {
-        this->value = static_cast<T>(_ref);
-        return *this;
-    }
-    EnumFlag& operator|=(const T& _ref)
-    {
-        this->value = (int)this->value | (int)_ref;
-    }
-
-    bool operator==(const T& _ref) 
-    {
-        if ((int)this->value == (int)_ref)
-            return true;
-        
-        return (int)this->value & (int)_ref;
-    }
-    bool operator==(const EnumFlag& _ref)
-    {
-        if ((int)this->value == (int)_ref->value)
-            return true;
-        
-        return (int)this->value & (int)_ref->value;
-    }
-    bool operator!=(const T& _ref) { return !((int)this->value == (int)_ref); }
-    bool operator!=(const EnumFlag& _ref) { return !((int)this->value == (int)_ref->value); }
-    
-    bool operator<(const T& _ref) const { return (int)this->value < (int)_ref; }
-    bool operator<(const EnumFlag& _ref) const { return (int)this->value < (int)_ref.value; }
-    bool operator<=(const T& _ref) const { return (int)this->value <= (int)_ref; }
-    bool operator<=(const EnumFlag& _ref) const { return (int)this->value <= (int)_ref.value; }
-    bool operator>(const T& _ref) const { return (int)this->value > (int)_ref; }
-    bool operator>(const EnumFlag& _ref) const { return (int)this->value > (int)_ref.value; }
-    bool operator>=(const T& _ref) const { return (int)this->value >= (int)_ref; }
-    bool operator>=(const EnumFlag& _ref) const { return (int)this->value >= (int)_ref.value; }
 };
 
 enum class ItemCategoryEnum
@@ -209,7 +223,7 @@ inline const std::map<T, std::string> GetSearchMap()
     throw std::out_of_range("do not found enum to string map");
 }
 template<> inline const std::map<StatsName, std::string> GetSearchMap<StatsName>() { return stats_name_string; }
-template<> inline const std::map<EntityJob, std::string> GetSearchMap<EntityJob>() { return entity_job_string; }
+template<> inline const std::map<EntityJobEnum, std::string> GetSearchMap<EntityJobEnum>() { return entity_job_string; }
 template<> inline const std::map<AttackType, std::string> GetSearchMap<AttackType>() { return attack_type_string; }
 template<> inline const std::map<ItemState, std::string> GetSearchMap<ItemState>() { return item_state_string; }
 template<> inline const std::map<ItemRank, std::string> GetSearchMap<ItemRank>() { return item_rank_string; }
@@ -252,5 +266,6 @@ inline std::string EnumToString(T _enum)
 
 // add EnumFlag class
 template<> inline std::string EnumToString(ItemCategory _enum) { return EnumFlagToString(_enum); }
+template<> inline std::string EnumToString(EntityJob _enum) { return EnumFlagToString(_enum); }
 
 #endif // _ENUM_CLASS_

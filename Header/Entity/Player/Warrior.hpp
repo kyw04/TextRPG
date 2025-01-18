@@ -7,7 +7,7 @@ public:
     Warrior()
     {
         name = "전사";
-        job = EntityJob::Warrior;
+        job = EntityJobEnum::Warrior;
         attack_type = AttackType::Strength;
         start_stats = Stats
         (

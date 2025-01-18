@@ -3,6 +3,7 @@
 #include "../Item/WoodBow.hpp"
 #include "../Item/WoodStaff.hpp"
 #include "../Item/WoodSword.hpp"
+#include "../Item/LeatherArmor.hpp"
 
 class Zombie : public Entity
 {
@@ -10,7 +11,7 @@ public:
     Zombie()
     {
         name = "좀비";
-        job = EntityJob::Warrior;
+        job = EntityJobEnum::Warrior;
         attack_type = AttackType::Strength;
         start_stats = Stats
         (
@@ -33,9 +34,10 @@ public:
         drop_items = std::vector<RandomItem<Item*>>
         (
             {
-                RandomItem<Item*>(new WoodSword(), 0.5, false),
-                RandomItem<Item*>(new WoodStaff(), 0.5, false),
-                RandomItem<Item*>(new WoodBow(), 0.5, false)
+                // RandomItem<Item*>(new WoodSword(), 0.5, false),
+                // RandomItem<Item*>(new WoodStaff(), 0.5, false),
+                // RandomItem<Item*>(new WoodBow(), 0.5, false),
+                RandomItem<Item*>(new LeatherArmor(), 0.5, false),
             }
         );
     }

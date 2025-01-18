@@ -7,7 +7,7 @@ public:
     Wizard()
     {
         name = "마법사";
-        job = EntityJob::Wizard;
+        job = EntityJobEnum::Wizard;
         attack_type = AttackType::Intelligence;
         start_stats = Stats
         (

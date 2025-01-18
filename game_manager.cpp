@@ -11,15 +11,15 @@ GameManager::GameManager()
     player = SelectPlayer();
     map = new Map();
     Item* start_item;
-    switch (player->job)
+    switch (player->job.value)
     {
-        case EntityJob::Warrior:
+        case EntityJobEnum::Warrior:
             start_item = new WoodSword();
             break;
-        case EntityJob::Archer:
+        case EntityJobEnum::Archer:
             start_item = new WoodBow();
             break;
-        case EntityJob::Wizard:
+        case EntityJobEnum::Wizard:
             start_item = new WoodStaff();
             break;
         default:

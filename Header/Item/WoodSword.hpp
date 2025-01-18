@@ -10,7 +10,7 @@ public:
         state = ItemState::Unequipped;
         count = 1;
         level_requirement = 1;
-        job_requirement = EntityJob::Warrior;
+        job_requirement = EntityJobEnum::Warrior;
 
         category = (int)ItemCategoryEnum::Equipment | (int)ItemCategoryEnum::Weapon;
         name = "나무 검";
