@@ -64,7 +64,7 @@ std::ostream& operator<<(std::ostream& _out, Inventory& _inven)
     }
     else
     {
-        std::cout << "== 장착된 아이템 ==\n";
+        std::cout << "\n== 장착된 아이템 ==\n";
         if (!_inven.equipped_items.empty())
         {
             for (auto& item : _inven.equipped_items)

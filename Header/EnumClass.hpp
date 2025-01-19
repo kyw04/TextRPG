@@ -29,8 +29,20 @@ struct EnumFlag
 
     bool operator==(const T& _ref) { return (this->value == _ref) || ((int)this->value & (int)_ref); }
     bool operator==(const EnumFlag& _ref) { return (this->value == _ref->value) || ((int)this->value & (int)_ref->value); }
-    bool operator!=(const T& _ref) { return !((int)this->value & (int)_ref); }
-    bool operator!=(const EnumFlag& _ref) { return !((int)this->value & (int)_ref.value); }
+    bool operator!=(const T& _ref)
+    {
+        if (this->value == _ref)
+            return false;
+        
+        return !((int)this->value & (int)_ref);
+    }
+    bool operator!=(const EnumFlag& _ref)
+    {
+        if (this->value == _ref.value)
+            return false;
+        
+        return !((int)this->value & (int)_ref.value);
+    }
     
     bool operator<(const T& _ref) const { return (int)this->value < (int)_ref; }
     bool operator<(const EnumFlag& _ref) const { return (int)this->value < (int)_ref.value; }
