@@ -239,8 +239,11 @@ template<> inline const std::map<ItemCategoryEnum, std::string> GetSearchMap<Ite
 template<typename T>
 inline std::string EnumFlagToString(EnumFlag<T> _enum)
 {
-    std::string str;
     int value = (int)_enum.value;
+    if (value < 0)
+        return EnumToString(_enum.value);
+
+    std::string str;
     int index = 0;
     int bit = 1 << index;
     while (value >= bit)
