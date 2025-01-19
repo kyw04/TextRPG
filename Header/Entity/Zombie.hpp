@@ -21,7 +21,7 @@ public:
                 {StatsName::NextExperience, 100.0f},
 
                 {StatsName::Health, 30.0f},
-                {StatsName::MaxHealth, 10.0f},
+                {StatsName::MaxHealth, 30.0f},
                 
                 {StatsName::Strength, 15.0f},
                 {StatsName::AttackSpeed, 3.0f},

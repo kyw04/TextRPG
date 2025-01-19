@@ -127,7 +127,7 @@ void GameManager::PlayEvent(const TileState _tile)
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> random_damage_dis(10, 30);
         int random_damage = random_damage_dis(gen);
-        player->TakeDamage(new Entity(), AttackType::None, (float)random_damage);
+        player->TakeDamage(new Entity(), (float)random_damage);
         std::cout << random_damage << "를 입음\n";
         if (!player->IsDie())
             std::cout << "남은 체력: " << player->stats.GetStats<float>(StatsName::Health) << '\n';

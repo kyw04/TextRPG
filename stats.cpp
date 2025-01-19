@@ -172,7 +172,7 @@ void Stats::LevelUP()
     SetStats<float>(StatsName::NextExperience, float(level * (level + 1)) * 25.0f - 50.0f);
 }
 
-float Stats::GetDamage(AttackType _attack_type, float _damage)
+float Stats::DefencePercent(AttackType _attack_type)
 {
     float defense_percentage;
     switch (_attack_type)
@@ -196,5 +196,5 @@ float Stats::GetDamage(AttackType _attack_type, float _damage)
         break;
     }
 
-    return _damage * (defense_percentage - 1);
+    return defense_percentage - 1;
 }

@@ -36,7 +36,7 @@ public:
     virtual ~Entity() { }
 
     void StatsUpdate();
-    void TakeDamage(Entity*, AttackType, float);
+    void TakeDamage(Entity*, float);
     void Fight(Entity&);
     bool IsDie();
     void ShowSkills(const std::string, const std::size_t = 0);

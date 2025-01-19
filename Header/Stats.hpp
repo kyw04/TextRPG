@@ -32,7 +32,7 @@ public:
     void AddHealth(float);
     void SetMana(float);
     void AddMana(float);
-    float GetDamage(AttackType, float);
+    float DefencePercent(AttackType);
     void SetExperience(float);
     void AddExperience(float);
 };

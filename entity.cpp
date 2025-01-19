@@ -10,9 +10,9 @@ void Entity::StatsUpdate()
     stats = start_stats + equipped_item_total_stats;
 }
 
-void Entity::TakeDamage(Entity* _attacker, AttackType _attack_type, float _value)
+void Entity::TakeDamage(Entity* _attacker, float _value)
 {
-    stats.AddHealth(stats.GetDamage(_attack_type, _value));
+    stats.AddHealth(_value);
 
     if (stats.GetStats<float>(StatsName::Health) <= 0) { Die(_attacker); }
 }
@@ -35,7 +35,7 @@ void Attack(Entity* _attacker, Entity* _defender)
     std::cout << _attacker->name << "의 공격\n";
     std::cout << _defender->name << "에게 ";
     std::cout << damage << "의 데미지를 입힘\n";
-    _defender->TakeDamage(_attacker, _attacker->attack_type, damage);
+    _defender->TakeDamage(_attacker, damage * _defender->stats.DefencePercent(_attacker->attack_type));
     if (!_defender->IsDie())
         std::cout << _defender->name << " 체력: " << _defender->stats.GetStats<float>(StatsName::Health) << '\n';
 }
