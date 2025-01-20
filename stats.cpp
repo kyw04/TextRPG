@@ -65,6 +65,13 @@ Stats* Stats::operator-=(const Stats* _stats)
 
     return this;
 }
+Stats Stats::operator-(const Stats _stats)
+{
+    Stats result = *this;
+    result -= &_stats;
+
+    return result;
+}
 
 template<typename T>
 void Stats::Variance(StatsName _key, T& _operand, const T& _value) 
@@ -197,4 +204,9 @@ float Stats::DefencePercent(AttackType _attack_type)
     }
 
     return defense_percentage - 1;
+}
+
+bool Stats::IsEmpty()
+{
+    return stats.empty();
 }

@@ -7,7 +7,28 @@ Entity::Entity() : is_die(false)
 
 void Entity::StatsUpdate()
 {
-    stats = start_stats + equipped_item_total_stats;
+    if (!stats.IsEmpty())
+    {
+        float health = stats.GetStats<float>(StatsName::Health);
+        float max_health = stats.GetStats<float>(StatsName::MaxHealth);
+        float mana = stats.GetStats<float>(StatsName::Mana);
+        float max_mana = stats.GetStats<float>(StatsName::MaxMana);
+        
+        int level = stats.GetStats<int>(StatsName::Level);
+        float ex = stats.GetStats<float>(StatsName::Experience);
+        float nex = stats.GetStats<float>(StatsName::NextExperience);
+
+        stats = start_stats + equipped_item_total_stats;
+
+        stats.SetStats<float>(StatsName::Health, max_health * (health / max_health));
+        stats.SetStats<float>(StatsName::Mana, max_mana * (mana / max_mana));
+        
+        stats.SetStats<int>(StatsName::Level, level);
+        stats.SetStats<float>(StatsName::Experience, ex);
+        stats.SetStats<float>(StatsName::NextExperience, nex);
+    }
+    else
+        stats = start_stats + equipped_item_total_stats;
 }
 
 void Entity::TakeDamage(Entity* _attacker, float _value)

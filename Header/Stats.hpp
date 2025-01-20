@@ -11,8 +11,6 @@ private:
     std::map<StatsName, std::variant<float, int, double>> stats;
 
     void LevelUP();
-    template<typename T>
-    void SetStats(StatsName, T);
 
 public:
     Stats();
@@ -20,11 +18,14 @@ public:
     
     Stats* operator=(const Stats*);
     Stats operator+(const Stats);
+    Stats operator-(const Stats);
     Stats* operator+=(const Stats*);
     Stats* operator-=(const Stats*);
     template<typename T>
     void Variance(StatsName, T&, const T&);
 
+    template<typename T>
+    void SetStats(StatsName, T);
     template<typename T>
     T GetStats(StatsName);
     std::string GetAllStatsToString();
@@ -35,4 +36,5 @@ public:
     float DefencePercent(AttackType);
     void SetExperience(float);
     void AddExperience(float);
+    bool IsEmpty();
 };
