@@ -7,6 +7,10 @@
 #include "Entity/Player/Warrior.hpp"
 #include "Entity/Player/Wizard.hpp"
 #include "Entity/Zombie.hpp"
+#include "Entity/Goblin.hpp"
+#include "Entity/GoblinArcher.hpp"
+#include "Entity/GoblinWarrior.hpp"
+#include "Entity/GoblinWizard.hpp"
 #include "Item/Item.hpp"
 #include "Item/WoodBow.hpp"
 #include "Item/WoodSword.hpp"
@@ -21,10 +25,13 @@
 class GameManager
 {
 private:
-    std::vector<Entity> monster_data[MAX_LEVEL] = // enemty[level][enemy] 
+    std::vector<Entity> monster_data[MAX_LEVEL] = // enemty[level][enemy index] 
     { 
-        { Zombie(), Zombie() }, // level == 1
-        { Zombie() } // level == 2
+        { Goblin() }, // level == 1
+        { }, // level == 2
+        { GoblinArcher(), GoblinWarrior(), GoblinWizard() }, // level == 3
+        { }, // level == 4
+        { Zombie() }, // level == 5
     };
     std::vector<Entity> boss_data[MAX_LEVEL] = // enemty[level][enemy] 
     { 

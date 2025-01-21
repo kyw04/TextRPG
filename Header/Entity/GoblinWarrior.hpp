@@ -8,38 +8,38 @@
 #include "../Item/LeatherLeggings.hpp"
 #include "../Item/LeatherShoes.hpp"
 
-class Zombie : public Entity
+class GoblinWarrior : public Entity
 {
 public:
-    Zombie()
+    GoblinWarrior()
     {
-        name = "좀비";
+        name = "고블린 전사";
         job = EntityJobEnum::Warrior;
         attack_type = AttackType::Strength;
         start_stats = Stats
         (
             {
-                {StatsName::Level, 5},
+                {StatsName::Level, 3},
                 {StatsName::Experience, 0.0f},
                 {StatsName::NextExperience, 100.0f},
 
-                {StatsName::Health, 30.0f},
-                {StatsName::MaxHealth, 30.0f},
+                {StatsName::Health, 10.0f},
+                {StatsName::MaxHealth, 10.0f},
                 
-                {StatsName::Strength, 15.0f},
-                {StatsName::AttackSpeed, 3.0f},
-                {StatsName::Critical, 0.1f}
+                {StatsName::Strength, 13.0f},
+                {StatsName::AttackSpeed, 5.0f},
+                {StatsName::Critical, 0.05f}
             }
         );
         StatsUpdate();
 
-        drop_experience = 100.0f;
+        drop_experience = 25.0f;
         drop_items = std::vector<RandomItem<Item*>>
         (
             {
-                RandomItem<Item*>(new WoodBow(), 0.05, true),
-                RandomItem<Item*>(new WoodStaff(), 0.05, true),
-                RandomItem<Item*>(new WoodStaff(), 0.05, true),
+                RandomItem<Item*>(new WoodSword(), 0.1, true),
+                RandomItem<Item*>(new WoodBow(), 0.01, true),
+                RandomItem<Item*>(new WoodStaff(), 0.01, true),
                 RandomItem<Item*>(new LeatherHelmet(), 0.01, true),
                 RandomItem<Item*>(new LeatherArmor(), 0.01, true),
                 RandomItem<Item*>(new LeatherLeggings(), 0.01, true),

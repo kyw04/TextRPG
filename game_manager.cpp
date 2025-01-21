@@ -14,13 +14,13 @@ GameManager::GameManager()
     switch (player->job.value)
     {
         case EntityJobEnum::Warrior:
-            start_item = new WoodSword();
+            // start_item = new WoodSword();
             break;
         case EntityJobEnum::Archer:
-            start_item = new WoodBow();
+            // start_item = new WoodBow();
             break;
         case EntityJobEnum::Wizard:
-            start_item = new WoodStaff();
+            // start_item = new WoodStaff();
             break;
         default:
             start_item = nullptr;
@@ -104,6 +104,8 @@ Entity GameManager::GetRandomEntity(const int _min_level, const int _max_level, 
     std::mt19937 gen(rd());
     std::uniform_int_distribution<std::size_t> random_level_dis((std::size_t)(_min_level - 1), (std::size_t)(_max_level - 1));
     std::size_t random_level = random_level_dis(gen);
+    while (_datas[random_level].empty()) random_level--; // 찾은 레벨의 몬스터가 없는 경우 레벨을 낮추면서 찾음
+
     std::uniform_int_distribution<std::size_t> random_index_dis(0, _datas[random_level].size() - 1);
     std::size_t random_index = random_index_dis(gen);
 
@@ -116,7 +118,7 @@ void GameManager::PlayEvent(const TileState _tile)
     {
     case TileState::Monster: case TileState::Boss:
     {
-        Entity monster = GetRandomEntity(1, 1, _tile == TileState::Monster ? monster_data : boss_data);
+        Entity monster = GetRandomEntity(1, 3, _tile == TileState::Monster ? monster_data : boss_data);
         while (!player->IsDie() && !monster.IsDie()) { player->Fight(monster); }
         break;
     }
