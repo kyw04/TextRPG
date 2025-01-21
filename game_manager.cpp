@@ -10,7 +10,7 @@ GameManager::GameManager()
 
     player = SelectPlayer();
     map = new Map();
-    Item* start_item;
+    // Item* start_item;
     switch (player->job.value)
     {
         case EntityJobEnum::Warrior:
@@ -23,9 +23,11 @@ GameManager::GameManager()
             // start_item = new WoodStaff();
             break;
         default:
-            start_item = nullptr;
+        {
+            // start_item = nullptr;
+        }
     }
-    player->Push(start_item);
+    // player->Push(start_item);
 }
 
 Player* GameManager::SelectPlayer()

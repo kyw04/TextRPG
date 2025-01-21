@@ -17,8 +17,6 @@ template<typename T>
 class Random
 {
 private:
-    std::mt19937 gen{std::random_device{}()};
-    std::uniform_real_distribution<> dis;
 
     std::vector<RandomItem<T>> duplicate_items;
     std::vector<RandomItem<T>> one_items;
@@ -56,6 +54,9 @@ public:
 
     std::vector<T> GetRandomItems()
     {
+        std::random_device rd;
+        std::mt19937 gen(rd());
+        std::uniform_real_distribution<> dis;
 
         if (one_items.empty() && duplicate_items.empty())
             throw std::logic_error("item is empty");
