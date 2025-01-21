@@ -104,7 +104,7 @@ Entity GameManager::GetRandomEntity(const int _min_level, const int _max_level, 
     std::mt19937 gen(rd());
     std::uniform_int_distribution<std::size_t> random_level_dis((std::size_t)(_min_level - 1), (std::size_t)(_max_level - 1));
     std::size_t random_level = random_level_dis(gen);
-    while (_datas[random_level].empty()) random_level--; // 찾은 레벨의 몬스터가 없는 경우 레벨을 낮추면서 찾음
+    while (_datas[random_level].empty()) { random_level--; } // 찾은 레벨의 몬스터가 없는 경우 레벨을 낮추면서 찾음
 
     std::uniform_int_distribution<std::size_t> random_index_dis(0, _datas[random_level].size() - 1);
     std::size_t random_index = random_index_dis(gen);
