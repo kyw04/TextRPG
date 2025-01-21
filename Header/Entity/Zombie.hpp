@@ -3,7 +3,10 @@
 #include "../Item/WoodBow.hpp"
 #include "../Item/WoodStaff.hpp"
 #include "../Item/WoodSword.hpp"
+#include "../Item/LeatherHelmet.hpp"
 #include "../Item/LeatherArmor.hpp"
+#include "../Item/LeatherLeggings.hpp"
+#include "../Item/LeatherShoes.hpp"
 
 class Zombie : public Entity
 {
@@ -34,10 +37,13 @@ public:
         drop_items = std::vector<RandomItem<Item*>>
         (
             {
-                // RandomItem<Item*>(new WoodSword(), 0.5, false),
-                // RandomItem<Item*>(new WoodStaff(), 0.5, false),
-                // RandomItem<Item*>(new WoodBow(), 0.5, false),
-                RandomItem<Item*>(new LeatherArmor(), 0.5, false),
+                RandomItem<Item*>(new WoodBow(), 0.01, true),
+                RandomItem<Item*>(new WoodStaff(), 0.01, true),
+                RandomItem<Item*>(new WoodStaff(), 0.01, true),
+                RandomItem<Item*>(new LeatherHelmet(), 0.01, true),
+                RandomItem<Item*>(new LeatherArmor(), 0.01, true),
+                RandomItem<Item*>(new LeatherLeggings(), 0.01, true),
+                RandomItem<Item*>(new LeatherShoes(), 0.01, true),
             }
         );
     }

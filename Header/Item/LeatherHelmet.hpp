@@ -1,23 +1,23 @@
 #pragma once
 #include "Item.hpp"
 
-class LeatherArmor : public Item
+class LeatherHelmet : public Item
 {
 public:
-    LeatherArmor() : Item(1)
+    LeatherHelmet() : Item(1)
     {
         state = ItemState::Unequipped;
         count = 1;
         level_requirement = 1;
         job_requirement = EntityJobEnum::All;
 
-        category = (int)ItemCategoryEnum::Equipment | (int)ItemCategoryEnum::Armor;
-        name = "가죽 갑옷";
+        category = (int)ItemCategoryEnum::Equipment | (int)ItemCategoryEnum::Helmet;
+        name = "가죽 헬멧";
         rank = ItemRank::Normal;
         stats = new Stats
         (
             {
-                {StatsName::StrengthDefensive, 4.0f},
+                {StatsName::StrengthDefensive, 2.0f},
             }
         );
     }
