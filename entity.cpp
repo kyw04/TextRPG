@@ -78,16 +78,22 @@ void Entity::Fight(Entity& _enemy)
 
 void Entity::Die(Entity* _slayer)
 {
+    char input;
     is_die = true;
     std::cout << name << " 죽음\n";
-
+    
+    INPUT_KEY(input);
+    std::cout << "=================\n";\
     for (auto& drop_item : drop_items.GetRandomItems())
     {
         _slayer->Push(drop_item);
+        INPUT_KEY(input);
     }
-    
-    std::cout << "경험치 " << drop_experience << "획득\n";
+
+    input = '\n';
+    std::cout << "경험치 " << drop_experience << "획득\n" << input;
     _slayer->stats.AddExperience(drop_experience);
+    INPUT_KEY(input);
 }
 
 bool Entity::IsDie()
