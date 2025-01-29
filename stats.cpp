@@ -151,34 +151,6 @@ void Stats::AddMana(float _value)
     SetMana(GetStats<float>(StatsName::Mana) + _value);
 }
 
-void Stats::SetExperience(float _value)
-{
-    SetStats<float>(StatsName::Experience, _value);
-    float next_experience = GetStats<float>(StatsName::NextExperience);
-
-    if (_value >= next_experience)
-    {
-        LevelUP();
-    }
-}
-void Stats::AddExperience(float _value)
-{
-    float experience = GetStats<float>(StatsName::Experience);
-    SetExperience(experience + _value);
-}
-
-void Stats::LevelUP()
-{
-    int level = GetStats<int>(StatsName::Level);
-    float experience = GetStats<float>(StatsName::Experience);
-    float next_experience = GetStats<float>(StatsName::NextExperience);
-    std::cout << "== 레벨 업 " << level << " >> " << level + 1 << " ==\n";
-
-    SetStats<int>(StatsName::Level, ++level);
-    SetStats<float>(StatsName::Experience, experience - next_experience);
-    SetStats<float>(StatsName::NextExperience, float(level * (level + 1)) * 25.0f - 50.0f);
-}
-
 float Stats::DefencePercent(AttackType _attack_type)
 {
     float defense_percentage;

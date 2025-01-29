@@ -68,10 +68,6 @@ enum class StatsName
 
     StrengthDefensive,
     IntelligenceDefensive,
-
-    Level,
-    Experience,
-    NextExperience,
 };
 inline const std::map<StatsName, std::string> stats_name_string 
 {
@@ -87,10 +83,6 @@ inline const std::map<StatsName, std::string> stats_name_string
 
     { StatsName:: StrengthDefensive, "물리 방어력" },
     { StatsName:: IntelligenceDefensive, "마법 방어력" },
-
-    { StatsName:: Level, "레벨" },
-    { StatsName:: Experience, "경험치" },
-    { StatsName:: NextExperience, "필요 경험치" },
 };
 
 enum class EntityJobEnum

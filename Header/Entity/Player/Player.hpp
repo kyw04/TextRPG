@@ -7,7 +7,7 @@ class Player : public Entity
 private:
 
 public:
-    Player() { }
+    Player(){ }
     virtual ~Player() { }
     void Die(Entity* _slayer)
     {

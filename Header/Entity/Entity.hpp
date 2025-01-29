@@ -20,12 +20,19 @@ protected:
     Stats start_stats;
 
     void virtual Die(Entity* _slayer);
+    void LevelUP();
 
 public:
+    int level;
+    float experience;
+    float next_experience;
+
     std::string name;
     EntityJob job;
     AttackType attack_type;
    
+    int stats_point;
+    Stats allocated_stats;
     Stats equipped_item_total_stats;
     Stats stats;
 
@@ -36,6 +43,8 @@ public:
     virtual ~Entity() { }
 
     void StatsUpdate();
+    void SetExperience(float);
+    void AddExperience(float);
     void TakeDamage(Entity*, float);
     void Fight(Entity&);
     bool IsDie();

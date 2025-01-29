@@ -1,8 +1,19 @@
 #include <iostream>
 #include "./Header/Entity/Entity.hpp"
 
-Entity::Entity() : is_die(false)
+Entity::Entity() : is_die(false), level(1), experience(0), next_experience(100) 
 {
+}
+
+void Entity::LevelUP()
+{
+    std::cout << "== 레벨 업 " << level << " >> " << level + 1 << " ==\n";
+    std::cout << "== 스텟 포인트 3 획득 " << stats_point << " >> " << stats_point  + 3 << " ==\n";
+
+    level++;
+    stats_point += 3;
+    experience = experience - next_experience;
+    next_experience = float(level * (level + 1)) * 25.0f - 50.0f;
 }
 
 void Entity::StatsUpdate()
@@ -13,22 +24,28 @@ void Entity::StatsUpdate()
         float max_health = stats.GetStats<float>(StatsName::MaxHealth);
         float mana = stats.GetStats<float>(StatsName::Mana);
         float max_mana = stats.GetStats<float>(StatsName::MaxMana);
-        
-        int level = stats.GetStats<int>(StatsName::Level);
-        float ex = stats.GetStats<float>(StatsName::Experience);
-        float nex = stats.GetStats<float>(StatsName::NextExperience);
 
-        stats = start_stats + equipped_item_total_stats;
-
+        stats = start_stats + equipped_item_total_stats + allocated_stats;
         stats.SetStats<float>(StatsName::Health, max_health * (health / max_health));
         stats.SetStats<float>(StatsName::Mana, max_mana * (mana / max_mana));
-        
-        stats.SetStats<int>(StatsName::Level, level);
-        stats.SetStats<float>(StatsName::Experience, ex);
-        stats.SetStats<float>(StatsName::NextExperience, nex);
     }
     else
-        stats = start_stats + equipped_item_total_stats;
+        stats = start_stats + equipped_item_total_stats + allocated_stats;
+}
+
+void Entity::SetExperience(float _value)
+{
+    experience = _value;
+
+    if (_value >= next_experience)
+    {
+        LevelUP();
+    }
+}
+
+void Entity::AddExperience(float _value)
+{
+    SetExperience(experience + _value);
 }
 
 void Entity::TakeDamage(Entity* _attacker, float _value)
@@ -92,7 +109,7 @@ void Entity::Die(Entity* _slayer)
 
     input = '\n';
     std::cout << "경험치 " << drop_experience << "획득\n" << input;
-    _slayer->stats.AddExperience(drop_experience);
+    _slayer->AddExperience(drop_experience);
     INPUT_KEY(input);
 }
 
@@ -166,7 +183,7 @@ void Entity::ChangeSkill(Skill _new_skill)
 void Entity::Equip(Item* _item)
 {
     if (_item->job_requirement != job ||
-        _item->level_requirement > stats.GetStats<int>(StatsName::Level))
+        _item->level_requirement > level)
     {
         std::cout << "조건을 충족하지 않아 착용할 수 없습니다.\n";
         return;

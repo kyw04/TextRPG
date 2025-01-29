@@ -10,8 +10,6 @@ class Stats
 private:
     std::map<StatsName, std::variant<float, int, double>> stats;
 
-    void LevelUP();
-
 public:
     Stats();
     Stats(std::vector<std::pair<StatsName, std::variant<float, int, double>>>);

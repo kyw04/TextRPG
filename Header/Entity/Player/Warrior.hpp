@@ -12,10 +12,6 @@ public:
         start_stats = Stats
         (
             {
-                {StatsName::Level, 1},
-                {StatsName::Experience, 0.0f},
-                {StatsName::NextExperience, 100.0f},
-
                 {StatsName::Health, 100.0f},
                 {StatsName::MaxHealth, 100.0f},
                 {StatsName::Mana, 50.0f},
