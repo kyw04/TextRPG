@@ -9,11 +9,15 @@ int main()
     {
         game_manager->map->Open();
         INPUT_KEY(input);
-        if (IF_INVENTORY_KEY(input))
+        if (IS_INVENTORY_KEY(input))
         {
             game_manager->player->Open();
             game_manager->player->StatsUpdate();
-        }    
+        }
+        else if (input == 'o')
+        {
+            game_manager->player->AddStat();
+        }
         else
         {
             TileState tile = game_manager->Move(input);

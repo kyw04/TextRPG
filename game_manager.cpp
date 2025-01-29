@@ -5,7 +5,7 @@ GameManager::GameManager()
     std::cout << "<<입력으로 게임 시작>>";
     char input;
     INPUT_KEY(input);
-    if (IF_DOWN_KEY(input))
+    if (IS_DOWN_KEY(input))
         return;
 
     player = SelectPlayer();
@@ -47,8 +47,8 @@ Player* GameManager::SelectPlayer()
     {
         INPUT_KEY(input);
         if (!input) break;
-        if (IF_UP_KEY(input)) { index--; }
-        if (IF_DOWN_KEY(input)) { index++; }
+        if (IS_UP_KEY(input)) { index--; }
+        if (IS_DOWN_KEY(input)) { index++; }
         if (index < 0) { index = (int)players.size() - 1; }
         index %= (int)players.size();
         for (std::vector<Player*>::iterator iter = players.begin(); iter != players.end(); iter++)
@@ -71,14 +71,14 @@ TileState GameManager::Move(const char _input)
     
     TileState result = TileState::Empty;
     
-    if (IF_CLOSE_KEY(_input)) { map->Close(); return result; }
+    if (IS_CLOSE_KEY(_input)) { map->Close(); return result; }
 
     int x = 0;
     int y = 0;
-    if (IF_UP_KEY(_input)) { y = -1; }
-    if (IF_DOWN_KEY(_input)) { y = 1; }
-    if (IF_LEFT_KEY(_input)) { x = -1; }
-    if (IF_RIGHT_KEY(_input)) { x = 1; }
+    if (IS_UP_KEY(_input)) { y = -1; }
+    if (IS_DOWN_KEY(_input)) { y = 1; }
+    if (IS_LEFT_KEY(_input)) { x = -1; }
+    if (IS_RIGHT_KEY(_input)) { x = 1; }
 
     int new_y = map->current_position.first + y;
     int new_x = map->current_position.second + x;
@@ -137,7 +137,7 @@ void GameManager::PlayEvent(const TileState _tile)
             std::cout << "남은 체력: " << player->stats.GetStats<float>(StatsName::Health) << '\n';
         char input;
         INPUT_KEY(input);
-        if (IF_DOWN_KEY(input)) break;
+        if (IS_DOWN_KEY(input)) break;
         break;
     }
     case TileState::Treasure:

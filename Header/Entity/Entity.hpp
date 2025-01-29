@@ -10,6 +10,17 @@
 #include "../Skill/Skill.hpp"
 #include "../Random.hpp"
 
+inline const int allocated_stats_size = 6;
+inline StatsName allocated_stats_names[allocated_stats_size] = 
+{
+    StatsName::MaxHealth,
+    StatsName::MaxMana,
+    StatsName::Strength,
+    StatsName::Intelligence,
+    StatsName::AttackSpeed,
+    StatsName::Critical
+};
+
 class Entity : public Inventory
 {
 protected:
@@ -45,6 +56,8 @@ public:
     void StatsUpdate();
     void SetExperience(float);
     void AddExperience(float);
+    void ShowAllocatedStats(int = allocated_stats_size);
+    void AddStat(float = 1.0f);
     void TakeDamage(Entity*, float);
     void Fight(Entity&);
     bool IsDie();

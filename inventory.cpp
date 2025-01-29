@@ -16,7 +16,7 @@ void Inventory::Open()
         }
 
         INPUT_KEY(input);
-        if (IF_CLOSE_KEY(input))
+        if (IS_CLOSE_KEY(input))
         {
             Close();
             break;
@@ -48,6 +48,7 @@ void Inventory::Close()
 {
     std::cout << "인벤토리 닫힘\n";
     is_open = false;
+    INPUT_KEY(default_input);
 }
 
 std::map<std::string, Item*> Inventory::GetItems() const
@@ -151,11 +152,11 @@ Item* Inventory::Pop(const std::string _key)
 
 Item* Inventory::Select(const char _input)
 {
-    if (!is_open || IF_CLOSE_KEY(_input)) { Close(); return nullptr; }
+    if (!is_open || IS_CLOSE_KEY(_input)) { Close(); return nullptr; }
     
     static int index = -1;
-    if (IF_UP_KEY(_input)) { index += -1; }
-    else if (IF_DOWN_KEY(_input)) { index += 1; }
+    if (IS_UP_KEY(_input)) { index += -1; }
+    else if (IS_DOWN_KEY(_input)) { index += 1; }
 
     int count = 0;
     int max_index = 0;

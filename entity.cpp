@@ -1,7 +1,7 @@
 #include <iostream>
 #include "./Header/Entity/Entity.hpp"
 
-Entity::Entity() : is_die(false), level(1), experience(0), next_experience(100) 
+Entity::Entity() : is_die(false), level(1), experience(0), next_experience(100)
 {
 }
 
@@ -48,6 +48,58 @@ void Entity::AddExperience(float _value)
     SetExperience(experience + _value);
 }
 
+void Entity::ShowAllocatedStats(int _selected_index)
+{
+    for (int i = 0; i < allocated_stats_size; i++)
+    {
+        float value = allocated_stats.GetStats<float>(allocated_stats_names[i]);
+        std::string stat_name = EnumToString(allocated_stats_names[i]);
+        if (i == _selected_index)
+            std::cout << "<<" << stat_name << ": " << value << ">>\n";
+        else
+            std::cout << stat_name << ": " << value << "\n";
+    }
+}
+
+void Entity::AddStat(float _value)
+{
+    char input;
+    int index = 0;
+
+    ShowAllocatedStats(index);
+    do
+    {
+        INPUT_KEY(input)
+        if (IS_UP_KEY(input))
+        {
+            index = (index - 1) < 0 ? allocated_stats_size - 1 : index - 1;
+        }
+        if (IS_DOWN_KEY(input))
+        {
+            index = (index + 1) % allocated_stats_size;
+        }
+        if (IS_CLOSE_KEY(input))
+        {
+            std::cout << "스텟창을 닫았습니다.\n";
+            INPUT_KEY(default_input)
+            return;
+        }
+        ShowAllocatedStats(index);
+        std::cout << "\n스텟 포인트: " << stats_point << "\n";
+    } while (input);
+
+    if (stats_point <= 0)
+    {
+        std::cout << "스텟 포인트가 부족합니다.\n";
+        INPUT_KEY(default_input)
+        return;
+    }
+
+    StatsName selected_name = allocated_stats_names[index];
+    float current_value = allocated_stats.GetStats<float>(selected_name);
+    allocated_stats.SetStats(selected_name, current_value + _value);
+}
+
 void Entity::TakeDamage(Entity* _attacker, float _value)
 {
     stats.AddHealth(_value);
@@ -89,28 +141,26 @@ void Entity::Fight(Entity& _enemy)
     INPUT_KEY(input);        
     Attack(first, second);
 
-    if (!IF_DOWN_KEY(input)) INPUT_KEY(input);
+    if (!IS_DOWN_KEY(input)) INPUT_KEY(input);
     if (!second->IsDie()) Attack(second, first);
 }
 
 void Entity::Die(Entity* _slayer)
 {
-    char input;
     is_die = true;
     std::cout << name << " 죽음\n";
     
-    INPUT_KEY(input);
+    INPUT_KEY(default_input);
     std::cout << "=================\n";\
     for (auto& drop_item : drop_items.GetRandomItems())
     {
         _slayer->Push(drop_item);
-        INPUT_KEY(input);
+        INPUT_KEY(default_input);
     }
 
-    input = '\n';
-    std::cout << "경험치 " << drop_experience << "획득\n" << input;
+    std::cout << "경험치 " << drop_experience << "획득\n";
     _slayer->AddExperience(drop_experience);
-    INPUT_KEY(input);
+    INPUT_KEY(default_input);
 }
 
 bool Entity::IsDie()
@@ -145,11 +195,11 @@ Skill* Entity::SelectSkill(const std::string _title)
         if (!input)
             break;
         
-        if (IF_CLOSE_KEY(input)) { return nullptr; }
-        if (IF_UP_KEY(input)) { index += MAX_SKILL_COUNT / 2; }
-        if (IF_DOWN_KEY(input)) { index -= MAX_SKILL_COUNT / 2; }
-        if (IF_LEFT_KEY(input)) { index--; }
-        if (IF_RIGHT_KEY(input)) { index++; }
+        if (IS_CLOSE_KEY(input)) { return nullptr; }
+        if (IS_UP_KEY(input)) { index += MAX_SKILL_COUNT / 2; }
+        if (IS_DOWN_KEY(input)) { index -= MAX_SKILL_COUNT / 2; }
+        if (IS_LEFT_KEY(input)) { index--; }
+        if (IS_RIGHT_KEY(input)) { index++; }
         index %= MAX_SKILL_COUNT;
         
         ShowSkills(_title, index);
