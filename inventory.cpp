@@ -9,12 +9,6 @@ void Inventory::Open()
     Item* selected_item = nullptr;
     while (is_open)
     {
-        if (items.empty())
-        {
-            std::cout << "인벤토리가 비어있음.\n";
-            break;
-        }
-
         INPUT_KEY(input);
         if (IS_CLOSE_KEY(input))
         {
