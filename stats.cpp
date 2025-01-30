@@ -127,6 +127,10 @@ void Stats::SetStats(StatsName _name, T _value)
     {
         stats.find(_name)->second = _value;
     }
+    else
+    {
+        stats.insert({ _name, _value });
+    }
 }
 
 void Stats::SetHealth(float _value)

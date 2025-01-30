@@ -59,6 +59,7 @@ void Entity::ShowAllocatedStats(int _selected_index)
         else
             std::cout << stat_name << ": " << value << "\n";
     }
+    std::cout << "\n스텟 포인트: " << stats_point << "\n";
 }
 
 void Entity::AddStat(float _value)
@@ -85,7 +86,6 @@ void Entity::AddStat(float _value)
             return;
         }
         ShowAllocatedStats(index);
-        std::cout << "\n스텟 포인트: " << stats_point << "\n";
     } while (input);
 
     if (stats_point <= 0)
@@ -95,9 +95,13 @@ void Entity::AddStat(float _value)
         return;
     }
 
+    stats_point--;
     StatsName selected_name = allocated_stats_names[index];
     float current_value = allocated_stats.GetStats<float>(selected_name);
     allocated_stats.SetStats(selected_name, current_value + _value);
+
+    std::cout << EnumToString(allocated_stats_names[index]) << ": " << current_value << " >> " << current_value + _value << "\n";
+    INPUT_KEY(default_input)
 }
 
 void Entity::TakeDamage(Entity* _attacker, float _value)
