@@ -101,6 +101,7 @@ void Entity::AddStat(float _value)
     allocated_stats.SetStats(selected_name, current_value + _value);
 
     std::cout << EnumToString(allocated_stats_names[index]) << ": " << current_value << " >> " << current_value + _value << "\n";
+    StatsUpdate();
     INPUT_KEY(default_input)
 }
 
