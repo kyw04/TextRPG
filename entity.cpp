@@ -97,10 +97,14 @@ void Entity::AddStat(float _value)
 
     stats_point--;
     StatsName selected_name = allocated_stats_names[index];
+    if (selected_name == StatsName::MaxHealth) { _value *= 10; }
+    if (selected_name == StatsName::MaxMana) { _value *= 25; }
+    if (selected_name == StatsName::Critical) { _value *= 0.01f; }
+    
     float current_value = allocated_stats.GetStats<float>(selected_name);
     allocated_stats.SetStats(selected_name, current_value + _value);
 
-    std::cout << EnumToString(allocated_stats_names[index]) << ": " << current_value << " >> " << current_value + _value << "\n";
+    std::cout << "추가 " << EnumToString(allocated_stats_names[index]) << ": " << current_value << " >> " << current_value + _value << "\n";
     StatsUpdate();
     INPUT_KEY(default_input)
 }
