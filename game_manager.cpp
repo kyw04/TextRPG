@@ -80,17 +80,17 @@ TileState GameManager::Move(const char _input)
     if (IS_LEFT_KEY(_input)) { x = -1; }
     if (IS_RIGHT_KEY(_input)) { x = 1; }
 
-    int new_y = map->current_position.first + y;
-    int new_x = map->current_position.second + x;
+    int new_y = map->current_position.y + y;
+    int new_x = map->current_position.x + x;
     if (new_y >= MAX_MAP_SIZE) { new_y = MAX_MAP_SIZE - 1; }
     if (new_y < 0) { new_y = 0; }
     if (new_x >= MAX_MAP_SIZE) { new_x = MAX_MAP_SIZE - 1; }
     if (new_x < 0) { new_x = 0; }
 
-    if (map->tiles[new_y][new_x] != TileState::Wall)
+    if (map->tiles[new_x][new_y] != TileState::Wall)
     {
-        map->current_position = { new_y, new_x };
-        result = map->tiles[new_y][new_x];
+        map->current_position = { new_x, new_y };
+        result = map->tiles[new_x][new_y];
     }
     std::cout << *map;
 
@@ -148,7 +148,7 @@ void GameManager::PlayEvent(const TileState _tile)
         break;
     }
 
-    int x = map->current_position.first;
-    int y = map->current_position.second;
+    int x = map->current_position.x;
+    int y = map->current_position.y;
     map->tiles[x][y] = TileState::Empty;
 }
