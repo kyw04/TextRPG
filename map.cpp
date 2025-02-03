@@ -23,10 +23,6 @@ Map::Map(int _heigth, int _width) :
     width(_width > MAX_MAP_SIZE ? MAX_MAP_SIZE : _width),
     current_position({ width / 2, height - 1 })
 {
-    total_tile_probability = 0;
-    for (auto& probability : tile_probability)
-        total_tile_probability += probability.second;
-     
     TileSetting();
 }
 
@@ -52,10 +48,12 @@ char Map::GetTileSymbol(const TileStateEnum& _tile)
 TileStateEnum Map::GetRandomTile(int _mask)
 {
     std::vector<std::pair<TileStateEnum, double>> mask_tiles;
+    total_tile_probability = 0.0;
     for (auto& tile : tile_probability)
     {
         if ((int)tile.first & _mask)
         {
+            total_tile_probability += tile.second;
             mask_tiles.push_back(tile);
         }
     }
