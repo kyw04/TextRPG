@@ -130,7 +130,7 @@ void Map::TileSetting()
                 if (tiles[new_x][new_y] != TileStateEnum::Wall)
                 {
                     q.push({ new_x, new_y });
-                    double new_distance = GetDistance(current_position, q.front()); 
+                    double new_distance = GetDistance(current_position, { new_x, new_y }); 
                     if ((new_distance > furthest_distance) || (new_distance == furthest_distance && (int)(dis(gen) * 10) % 2 == 0))
                     {
                         furthest = { new_x, new_y };
@@ -160,7 +160,6 @@ void Map::TileSetting()
             if (current_position.y == new_y && current_position.x == new_x)
             {
                 is_player_position_visited = true;
-                tiles[new_x][new_y] = GetRandomTile(~(int)TileStateEnum::Wall);
             }
 
             if (IsPointInside(new_x, new_y))
