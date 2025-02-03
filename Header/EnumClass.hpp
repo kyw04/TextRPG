@@ -198,15 +198,26 @@ enum class InventoryItemState
     Selected,
 };
 
-enum class TileState
+enum class TileStateEnum
 {
-    Wall,
-    Empty,
-    Monster,
-    Boss,
-    Treasure,
-    Trap,
-    None // 개수 카운트용으로 마지막에 배치
+    Wall = 1 << 0,
+    Empty = 1 << 1,
+    Monster = 1 << 2,
+    Boss = 1 << 3,
+    Treasure = 1 << 4,
+    Trap = 1 << 5,
+    None = 0, // 개수 카운트용으로 마지막에 배치
+};
+
+struct TileState : EnumFlag<TileStateEnum>
+{
+    using EnumFlag<TileStateEnum>::operator=;
+    using EnumFlag<TileStateEnum>::operator|=;
+
+    using EnumFlag<TileStateEnum>::operator==;
+    using EnumFlag<TileStateEnum>::operator!=;
+
+    using EnumFlag<TileStateEnum>::operator<;
 };
 
 template<typename T>

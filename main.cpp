@@ -20,7 +20,7 @@ int main()
         }
         else
         {
-            TileState tile = game_manager->Move(input);
+            TileStateEnum tile = game_manager->Move(input);
             game_manager->PlayEvent(tile);
         }
     }

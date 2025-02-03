@@ -51,7 +51,7 @@ public:
 
     GameManager();
     Player* SelectPlayer();
-    TileState Move(const char);
+    TileStateEnum Move(const char);
     Entity GetRandomEntity(const int, const int, std::vector<Entity>[]);
-    void PlayEvent(const TileState);
+    void PlayEvent(const TileStateEnum);
 };

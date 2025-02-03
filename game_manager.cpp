@@ -64,12 +64,12 @@ Player* GameManager::SelectPlayer()
     return players[(std::size_t)index];
 }
 
-TileState GameManager::Move(const char _input)
+TileStateEnum GameManager::Move(const char _input)
 {
     if (!map->is_open)
-        return TileState::Empty;
+        return TileStateEnum::Empty;
     
-    TileState result = TileState::Empty;
+    TileStateEnum result = TileStateEnum::Empty;
     
     if (IS_CLOSE_KEY(_input)) { map->Close(); return result; }
 
@@ -87,14 +87,14 @@ TileState GameManager::Move(const char _input)
     if (new_x >= MAX_MAP_SIZE) { new_x = MAX_MAP_SIZE - 1; }
     if (new_x < 0) { new_x = 0; }
 
-    if (map->tiles[new_x][new_y] != TileState::Wall)
+    if (map->tiles[new_x][new_y] != TileStateEnum::Wall)
     {
         map->current_position = { new_x, new_y };
         result = map->tiles[new_x][new_y];
     }
     std::cout << *map;
 
-    if (result != TileState::Empty)
+    if (result != TileStateEnum::Empty)
         map->Close();
     
     return result;
@@ -114,18 +114,18 @@ Entity GameManager::GetRandomEntity(const int _min_level, const int _max_level, 
     return _datas[random_level][random_index];
 }
 
-void GameManager::PlayEvent(const TileState _tile)
+void GameManager::PlayEvent(const TileStateEnum _tile)
 {
     switch (_tile)
     {
-    case TileState::Monster: case TileState::Boss:
+    case TileStateEnum::Monster: case TileStateEnum::Boss:
     {
-        Entity monster = GetRandomEntity(1, 3, _tile == TileState::Monster ? monster_data : boss_data);
+        Entity monster = GetRandomEntity(1, 3, _tile == TileStateEnum::Monster ? monster_data : boss_data);
         while (!player->IsDie() && !monster.IsDie()) { player->Fight(monster); }
         break;
     }
     
-    case TileState::Trap:
+    case TileStateEnum::Trap:
     {
         std::random_device rd;
         std::mt19937 gen(rd());
@@ -140,7 +140,7 @@ void GameManager::PlayEvent(const TileState _tile)
         if (IS_DOWN_KEY(input)) break;
         break;
     }
-    case TileState::Treasure:
+    case TileStateEnum::Treasure:
     {
         break;
     }
@@ -150,5 +150,5 @@ void GameManager::PlayEvent(const TileState _tile)
 
     int x = map->current_position.x;
     int y = map->current_position.y;
-    map->tiles[x][y] = TileState::Empty;
+    map->tiles[x][y] = TileStateEnum::Empty;
 }
