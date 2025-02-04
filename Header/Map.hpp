@@ -32,7 +32,7 @@ public:
     TileStateEnum tiles[MAX_MAP_SIZE][MAX_MAP_SIZE];
     Point current_position;
 
-    friend  std::ostream& operator<<(std::ostream&, Map&);
+    friend std::ostream& operator<<(std::ostream&, Map&);
 
     Map(int = MAX_MAP_SIZE, int = MAX_MAP_SIZE);
     bool IsPointInside(int, int);
