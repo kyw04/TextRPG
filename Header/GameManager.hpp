@@ -8,6 +8,7 @@
 #include "Entity/Player/Wizard.hpp"
 #include "Entity/Zombie.hpp"
 #include "Entity/Goblin.hpp"
+#include "Entity/GoblinKing.hpp"
 #include "Entity/GoblinArcher.hpp"
 #include "Entity/GoblinWarrior.hpp"
 #include "Entity/GoblinWizard.hpp"
@@ -35,8 +36,8 @@ private:
     };
     std::vector<Entity> boss_data[MAX_LEVEL] = // enemty[level][enemy] 
     { 
-        { Zombie(), Zombie() }, // level == 1
-        { Zombie() } // level == 2
+        {GoblinKing() }, // stage == 1
+        { Zombie() } // stage == 2
     };
     std::vector<Item> random_item_data = 
     {
