@@ -5,7 +5,7 @@
 inline char default_input;
 
 #define MAX_LEVEL 100
-#define MAX_MAP_SIZE 11
+#define MAX_MAP_SIZE 55
 
 #define MAX_SKILL_COUNT 4
 

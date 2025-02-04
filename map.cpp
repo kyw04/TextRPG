@@ -161,6 +161,8 @@ void Map::TileSetting()
             if (current_position.y == new_y && current_position.x == new_x)
             {
                 is_player_position_visited = true;
+                tiles[closest.x][closest.y] = GetRandomTile(~(int)TileStateEnum::Wall);
+                q.push({ new_x, new_y });
                 break;
             }
 
@@ -179,7 +181,6 @@ void Map::TileSetting()
         }
     }
 
-    q.push({ current_position.x, current_position.y });
     tile_probability[0].second *= 1.5; // Wall
     while (!q.empty())
     {
