@@ -2,6 +2,7 @@
 #include <iostream>
 #include <vector>
 #include <random>
+#include "Stage.hpp"
 #include "Entity/Entity.hpp"
 #include "Entity/Player/Archer.hpp"
 #include "Entity/Player/Warrior.hpp"
@@ -26,6 +27,12 @@
 class GameManager
 {
 private:
+    std::vector<Stage> stage_data = // name, level, monster_max_level, monster_min_level, height, width
+    {
+        { "숲 1 - 1", 1, 1, 1, 5, 5 },
+        { "숲 1 - 2", 2, 1, 3, 7, 7 },
+    };
+
     std::vector<Entity> monster_data[MAX_LEVEL] = // enemty[level][enemy index] 
     { 
         { Goblin() }, // level == 1

@@ -3,6 +3,7 @@
 #include <random>
 #include <vector>
 #include <queue>
+#include "Stage.hpp"
 #include "Define.hpp"
 #include "EnumClass.hpp"
 
@@ -12,7 +13,7 @@ struct Point
     int y;
 };
 
-class Map
+class Map : public Stage
 {
 private:
     std::vector<std::pair<TileStateEnum, double>> tile_probability = // 타일 클래스나 구조체 만들어서 이벤트도 가지고 있게 하면 좋을 듯
@@ -27,18 +28,19 @@ private:
 
 public:
     bool is_open;
-    int height;
-    int width;
     TileStateEnum tiles[MAX_MAP_SIZE][MAX_MAP_SIZE];
     Point current_position;
 
     friend std::ostream& operator<<(std::ostream&, Map&);
 
-    Map(int = MAX_MAP_SIZE, int = MAX_MAP_SIZE);
+    Map();
+    ~Map();
+
     bool IsPointInside(int, int);
     char GetTileSymbol(const TileStateEnum&);
     TileStateEnum GetRandomTile(int = -1);
     void TileSetting();
     void Open();
     void Close();
+    void Clear(Stage&);
 };

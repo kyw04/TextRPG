@@ -10,6 +10,8 @@ GameManager::GameManager()
 
     player = SelectPlayer();
     map = new Map();
+    map->Clear(stage_data[0]);
+    
     // Item* start_item;
     switch (player->job.value)
     {

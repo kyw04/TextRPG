@@ -2,6 +2,7 @@
 
 std::ostream& operator<<(std::ostream& _out, Map& _map)
 {
+    std::cout << _map.name << '\n';
     for (int y = 0; y < _map.height; y++)
     {
         for (int x = 0; x < _map.width; x++)
@@ -18,12 +19,13 @@ std::ostream& operator<<(std::ostream& _out, Map& _map)
     return _out;
 }
 
-Map::Map(int _heigth, int _width) : 
-    height(_heigth > MAX_MAP_SIZE ? MAX_MAP_SIZE : _heigth),
-    width(_width > MAX_MAP_SIZE ? MAX_MAP_SIZE : _width),
-    current_position({ width / 2, height - 1 })
+Map::Map()
 {
     TileSetting();
+}
+Map::~Map()
+{
+
 }
 
 bool Map::IsPointInside(int _x, int _y)
@@ -87,6 +89,7 @@ void Map::TileSetting()
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, total_tile_probability);
 
+    current_position = { width / 2, height - 1 };
     int move_x[4] = { 1, -1, 0, 0 };
     int move_y[4] = { 0, 0, 1, -1 };
     int start_x = width / 2;
@@ -158,6 +161,7 @@ void Map::TileSetting()
             if (current_position.y == new_y && current_position.x == new_x)
             {
                 is_player_position_visited = true;
+                break;
             }
 
             if (IsPointInside(new_x, new_y))
@@ -193,12 +197,19 @@ void Map::TileSetting()
                 if (tiles[new_x][new_y] != TileStateEnum::Wall)
                 {
                     q.push({ new_x, new_y });
+                    double new_distance = GetDistance(current_position, { new_x, new_y }); 
+                    if ((new_distance > furthest_distance) || (new_distance == furthest_distance && (int)(dis(gen) * 10) % 2 == 0))
+                    {
+                        furthest = { new_x, new_y };
+                        furthest_distance = new_distance;
+                    }
                 }
             }
         }
     }
     tile_probability[0].second /= 1.5; // Wall
 
+    tiles[current_position.x][current_position.y] = TileStateEnum::Empty;
     tiles[furthest.x][furthest.y] = TileStateEnum::Boss;
 }
 
@@ -213,4 +224,10 @@ void Map::Close()
 {
     is_open = false;
     std::cout << "맵 닫힘\n";
+}
+
+void Map::Clear(Stage& _next_stage)
+{
+    Stage::Clear(_next_stage);
+    TileSetting();
 }
