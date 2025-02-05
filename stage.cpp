@@ -23,12 +23,7 @@ Stage::~Stage()
 
 }
 
-void Stage::Clear(Stage& _next_stage)
+std::string Stage::GetName()
 {
-    this->name = _next_stage.name;
-    this->level = _next_stage.level;
-    this->monster_max_level = _next_stage.monster_max_level;
-    this->monster_min_level = _next_stage.monster_min_level;
-    this->height = _next_stage.height;
-    this->width = _next_stage.width;
+    return this->name;
 }

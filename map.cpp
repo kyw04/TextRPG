@@ -7,7 +7,7 @@ std::ostream& operator<<(std::ostream& _out, Map& _map)
     {
         for (int x = 0; x < _map.width; x++)
         {
-            if (y == _map.current_position.y && x == _map.current_position.x)
+            if (y == _map.player_position.y && x == _map.player_position.x)
                 std::cout << "<p>"; 
             else
                 std::cout << ' ' << _map.GetTileSymbol(_map.tiles[x][y]) << ' '; 
@@ -21,6 +21,11 @@ std::ostream& operator<<(std::ostream& _out, Map& _map)
 
 Map::Map()
 {
+    TileSetting();
+}
+Map::Map(Stage& _cpy_stage)
+{
+    Copy(_cpy_stage);
     TileSetting();
 }
 Map::~Map()
@@ -88,14 +93,15 @@ void Map::TileSetting()
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, total_tile_probability);
+    std::cout << std::to_string(rd()) << std::endl;
 
-    current_position = { width / 2, height - 1 };
+    player_position = { width / 2, height - 1 };
     int move_x[4] = { 1, -1, 0, 0 };
     int move_y[4] = { 0, 0, 1, -1 };
     int start_x = width / 2;
     int start_y = height / 2; // height - 1;
     Point closest = { start_x, start_y };
-    double closest_distance = GetDistance(current_position, closest);
+    double closest_distance = GetDistance(player_position, closest);
     Point furthest = { start_x, start_y };
     double furthest_distance = 0;
 
@@ -119,7 +125,7 @@ void Map::TileSetting()
             int new_y = current_y + move_y[i];
             if (IsPointInside(new_x, new_y) && tiles[new_x][new_y] == TileStateEnum::None)
             {
-                if (current_position.y == new_y && current_position.x == new_x)
+                if (player_position.y == new_y && player_position.x == new_x)
                 {
                     is_player_position_visited = true;
                     tiles[new_x][new_y] = TileStateEnum::Empty;
@@ -131,7 +137,7 @@ void Map::TileSetting()
                 if (tiles[new_x][new_y] != TileStateEnum::Wall)
                 {
                     q.push({ new_x, new_y });
-                    double new_distance = GetDistance(current_position, { new_x, new_y }); 
+                    double new_distance = GetDistance(player_position, { new_x, new_y }); 
                     if ((new_distance > furthest_distance) || (new_distance == furthest_distance && (int)(dis(gen) * 10) % 2 == 0))
                     {
                         furthest = { new_x, new_y };
@@ -158,17 +164,18 @@ void Map::TileSetting()
             int new_x = current_x + move_x[i];
             int new_y = current_y + move_y[i];
 
-            if (current_position.y == new_y && current_position.x == new_x)
+            if (player_position.y == new_y && player_position.x == new_x)
             {
                 is_player_position_visited = true;
                 tiles[closest.x][closest.y] = GetRandomTile(~(int)TileStateEnum::Wall);
+                q.push({ closest.x, closest.y });
                 q.push({ new_x, new_y });
                 break;
             }
 
             if (IsPointInside(new_x, new_y))
             {
-                double new_distance = GetDistance(current_position, { new_x, new_y });
+                double new_distance = GetDistance(player_position, { new_x, new_y });
                 if ((new_distance < closest_distance) || (new_distance == closest_distance && (int)(dis(gen) * 10) % 2 == 0))
                 {
                     tiles[closest.x][closest.y] = GetRandomTile(~(int)TileStateEnum::Wall);
@@ -181,6 +188,7 @@ void Map::TileSetting()
         }
     }
 
+    q.push({ player_position.x, player_position.y });
     tile_probability[0].second *= 1.5; // Wall
     while (!q.empty())
     {
@@ -198,7 +206,7 @@ void Map::TileSetting()
                 if (tiles[new_x][new_y] != TileStateEnum::Wall)
                 {
                     q.push({ new_x, new_y });
-                    double new_distance = GetDistance(current_position, { new_x, new_y }); 
+                    double new_distance = GetDistance(player_position, { new_x, new_y }); 
                     if ((new_distance > furthest_distance) || (new_distance == furthest_distance && (int)(dis(gen) * 10) % 2 == 0))
                     {
                         furthest = { new_x, new_y };
@@ -210,7 +218,7 @@ void Map::TileSetting()
     }
     tile_probability[0].second /= 1.5; // Wall
 
-    tiles[current_position.x][current_position.y] = TileStateEnum::Empty;
+    tiles[player_position.x][player_position.y] = TileStateEnum::Empty;
     tiles[furthest.x][furthest.y] = TileStateEnum::Boss;
 }
 
@@ -227,10 +235,20 @@ void Map::Close()
     std::cout << "맵 닫힘\n";
 }
 
+void Map::Copy(Stage& _next_stage)
+{
+    name = _next_stage.GetName();
+    level = _next_stage.level;
+    monster_max_level = _next_stage.monster_max_level;
+    monster_min_level = _next_stage.monster_min_level;
+    height = _next_stage.height;
+    width = _next_stage.width;
+}
+
 void Map::Clear(Stage& _next_stage)
 {
     std::cout << "== " << name << " 클리어 ==\n";
-    Stage::Clear(_next_stage);
+    Copy(_next_stage);
     TileSetting();
     INPUT_KEY(default_input)
 }

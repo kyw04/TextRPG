@@ -9,8 +9,7 @@ GameManager::GameManager()
         return;
 
     player = SelectPlayer();
-    map = new Map();
-    map->Clear(stage_data[0]);
+    map = new Map(stage_data[0]);
     
     // Item* start_item;
     switch (player->job.value)
@@ -82,16 +81,16 @@ TileStateEnum GameManager::Move(const char _input)
     if (IS_LEFT_KEY(_input)) { x = -1; }
     if (IS_RIGHT_KEY(_input)) { x = 1; }
 
-    int new_y = map->current_position.y + y;
-    int new_x = map->current_position.x + x;
-    if (new_y >= MAX_MAP_SIZE) { new_y = MAX_MAP_SIZE - 1; }
+    int new_y = map->player_position.y + y;
+    int new_x = map->player_position.x + x;
+    if (new_y >= map->height) { new_y = map->height - 1; }
     if (new_y < 0) { new_y = 0; }
-    if (new_x >= MAX_MAP_SIZE) { new_x = MAX_MAP_SIZE - 1; }
+    if (new_x >= map->width) { new_x = map->width - 1; }
     if (new_x < 0) { new_x = 0; }
 
     if (map->tiles[new_x][new_y] != TileStateEnum::Wall)
     {
-        map->current_position = { new_x, new_y };
+        map->player_position = { new_x, new_y };
         result = map->tiles[new_x][new_y];
     }
     std::cout << *map;
@@ -157,7 +156,7 @@ void GameManager::PlayEvent(const TileStateEnum _tile)
         break;
     }
 
-    int x = map->current_position.x;
-    int y = map->current_position.y;
+    int x = map->player_position.x;
+    int y = map->player_position.y;
     map->tiles[x][y] = TileStateEnum::Empty;
 }

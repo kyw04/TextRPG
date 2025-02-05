@@ -29,11 +29,12 @@ private:
 public:
     bool is_open;
     TileStateEnum tiles[MAX_MAP_SIZE][MAX_MAP_SIZE];
-    Point current_position;
+    Point player_position;
 
     friend std::ostream& operator<<(std::ostream&, Map&);
 
     Map();
+    Map(Stage&);
     ~Map();
 
     bool IsPointInside(int, int);
@@ -42,5 +43,6 @@ public:
     void TileSetting();
     void Open();
     void Close();
+    void Copy(Stage&);
     void Clear(Stage&);
 };
