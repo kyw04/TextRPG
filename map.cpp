@@ -93,7 +93,7 @@ void Map::TileSetting()
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_real_distribution<> dis(0.0, total_tile_probability);
-    std::cout << std::to_string(rd()) << std::endl;
+    seed = std::to_string(rd());
 
     player_position = { width / 2, height - 1 };
     int move_x[4] = { 1, -1, 0, 0 };
@@ -251,4 +251,9 @@ void Map::Clear(Stage& _next_stage)
     Copy(_next_stage);
     TileSetting();
     INPUT_KEY(default_input)
+}
+
+std::string Map::GetSeed()
+{
+    return seed;
 }

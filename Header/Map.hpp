@@ -24,7 +24,7 @@ private:
         { TileStateEnum::Trap, 0.05 }
     };
     double total_tile_probability;
-    
+    std::string seed;
 
 public:
     bool is_open;
@@ -45,4 +45,5 @@ public:
     void Close();
     void Copy(Stage&);
     void Clear(Stage&);
+    std::string GetSeed();
 };
