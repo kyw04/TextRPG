@@ -229,6 +229,8 @@ void Map::Close()
 
 void Map::Clear(Stage& _next_stage)
 {
+    std::cout << "== " << name << " 클리어 ==\n";
     Stage::Clear(_next_stage);
     TileSetting();
+    INPUT_KEY(default_input)
 }
