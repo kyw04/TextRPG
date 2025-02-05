@@ -27,7 +27,7 @@
 class GameManager
 {
 private:
-    std::vector<Stage> stage_data = // name, height, width, level, monster_max_level, monster_min_level
+    std::vector<Stage> stage_data = // name, height, width, level, monster_min_level, monster_max_level
     {
         { "숲 1 - 1", 5, 5, 1, 1, 1 },
         { "숲 1 - 2", 7, 7, 2, 1, 3 },

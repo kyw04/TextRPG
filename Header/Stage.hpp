@@ -12,8 +12,8 @@ public:
     int width;
 
     int level;
-    int monster_max_level;
     int monster_min_level;
+    int monster_max_level;
 
     Stage();
     Stage(std::string, int, int, int, int, int);
