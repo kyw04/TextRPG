@@ -120,10 +120,17 @@ void GameManager::PlayEvent(const TileStateEnum _tile)
 {
     switch (_tile)
     {
-    case TileStateEnum::Monster: case TileStateEnum::Boss:
+    case TileStateEnum::Monster:
     {
-        Entity monster = GetRandomEntity(1, 3, _tile == TileStateEnum::Monster ? monster_data : boss_data);
+        Entity monster = GetRandomEntity(map->monster_min_level, map->monster_max_level, monster_data);
         while (!player->IsDie() && !monster.IsDie()) { player->Fight(monster); }
+        break;
+    }
+    case TileStateEnum::Boss:
+    {
+        Entity monster = GetRandomEntity(map->level, map->level, boss_data);
+        while (!player->IsDie() && !monster.IsDie()) { player->Fight(monster); }
+        map->Clear(stage_data[(std::size_t)map->level]);
         break;
     }
     
