@@ -19,8 +19,8 @@ public:
         start_stats = Stats
         (
             {
-                {StatsName::Health, 100.0f},
-                {StatsName::MaxHealth, 100.0f},
+                {StatsName::Health, 30.0f},
+                {StatsName::MaxHealth, 30.0f},
                 
                 {StatsName::Strength, 15.0f},
                 {StatsName::AttackSpeed, 1.0f}
