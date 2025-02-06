@@ -144,7 +144,7 @@ Item* Inventory::Pop(const std::string _key)
     else { return nullptr; }
 }
 
-Item* Inventory::Select(const char _input)
+Item* Inventory::Select(const int _input)
 {
     if (!is_open || IS_CLOSE_KEY(_input)) { Close(); return nullptr; }
     

@@ -2,7 +2,7 @@
 
 GameManager::GameManager()
 {
-    std::cout << "<<입력으로 게임 시작>>";
+    std::cout << "<<입력으로 게임 시작>>\n";
     int input = INPUT_KEY();
     if (IS_DOWN_KEY(input))
         return;
@@ -35,6 +35,7 @@ Player* GameManager::SelectPlayer()
     std::vector<Player*> players = { new Warrior(), new Archer(), new Wizard() };
     int input = '\a';
     int index = 0;
+    std::cout << "== 직업 선택 ==\n";
     for (auto iter = players.begin(); iter != players.end(); iter++)
     {
         if (iter - players.begin() == index)
@@ -42,6 +43,7 @@ Player* GameManager::SelectPlayer()
         else
             std::cout << (*iter)->name << '\n';
     }
+    std::cout << '\n';
 
     while (true)
     {
@@ -64,7 +66,7 @@ Player* GameManager::SelectPlayer()
     return players[(std::size_t)index];
 }
 
-TileStateEnum GameManager::Move(const char _input)
+TileStateEnum GameManager::Move(const int _input)
 {
     if (!map->is_open)
         return TileStateEnum::Empty;

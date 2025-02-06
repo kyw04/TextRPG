@@ -38,7 +38,7 @@ public:
     ~Map();
 
     bool IsPointInside(int, int);
-    char GetTileSymbol(const TileStateEnum&);
+    int GetTileSymbol(const TileStateEnum&);
     TileStateEnum GetRandomTile(int = -1);
     void TileSetting();
     void Open();
