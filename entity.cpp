@@ -64,13 +64,13 @@ void Entity::ShowAllocatedStats(int _selected_index)
 
 void Entity::AddStat(float _value)
 {
-    char input;
+    int input;
     int index = 0;
 
     ShowAllocatedStats(index);
     do
     {
-        INPUT_KEY(input)
+        input = INPUT_KEY();
         if (IS_UP_KEY(input))
         {
             index = (index - 1) < 0 ? allocated_stats_size - 1 : index - 1;
@@ -82,7 +82,7 @@ void Entity::AddStat(float _value)
         if (IS_CLOSE_KEY(input))
         {
             std::cout << "스텟창을 닫았습니다.\n";
-            INPUT_KEY(default_input)
+            INPUT_KEY();
             return;
         }
         ShowAllocatedStats(index);
@@ -91,7 +91,7 @@ void Entity::AddStat(float _value)
     if (stats_point <= 0)
     {
         std::cout << "스텟 포인트가 부족합니다.\n";
-        INPUT_KEY(default_input)
+        INPUT_KEY();
         return;
     }
 
@@ -106,7 +106,7 @@ void Entity::AddStat(float _value)
 
     std::cout << "추가 " << EnumToString(allocated_stats_names[index]) << ": " << current_value << " >> " << current_value + _value << "\n";
     StatsUpdate();
-    INPUT_KEY(default_input)
+    INPUT_KEY();
 }
 
 void Entity::TakeDamage(Entity* _attacker, float _value)
@@ -146,11 +146,10 @@ void Entity::Fight(Entity& _enemy)
     Entity* first = my_attack_speed >= enemy_attack_speed ? this : &_enemy;
     Entity* second = my_attack_speed >= enemy_attack_speed ? &_enemy : this;
 
-    char input;
-    INPUT_KEY(input);        
+    int input = INPUT_KEY();     
     Attack(first, second);
 
-    if (!IS_DOWN_KEY(input)) INPUT_KEY(input);
+    if (!IS_DOWN_KEY(input)) input = INPUT_KEY();
     if (!second->IsDie()) Attack(second, first);
 }
 
@@ -159,17 +158,17 @@ void Entity::Die(Entity* _slayer)
     is_die = true;
     std::cout << name << " 죽음\n";
     
-    INPUT_KEY(default_input);
+    INPUT_KEY();
     std::cout << "=================\n";\
     for (auto& drop_item : drop_items.GetRandomItems())
     {
         _slayer->Push(drop_item);
-        INPUT_KEY(default_input);
+        INPUT_KEY();
     }
 
     std::cout << "경험치 " << drop_experience << "획득\n";
     _slayer->AddExperience(drop_experience);
-    INPUT_KEY(default_input);
+    INPUT_KEY();
 }
 
 bool Entity::IsDie()
@@ -194,14 +193,14 @@ void Entity::ShowSkills(const std::string _title, const std::size_t _index)
 
 Skill* Entity::SelectSkill(const std::string _title)
 {
-    char input;
+    int input;
     std::size_t index = 0;
 
     ShowSkills(_title);
     while (true)
     {
-        INPUT_KEY(input)
-        if (!input)
+        input = INPUT_KEY();
+        if (IS_ENTER_KEY(input))
             break;
         
         if (IS_CLOSE_KEY(input)) { return nullptr; }

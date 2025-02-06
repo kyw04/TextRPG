@@ -250,7 +250,7 @@ void Map::Clear(Stage& _next_stage)
     std::cout << "== " << name << " 클리어 ==\n";
     Copy(_next_stage);
     TileSetting();
-    INPUT_KEY(default_input)
+    INPUT_KEY();
 }
 
 std::string Map::GetSeed()

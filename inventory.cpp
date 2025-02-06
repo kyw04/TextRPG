@@ -5,22 +5,22 @@ void Inventory::Open()
     std::cout << "인벤토리 열림\n";
     is_open = true;
     
-    char input;
+    int input;
     Item* selected_item = nullptr;
     while (is_open)
     {
-        INPUT_KEY(input);
+        input = INPUT_KEY();
         if (IS_CLOSE_KEY(input))
         {
             Close();
             break;
         }
 
-        if (!input && selected_item != nullptr)
+        if (IS_ENTER_KEY(input) && selected_item != nullptr)
         {
             std::cout << selected_item->GetInformation();
-            INPUT_KEY(input);
-            if (!input)
+            input = INPUT_KEY();
+            if (IS_ENTER_KEY(input))
             {
                 selected_item->state == ItemState::Unequipped ? Equip(selected_item) : Unequip(selected_item);
                 
@@ -42,7 +42,7 @@ void Inventory::Close()
 {
     std::cout << "인벤토리 닫힘\n";
     is_open = false;
-    INPUT_KEY(default_input);
+    INPUT_KEY();
 }
 
 std::map<std::string, Item*> Inventory::GetItems() const

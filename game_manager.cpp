@@ -3,8 +3,7 @@
 GameManager::GameManager()
 {
     std::cout << "<<입력으로 게임 시작>>";
-    char input;
-    INPUT_KEY(input);
+    int input = INPUT_KEY();
     if (IS_DOWN_KEY(input))
         return;
 
@@ -34,7 +33,7 @@ GameManager::GameManager()
 Player* GameManager::SelectPlayer()
 {
     std::vector<Player*> players = { new Warrior(), new Archer(), new Wizard() };
-    char input = '\a';
+    int input = '\a';
     int index = 0;
     for (auto iter = players.begin(); iter != players.end(); iter++)
     {
@@ -46,8 +45,8 @@ Player* GameManager::SelectPlayer()
 
     while (true)
     {
-        INPUT_KEY(input);
-        if (!input) break;
+        input = INPUT_KEY();
+        if (IS_ENTER_KEY(input)) break;
         if (IS_UP_KEY(input)) { index--; }
         if (IS_DOWN_KEY(input)) { index++; }
         if (index < 0) { index = (int)players.size() - 1; }
@@ -143,8 +142,7 @@ void GameManager::PlayEvent(const TileStateEnum _tile)
         std::cout << random_damage << "를 입음\n";
         if (!player->IsDie())
             std::cout << "남은 체력: " << player->stats.GetStats<float>(StatsName::Health) << '\n';
-        char input;
-        INPUT_KEY(input);
+        int input = INPUT_KEY();
         if (IS_DOWN_KEY(input)) break;
         break;
     }

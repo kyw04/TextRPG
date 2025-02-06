@@ -4,11 +4,11 @@
 int main()
 {
     GameManager* game_manager = new GameManager();
-    char input;
+    int input;
     while (!game_manager->player->IsDie())
     {
         game_manager->map->Open();
-        INPUT_KEY(input);
+        input = INPUT_KEY();
         if (IS_INVENTORY_KEY(input))
         {
             game_manager->player->Open();
