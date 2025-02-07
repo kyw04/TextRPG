@@ -38,7 +38,7 @@ bool Map::IsPointInside(int _x, int _y)
     return _x < width && _x >= 0 && _y < height && _y >= 0;
 }
 
-int Map::GetTileSymbol(const TileStateEnum& _tile)
+char Map::GetTileSymbol(const TileStateEnum& _tile)
 {
     switch (_tile)
     {
