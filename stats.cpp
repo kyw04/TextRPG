@@ -133,6 +133,23 @@ void Stats::SetStats(StatsName _name, T _value)
     }
 }
 
+void Stats::ShowHealth()
+{
+    float max_health = GetStats<float>(StatsName::MaxHealth);
+    float health = GetStats<float>(StatsName::Health);
+    
+    int health_percent = static_cast<int>(health / max_health * 10.0f);
+    std::cout << " 체력: [";
+    for (int i = 1; i <= 10; i++)
+    {
+        if (i <= health_percent)
+            std::cout << "■";
+        else
+            std::cout << "□";
+    }
+    std::cout << "] " << health << "/" << max_health << "\n";
+}
+
 void Stats::SetHealth(float _value)
 {
     float max_health = GetStats<float>(StatsName::MaxHealth);

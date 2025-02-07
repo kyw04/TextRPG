@@ -27,6 +27,7 @@ public:
     template<typename T>
     T GetStats(StatsName);
     std::string GetAllStatsToString();
+    void ShowHealth();
     void SetHealth(float);
     void AddHealth(float);
     void SetMana(float);

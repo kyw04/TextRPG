@@ -3,9 +3,7 @@
 GameManager::GameManager()
 {
     std::cout << "<<입력으로 게임 시작>>\n";
-    int input = INPUT_KEY();
-    if (IS_DOWN_KEY(input))
-        return;
+    INPUT_KEY();
 
     player = SelectPlayer();
     map = new Map(stage_data[0]);
@@ -143,12 +141,12 @@ void GameManager::PlayEvent(const TileStateEnum _tile)
     {
         std::random_device rd;
         std::mt19937 gen(rd());
-        std::uniform_int_distribution<> random_damage_dis(10, 30);
+        std::uniform_int_distribution<> random_damage_dis(1, 3);
         int random_damage = random_damage_dis(gen);
         std::cout << random_damage * 10 << "의 피해를 입었습니다\n";
         player->TakeDamage(new Entity("함정"), (float)random_damage * -10.0f);
         if (!player->IsDie())
-            std::cout << "남은 체력: " << player->stats.GetStats<float>(StatsName::Health) << '\n';
+            player->stats.ShowHealth();
         INPUT_KEY();
         break;
     }

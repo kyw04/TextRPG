@@ -138,8 +138,6 @@ void Attack(Entity* _attacker, Entity* _defender)
     std::cout << _defender->name << "에게 ";
     std::cout << damage << "의 데미지를 입혔습니다.\n";
     _defender->TakeDamage(_attacker, damage * _defender->stats.DefencePercent(_attacker->attack_type));
-    if (!_defender->IsDie())
-        std::cout << _defender->name << " 체력: " << _defender->stats.GetStats<float>(StatsName::Health) << "\n\n";
 }
 
 void Entity::Fight(Entity& _enemy)
@@ -151,11 +149,22 @@ void Entity::Fight(Entity& _enemy)
 
     INPUT_KEY();     
     Attack(first, second);
+    std::cout << this->name;
+    this->stats.ShowHealth();
+    std::cout << _enemy.name;
+    _enemy.stats.ShowHealth();
 
     if (!second->IsDie())
     {
         INPUT_KEY();
         Attack(second, first);
+        if (!first->IsDie())
+        {
+            std::cout << this->name;
+            this->stats.ShowHealth();
+            std::cout << _enemy.name;
+            _enemy.stats.ShowHealth();
+        }
     }
 }
 
