@@ -2,11 +2,12 @@
 
 void Inventory::Open() 
 { 
-    std::cout << "인벤토리 열림\n";
+    // std::cout << "인벤토리 열림\n";
     is_open = true;
     
     int input;
     Item* selected_item = nullptr;
+    std::cout << *this;
     while (is_open)
     {
         input = INPUT_KEY();
@@ -40,9 +41,8 @@ void Inventory::Open()
 }
 void Inventory::Close() 
 {
-    std::cout << "인벤토리 닫힘\n";
+    // std::cout << "인벤토리 닫힘\n";
     is_open = false;
-    INPUT_KEY();
 }
 
 std::map<std::string, Item*> Inventory::GetItems() const
@@ -59,6 +59,7 @@ std::ostream& operator<<(std::ostream& _out, Inventory& _inven)
     }
     else
     {
+        std::cout << "<< 인벤토리 >>\n";
         std::cout << "\n== 장착된 아이템 ==\n";
         if (!_inven.equipped_items.empty())
         {

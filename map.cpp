@@ -225,14 +225,14 @@ void Map::TileSetting()
 void Map::Open()
 {
     is_open = true;
-    std::cout << "맵 열림\n";
-    std::cout << *this;  
+    // std::cout << "맵 열림\n";
+    std::cout << *this;
 }
 
 void Map::Close()
 {
     is_open = false;
-    std::cout << "맵 닫힘\n";
+    // std::cout << "맵 닫힘\n";
 }
 
 void Map::Copy(Stage& _next_stage)
