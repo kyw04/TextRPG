@@ -149,13 +149,14 @@ void Entity::Fight(Entity& _enemy)
 
     INPUT_KEY();     
     Attack(first, second);
-    std::cout << this->name;
-    this->stats.ShowHealth();
-    std::cout << _enemy.name;
-    _enemy.stats.ShowHealth();
 
     if (!second->IsDie())
     {
+        std::cout << this->name;
+        this->stats.ShowHealth();
+        std::cout << _enemy.name;
+        _enemy.stats.ShowHealth();
+
         INPUT_KEY();
         Attack(second, first);
         if (!first->IsDie())
