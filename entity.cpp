@@ -4,6 +4,10 @@
 Entity::Entity() : is_die(false), level(1), experience(0), next_experience(100)
 {
 }
+Entity::Entity(std::string _name) : is_die(false), level(1), experience(0), next_experience(100), name(_name)
+{
+}
+
 
 void Entity::LevelUP()
 {
@@ -132,7 +136,7 @@ void Attack(Entity* _attacker, Entity* _defender)
 
     std::cout << _attacker->name << "의 공격\n";
     std::cout << _defender->name << "에게 ";
-    std::cout << damage << "의 데미지를 입힘\n";
+    std::cout << damage << "의 데미지를 입혔습니다.\n";
     _defender->TakeDamage(_attacker, damage * _defender->stats.DefencePercent(_attacker->attack_type));
     if (!_defender->IsDie())
         std::cout << _defender->name << " 체력: " << _defender->stats.GetStats<float>(StatsName::Health) << "\n\n";
@@ -158,7 +162,7 @@ void Entity::Fight(Entity& _enemy)
 void Entity::Die(Entity* _slayer)
 {
     is_die = true;
-    std::cout << name << " 죽음\n";
+    std::cout << name << "(이)가 죽었습니다.\n";
     
     INPUT_KEY();
     std::cout << "=================\n";

@@ -64,7 +64,7 @@ Player* GameManager::SelectPlayer()
         std::cout << '\n';
     }
 
-    std::cout << players[(std::size_t)index]->name << "가 선택 되었습니다.\n";
+    std::cout << players[(std::size_t)index]->name << "(이)가 선택 되었습니다.\n";
     INPUT_KEY();
     return players[(std::size_t)index];
 }
@@ -126,14 +126,14 @@ void GameManager::PlayEvent(const TileStateEnum _tile)
     case TileStateEnum::Monster:
     {
         Entity monster = GetRandomEntity(map->monster_min_level, map->monster_max_level, monster_data);
-        std::cout << monster.name << "을 만났습니다.\n\n";
+        std::cout << monster.name << "(을)를 만났습니다.\n\n";
         while (!player->IsDie() && !monster.IsDie()) { player->Fight(monster); }
         break;
     }
     case TileStateEnum::Boss:
     {
         Entity monster = GetRandomEntity(map->level, map->level, boss_data);
-        std::cout << monster.name << "을 만났습니다.\n\n";
+        std::cout << monster.name << "(을)를 만났습니다.\n\n";
         while (!player->IsDie() && !monster.IsDie()) { player->Fight(monster); }
         if (!player->IsDie()) { map->Clear(stage_data[(std::size_t)map->level]); }
         break;
@@ -145,8 +145,8 @@ void GameManager::PlayEvent(const TileStateEnum _tile)
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> random_damage_dis(10, 30);
         int random_damage = random_damage_dis(gen);
-        player->TakeDamage(new Entity(), (float)random_damage * -10.0f);
-        std::cout << random_damage * 10 << "를 입음\n";
+        std::cout << random_damage * 10 << "의 피해를 입었습니다\n";
+        player->TakeDamage(new Entity("함정"), (float)random_damage * -10.0f);
         if (!player->IsDie())
             std::cout << "남은 체력: " << player->stats.GetStats<float>(StatsName::Health) << '\n';
         INPUT_KEY();

@@ -51,6 +51,7 @@ public:
     Random<Item*> drop_items;
 
     Entity();
+    Entity(std::string);
     virtual ~Entity() { }
 
     void StatsUpdate();

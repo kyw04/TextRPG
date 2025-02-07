@@ -12,6 +12,6 @@ public:
     void Die(Entity* _slayer)
     {
         is_die = true;
-        std::cout << _slayer->name << "에 의해 " << name << " 죽음\n";
+        std::cout << _slayer->name << "에 의해 " << name << "(이)가 죽었습니다.\n";
     }
 };
