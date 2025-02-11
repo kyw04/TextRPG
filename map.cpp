@@ -226,7 +226,6 @@ void Map::Open()
 {
     is_open = true;
     // std::cout << "맵 열림\n";
-    std::cout << *this;
 }
 
 void Map::Close()
@@ -250,7 +249,7 @@ void Map::Clear(Stage& _next_stage)
     std::cout << "== " << name << " 클리어 ==\n";
     Copy(_next_stage);
     TileSetting();
-    INPUT_KEY();
+    while (!IS_ENTER_KEY(INPUT_KEY())) { }
 }
 
 std::string Map::GetSeed()

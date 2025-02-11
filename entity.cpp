@@ -93,7 +93,7 @@ void Entity::AddStat(float _value)
     if (stats_point <= 0)
     {
         std::cout << "스텟 포인트가 부족합니다.\n\n";
-        INPUT_KEY();
+        while (!IS_ENTER_KEY(INPUT_KEY())) { }
         return;
     }
 
@@ -108,7 +108,7 @@ void Entity::AddStat(float _value)
 
     std::cout << "추가 " << EnumToString(allocated_stats_names[index]) << ": " << current_value << " >> " << current_value + _value << "\n\n";
     StatsUpdate();
-    INPUT_KEY();
+    while (!IS_ENTER_KEY(INPUT_KEY())) { }
     AddStat();
 }
 
@@ -147,7 +147,7 @@ void Entity::Fight(Entity& _enemy)
     Entity* first = my_attack_speed >= enemy_attack_speed ? this : &_enemy;
     Entity* second = my_attack_speed >= enemy_attack_speed ? &_enemy : this;
 
-    INPUT_KEY();     
+    while (!IS_ENTER_KEY(INPUT_KEY())) { }     
     Attack(first, second);
 
     if (!second->IsDie())
@@ -157,7 +157,7 @@ void Entity::Fight(Entity& _enemy)
         std::cout << _enemy.name;
         _enemy.stats.ShowHealth();
 
-        INPUT_KEY();
+        while (!IS_ENTER_KEY(INPUT_KEY())) { }
         Attack(second, first);
         if (!first->IsDie())
         {
@@ -174,7 +174,8 @@ void Entity::Die(Entity* _slayer)
     is_die = true;
     std::cout << name << "(이)가 죽었습니다.\n";
     
-    INPUT_KEY();
+    while (!IS_ENTER_KEY(INPUT_KEY())) { }
+
     std::cout << "=================\n";
     for (auto& drop_item : drop_items.GetRandomItems())
     {
@@ -183,7 +184,7 @@ void Entity::Die(Entity* _slayer)
 
     std::cout << "경험치 " << drop_experience << "획득\n\n";
     _slayer->AddExperience(drop_experience);
-    INPUT_KEY();
+    while (!IS_ENTER_KEY(INPUT_KEY())) { }
 }
 
 bool Entity::IsDie()

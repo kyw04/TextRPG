@@ -25,7 +25,7 @@ GameManager::GameManager()
             // start_item = nullptr;
         }
     }
-    // player->Push(start_item);
+    // player->Push(new WoodBow());
 }
 
 Player* GameManager::SelectPlayer()
@@ -63,7 +63,7 @@ Player* GameManager::SelectPlayer()
     }
 
     std::cout << players[(std::size_t)index]->name << "(이)가 선택 되었습니다.\n";
-    INPUT_KEY();
+    while (!IS_ENTER_KEY(INPUT_KEY())) { }
     return players[(std::size_t)index];
 }
 
@@ -95,7 +95,7 @@ TileStateEnum GameManager::Move(const int _input)
         map->player_position = { new_x, new_y };
         result = map->tiles[new_x][new_y];
     }
-    std::cout << *map;
+    // std::cout << *map;
 
     if (result != TileStateEnum::Empty)
         map->Close();
@@ -147,7 +147,7 @@ void GameManager::PlayEvent(const TileStateEnum _tile)
         player->TakeDamage(new Entity("함정"), (float)random_damage * -10.0f);
         if (!player->IsDie())
             player->stats.ShowHealth();
-        INPUT_KEY();
+        while (!IS_ENTER_KEY(INPUT_KEY())) { }
         break;
     }
     case TileStateEnum::Treasure:

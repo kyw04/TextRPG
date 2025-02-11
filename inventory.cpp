@@ -30,7 +30,7 @@ void Inventory::Open()
             else
                 std::cout << *this;
             
-            selected_item = nullptr;
+            // selected_item = nullptr;
         }
         else
         {
@@ -38,6 +38,7 @@ void Inventory::Open()
             std::cout << *this;
         }
     }
+    if (selected_item != nullptr) { selected_item->inventory_item_state = InventoryItemState::None; }
 }
 void Inventory::Close() 
 {
