@@ -3,6 +3,7 @@
 #include <vector>
 #include <random>
 #include "Stage.hpp"
+#include "Random.hpp"
 #include "Entity/Entity.hpp"
 #include "Entity/Player/Archer.hpp"
 #include "Entity/Player/Warrior.hpp"
@@ -46,12 +47,18 @@ private:
         {GoblinKing() }, // stage == 1
         { Zombie() } // stage == 2
     };
-    std::vector<Item> random_item_data = 
-    {
-        WoodBow(),
-        WoodSword(),
-        WoodStaff()
-    };
+    Random<Item*> random_item_data = std::vector<RandomItem<Item*>>
+    (
+        {
+            RandomItem<Item*>(new WoodBow(), 0.01, true),
+            RandomItem<Item*>(new WoodSword(), 0.01, true),
+            RandomItem<Item*>(new WoodStaff(), 0.01, true),
+            RandomItem<Item*>(new LeatherHelmet(), 0.01, true),
+            RandomItem<Item*>(new LeatherArmor(), 0.01, true),
+            RandomItem<Item*>(new LeatherLeggings(), 0.01, true),
+            RandomItem<Item*>(new LeatherShoes(), 0.01, true),
+        }
+    );
 
 public:
     Player* player;

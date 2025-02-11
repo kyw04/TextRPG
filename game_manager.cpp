@@ -139,6 +139,7 @@ void GameManager::PlayEvent(const TileStateEnum _tile)
     
     case TileStateEnum::Trap:
     {
+        std::cout << "함정을 발견했습니다.\n";
         std::random_device rd;
         std::mt19937 gen(rd());
         std::uniform_int_distribution<> random_damage_dis(1, 3);
@@ -152,6 +153,9 @@ void GameManager::PlayEvent(const TileStateEnum _tile)
     }
     case TileStateEnum::Treasure:
     {
+        std::cout << "보물상자를 발견했습니다.\n";
+        for (auto& item : random_item_data.GetRandomItems()) { player->Push(item); }
+        while (!IS_ENTER_KEY(INPUT_KEY())) { }
         break;
     }
     default:
