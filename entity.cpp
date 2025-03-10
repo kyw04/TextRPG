@@ -18,6 +18,7 @@ void Entity::LevelUP()
     stats_point += 3;
     experience = experience - next_experience;
     next_experience = float(level * (level + 1)) * 25.0f - 50.0f;
+    stats.AddHealth(stats.GetStats<float>(StatsName::MaxHealth));
 }
 
 void Entity::StatsUpdate()
